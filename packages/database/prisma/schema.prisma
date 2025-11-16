@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model File {
+  id        String   @id @default(cuid())
+  url       String   @unique
+  type      String
+  size      Int
+  folder    String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  authorId   String
+  author     User     @relation("UserFiles", fields: [authorId], references: [id], onDelete: Cascade)
+  messageId  String?
+  message    Message? @relation("MessageFiles", fields: [messageId], references: [id], onDelete: Cascade)
+  userAvatar User?    @relation("UserAvatar")
+  chatAvatar Chat?    @relation("ChatAvatar")
+}
+
+model User {
+  id              String   @id @default(cuid())
+  name            String
+  email           String   @unique
+  phone           String?  @unique
+  password        String
+  username        String   @unique
+  otp             String?
+  twoFactorAuth   Boolean  @default(false)
+  lastEmailChange DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  avatarUrl       String?   @unique
+  avatar          File?     @relation("UserAvatar", fields: [avatarUrl], references: [url])
+  files           File[]    @relation("UserFiles")
+  messages        Message[] @relation("UserMessages")
+  chats           Chat[]    @relation("ChatMembers")
+  invitesReceived Invite[]  @relation("InviteReceiver")
+  invitesSent     Invite[]  @relation("InviteSender")
+}
+
+enum ChatType {
+  direct
+  group
+}
+
+model Chat {
+  id        String   @id @default(cuid())
+  name      String?
+  type      ChatType @default(direct)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  avatarUrl String?   @unique
+  avatar    File?     @relation("ChatAvatar", fields: [avatarUrl], references: [url])
+  members   User[]    @relation("ChatMembers")
+  messages  Message[] @relation("ChatMessage")
+  invites   Invite[]  @relation("ChatInvite")
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  text      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  authorId    String
+  author      User   @relation("UserMessages", fields: [authorId], references: [id], onDelete: Cascade)
+  chatId      String
+  chat        Chat   @relation("ChatMessage", fields: [chatId], references: [id], onDelete: Cascade)
+  attachments File[] @relation("MessageFiles")
+}
+
+model Invite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  chatId     String
+  chat       Chat   @relation("ChatInvite", fields: [chatId], references: [id], onDelete: Cascade)
+  senderId   String
+  sender     User   @relation("InviteSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId String
+  receiver   User   @relation("InviteReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+}

@@ -1,5 +1,8 @@
 import config from "@repo/config";
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
@@ -15,4 +18,4 @@ const nextConfig: NextConfig = {
   images: { remotePatterns: [new URL(`${config.urls.cdn}/**`)] },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

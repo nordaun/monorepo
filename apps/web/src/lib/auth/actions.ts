@@ -73,9 +73,7 @@ async function getMailOptions({ name, email, otp, route }: MailParams) {
     to: email,
     subject: e(`${LicensedRoutes[route].name}Subject`),
     html: VerifyEmail({
-      header: e(`${LicensedRoutes[route].name}Header`, {
-        name,
-      }),
+      header: e(`${LicensedRoutes[route].name}Header`, { name }),
       main: e(`${LicensedRoutes[route].name}Main`),
       otp,
       footer: e(`${LicensedRoutes[route].name}Footer`),

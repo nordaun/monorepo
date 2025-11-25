@@ -22,14 +22,17 @@ type Config = Readonly<{
   defaultColor: Color;
   defaultLocale: Locale;
   durations: {
+    cache: number;
     emailChange: number;
     session: number;
     license: number;
     upload: number;
+    ratelimit: number;
   };
   lengths: {
     otp: number;
     messageChunk: number;
+    ratelimit: number;
   };
   urls: {
     main: string;
@@ -49,14 +52,17 @@ const config: Config = {
   defaultColor: "white",
   defaultLocale: "en",
   durations: {
+    cache: 1000 * 60 * 10,
     emailChange: 1000 * 60 * 60 * 24 * 3,
     session: 1000 * 60 * 60 * 24 * 30,
     license: 1000 * 60 * 10,
     upload: 10 * 1000,
+    ratelimit: 100,
   },
   lengths: {
     otp: 6,
     messageChunk: 20,
+    ratelimit: 60,
   },
   urls: {
     main: "http://localhost:3000",

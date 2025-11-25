@@ -1,3 +1,4 @@
+import settings from "@repo/config";
 import rateLimit from "@repo/ratelimit";
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
@@ -12,8 +13,8 @@ export default async function middleware(request: NextRequest) {
     "unknown"
   ).replace("::1", "127.0.0.1");
 
-  const limit = 100;
-  const duration = 60;
+  const limit = settings.lengths.ratelimit;
+  const duration = settings.durations.ratelimit;
   const result = await rateLimit(ip, limit, duration);
 
   if (!result.allowed) {

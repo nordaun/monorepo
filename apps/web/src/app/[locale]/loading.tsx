@@ -44,8 +44,8 @@ function Loading() {
                 ? "bg-black"
                 : "bg-zinc-100"
               : "bg-primary/70"
-          } rounded-full animate-bounce [animation-delay:-0.3s]`}
-        ></div>
+          } rounded-full animate-bounce [animation-delay:-0.4s]`}
+        />
         <div
           className={`size-[1dvh] ${
             loading
@@ -53,8 +53,8 @@ function Loading() {
                 ? "bg-black"
                 : "bg-zinc-100"
               : "bg-primary/80"
-          } rounded-full animate-bounce [animation-delay:-0.15s]`}
-        ></div>
+          } rounded-full animate-bounce [animation-delay:-0.2s]`}
+        />
         <div
           className={`size-[1dvh] ${
             loading
@@ -63,7 +63,7 @@ function Loading() {
                 : "bg-zinc-100"
               : "bg-primary/90"
           } rounded-full animate-bounce`}
-        ></div>
+        />
       </div>
     </div>
   );

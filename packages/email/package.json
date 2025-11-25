@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./verify": "./src/schemas/verify.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -19,6 +20,7 @@
   },
   "dependencies": {
     "@types/nodemailer": "^7.0.3",
-    "nodemailer": "^7.0.3"
+    "nodemailer": "^7.0.3",
+    "@repo/config": "workspace:*"
   }
 }

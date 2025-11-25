@@ -1,55 +1,125 @@
+import config from "@repo/config";
 import redis from "@repo/redis";
 
 /**
- * ## Get Cache
- * @description Gets the stored cache assigned to the key param
- * @param key The unique key
+ * Graceful JSON.parse that won't crash your app.
+ * If parse fails, the function returns null.
  */
-export const getCache = async (key: string): Promise<string | null> => {
+function safeParse<T>(value: string | null): T | null {
+  if (!value) return null;
+
   try {
-    const existingCache = await redis.get(key);
-    if (!existingCache) return null;
-    return JSON.parse(existingCache);
-  } catch (error) {
-    console.error("Unable to get cache value for " + key, error);
+    return JSON.parse(value) as T;
+  } catch (err) {
+    console.warn("Failed to parse cached JSON:", err);
     return null;
   }
-};
+}
+
+/**
+ * Graceful JSON.stringify. Skips unsupported types.
+ */
+function safeStringify(value: unknown): string | null {
+  try {
+    return JSON.stringify(value);
+  } catch (err) {
+    console.warn("Failed to serialize cache value:", err);
+    return null;
+  }
+}
+
+/**
+ * Acquire a Redis lock to prevent cache stampedes.
+ */
+async function acquireLock(key: string, ttl: number): Promise<boolean> {
+  const lockKey = `${key}:lock`;
+  const result = await redis.set(lockKey, "1", { NX: true, PX: ttl });
+  return result === "OK";
+}
+
+async function releaseLock(key: string): Promise<void> {
+  await redis.del(`${key}:lock`);
+}
+
+/**
+ * ## Get Cache
+ * @description Get the stored cache associated to a key.
+ */
+export async function getCache<T>(key: string): Promise<T | null> {
+  try {
+    const raw = await redis.get(key);
+    return safeParse<T>(raw);
+  } catch (err) {
+    console.error("Redis GET failed:", err);
+    return null; // fail open
+  }
+}
 
 /**
  * ## Set Cache
- * @description Adds a new object to the cache
- * @param key The unique key assigned to the cache
- * @param value The object to be cached
- * @param ttl The expiration time of the cache
+ * @description Set a new cache with a unique key.
  */
-export const setCache = async (
+export async function setCache(
   key: string,
-  value: string,
-  ttl?: number
-): Promise<string | null> => {
-  try {
-    const existingCache = await getCache(key);
-    if (existingCache) return existingCache;
+  value: unknown,
+  ttl = config.durations.cache
+): Promise<void> {
+  const json = safeStringify(value);
 
-    await redis.setEx(key, ttl ? ttl : 3600, JSON.stringify(value));
-    return value;
-  } catch (error) {
-    console.error("Unable to set cache value for " + key, error);
-    return null;
+  if (json === null) return; // do not store invalid JSON
+
+  try {
+    await redis.set(key, json, { EX: ttl });
+  } catch (err) {
+    console.error("Redis SET failed:", err);
   }
-};
+}
 
 /**
- * ## Clear cache
- * @description Clears the stored cache assigned to the key param
- * @param key The unique key assigned to the cache you want to delete
+ * ## Clear Cache
+ * @description Clear a key form the cache.
  */
-export const clearCache = async (key: string): Promise<void | null> => {
+export async function clearCache(key: string): Promise<void> {
   try {
     await redis.del(key);
-  } catch (error) {
-    console.error("Unable to clear cache value for " + key, error);
-    return null;
+  } catch (err) {
+    console.error("Redis DEL failed:", err);
   }
-};
+}
+
+/**
+ * ## Cache
+ * @description Wrap around a function or value to cache its result.
+ */
+export async function cache<TReturn>(
+  key: string,
+  compute: (() => Promise<TReturn>) | Promise<TReturn> | TReturn,
+  options: { ttl?: number; lockTimeoutMs?: number } = {}
+): Promise<TReturn> {
+  const ttl = options.ttl ?? config.durations.cache;
+  const lockTimeoutMs = options.lockTimeoutMs ?? 5000;
+
+  const namespaced = key;
+
+  const initial = await getCache<TReturn>(key);
+  if (initial !== null) return initial;
+
+  const hasLock = await acquireLock(namespaced, lockTimeoutMs);
+  if (!hasLock) {
+    await new Promise((r) => setTimeout(r, 50));
+
+    const retry = await getCache<TReturn>(key);
+    if (retry !== null) return retry;
+  }
+
+  try {
+    const result = await (typeof compute === "function"
+      ? (compute as () => Promise<TReturn>)()
+      : Promise.resolve(compute));
+
+    await setCache(key, result, ttl);
+    return result;
+  } finally {
+    if (hasLock) await releaseLock(namespaced);
+  }
+}

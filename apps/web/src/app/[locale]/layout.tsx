@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import "./globals.css";
+import "../globals.css";
 import Loading from "./loading";
 
 const poppinsSans = Poppins({

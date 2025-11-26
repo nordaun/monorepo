@@ -43,5 +43,9 @@
     "twoFactorAuthHeader": "Dear {name},",
     "twoFactorAuthMain": "We detected a new login attempt to your account. If this was you use the code below to continue. If not, do not share this code with anyone and simply ignore this email.",
     "twoFactorAuthFooter": "Best regards"
+  },
+  "Errors": {
+    "notFound": "This page could not be found.",
+    "error": "Oops! Something went wrong. Try again later..."
   }
 }

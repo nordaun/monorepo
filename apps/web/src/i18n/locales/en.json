@@ -47,5 +47,41 @@
   "Errors": {
     "notFound": "This page could not be found.",
     "error": "Oops! Something went wrong. Try again later..."
+  },
+  "SignupPage": {
+    "title": "Signup",
+    "description": "Enter your details to start building your business.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your fullname",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Your email address",
+    "usernameLabel": "Username",
+    "usernamePlaceholder": "Your username",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Your password",
+    "passwordCriteria": "Your password must:",
+    "termsLabel": "I agree to the",
+    "termsAction": "Terms & Conditions",
+    "loginLabel": "You are already a member?",
+    "loginAction": "Login",
+    "submit": "Signup",
+    "submitting": "Signing you up..."
+  },
+  "LoginPage": {
+    "title": "Login",
+    "description": "Enter your details to continue building your business.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Your email address",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Your password",
+    "passwordCriteria": "Your password must:",
+    "loginWithGoogle": "Login with Google",
+    "loginWithApple": "Login with Apple",
+    "signupLabel": "Don't have an account?",
+    "signupAction": "Signup",
+    "forgotPasswordLabel": "Forgot your password?",
+    "forgotPasswordAction": "Reset it",
+    "submit": "Login",
+    "submitting": "Logging you in..."
   }
 }

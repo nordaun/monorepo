@@ -2,7 +2,10 @@
   "extends": "@repo/typescript/next.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/auth/*": ["./src/lib/auth/*"],
+      "@/files/*": ["./src/lib/files/*"],
+      "@/chat/*": ["./src/lib/chat/*"]
     }
   },
   "include": [

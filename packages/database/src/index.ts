@@ -1,20 +1,20 @@
-import { PrismaClient } from "../prisma/generated/client.js";
+import "server-only";
 
-const prismaClientSingleton = () => {
-  return new PrismaClient();
-};
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "./generated/prisma/client";
 
-declare const globalThis: {
-  prismaGlobal: ReturnType<typeof prismaClientSingleton>;
-} & typeof global;
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-/**
- * ## Prisma Database
- * @description The Prisma (PostgreSQL) Database storing all data
- */
-const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
+});
+
+const prisma =
+  globalForPrisma.prisma ||
+  new PrismaClient({
+    adapter,
+  });
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 export default prisma;
-export * from "../prisma/generated/client.js";
-
-if (process.env.NODE_ENV === "development") globalThis.prismaGlobal = prisma;

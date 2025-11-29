@@ -291,7 +291,7 @@ export async function verify(
  * *Requires React's useActionState() hook.*
  * @returns The new state of the server action (errors or a message).
  */
-export async function confirmAction(
+export async function confirm(
   state: AuthState,
   formData: FormData
 ): Promise<AuthState> {

@@ -190,9 +190,9 @@ export type InviteWhereInput = {
   chatId?: Prisma.StringFilter<"Invite"> | string
   senderId?: Prisma.StringFilter<"Invite"> | string
   receiverId?: Prisma.StringFilter<"Invite"> | string
-  Chat?: Prisma.XOR<Prisma.ChatScalarRelationFilter, Prisma.ChatWhereInput>
-  User_Invite_receiverIdToUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  User_Invite_senderIdToUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  chat?: Prisma.XOR<Prisma.ChatScalarRelationFilter, Prisma.ChatWhereInput>
+  sender?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  receiver?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type InviteOrderByWithRelationInput = {
@@ -202,9 +202,9 @@ export type InviteOrderByWithRelationInput = {
   chatId?: Prisma.SortOrder
   senderId?: Prisma.SortOrder
   receiverId?: Prisma.SortOrder
-  Chat?: Prisma.ChatOrderByWithRelationInput
-  User_Invite_receiverIdToUser?: Prisma.UserOrderByWithRelationInput
-  User_Invite_senderIdToUser?: Prisma.UserOrderByWithRelationInput
+  chat?: Prisma.ChatOrderByWithRelationInput
+  sender?: Prisma.UserOrderByWithRelationInput
+  receiver?: Prisma.UserOrderByWithRelationInput
 }
 
 export type InviteWhereUniqueInput = Prisma.AtLeast<{
@@ -217,9 +217,9 @@ export type InviteWhereUniqueInput = Prisma.AtLeast<{
   chatId?: Prisma.StringFilter<"Invite"> | string
   senderId?: Prisma.StringFilter<"Invite"> | string
   receiverId?: Prisma.StringFilter<"Invite"> | string
-  Chat?: Prisma.XOR<Prisma.ChatScalarRelationFilter, Prisma.ChatWhereInput>
-  User_Invite_receiverIdToUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  User_Invite_senderIdToUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  chat?: Prisma.XOR<Prisma.ChatScalarRelationFilter, Prisma.ChatWhereInput>
+  sender?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  receiver?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type InviteOrderByWithAggregationInput = {
@@ -247,18 +247,18 @@ export type InviteScalarWhereWithAggregatesInput = {
 }
 
 export type InviteCreateInput = {
-  id: string
+  id?: string
   createdAt?: Date | string
-  updatedAt: Date | string
-  Chat: Prisma.ChatCreateNestedOneWithoutInviteInput
-  User_Invite_receiverIdToUser: Prisma.UserCreateNestedOneWithoutInvite_Invite_receiverIdToUserInput
-  User_Invite_senderIdToUser: Prisma.UserCreateNestedOneWithoutInvite_Invite_senderIdToUserInput
+  updatedAt?: Date | string
+  chat: Prisma.ChatCreateNestedOneWithoutInvitesInput
+  sender: Prisma.UserCreateNestedOneWithoutInvitesSentInput
+  receiver: Prisma.UserCreateNestedOneWithoutInvitesReceivedInput
 }
 
 export type InviteUncheckedCreateInput = {
-  id: string
+  id?: string
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   chatId: string
   senderId: string
   receiverId: string
@@ -268,9 +268,9 @@ export type InviteUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Chat?: Prisma.ChatUpdateOneRequiredWithoutInviteNestedInput
-  User_Invite_receiverIdToUser?: Prisma.UserUpdateOneRequiredWithoutInvite_Invite_receiverIdToUserNestedInput
-  User_Invite_senderIdToUser?: Prisma.UserUpdateOneRequiredWithoutInvite_Invite_senderIdToUserNestedInput
+  chat?: Prisma.ChatUpdateOneRequiredWithoutInvitesNestedInput
+  sender?: Prisma.UserUpdateOneRequiredWithoutInvitesSentNestedInput
+  receiver?: Prisma.UserUpdateOneRequiredWithoutInvitesReceivedNestedInput
 }
 
 export type InviteUncheckedUpdateInput = {
@@ -283,9 +283,9 @@ export type InviteUncheckedUpdateInput = {
 }
 
 export type InviteCreateManyInput = {
-  id: string
+  id?: string
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   chatId: string
   senderId: string
   receiverId: string
@@ -343,6 +343,90 @@ export type InviteMinOrderByAggregateInput = {
   receiverId?: Prisma.SortOrder
 }
 
+export type InviteCreateNestedManyWithoutReceiverInput = {
+  create?: Prisma.XOR<Prisma.InviteCreateWithoutReceiverInput, Prisma.InviteUncheckedCreateWithoutReceiverInput> | Prisma.InviteCreateWithoutReceiverInput[] | Prisma.InviteUncheckedCreateWithoutReceiverInput[]
+  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutReceiverInput | Prisma.InviteCreateOrConnectWithoutReceiverInput[]
+  createMany?: Prisma.InviteCreateManyReceiverInputEnvelope
+  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+}
+
+export type InviteCreateNestedManyWithoutSenderInput = {
+  create?: Prisma.XOR<Prisma.InviteCreateWithoutSenderInput, Prisma.InviteUncheckedCreateWithoutSenderInput> | Prisma.InviteCreateWithoutSenderInput[] | Prisma.InviteUncheckedCreateWithoutSenderInput[]
+  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutSenderInput | Prisma.InviteCreateOrConnectWithoutSenderInput[]
+  createMany?: Prisma.InviteCreateManySenderInputEnvelope
+  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+}
+
+export type InviteUncheckedCreateNestedManyWithoutReceiverInput = {
+  create?: Prisma.XOR<Prisma.InviteCreateWithoutReceiverInput, Prisma.InviteUncheckedCreateWithoutReceiverInput> | Prisma.InviteCreateWithoutReceiverInput[] | Prisma.InviteUncheckedCreateWithoutReceiverInput[]
+  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutReceiverInput | Prisma.InviteCreateOrConnectWithoutReceiverInput[]
+  createMany?: Prisma.InviteCreateManyReceiverInputEnvelope
+  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+}
+
+export type InviteUncheckedCreateNestedManyWithoutSenderInput = {
+  create?: Prisma.XOR<Prisma.InviteCreateWithoutSenderInput, Prisma.InviteUncheckedCreateWithoutSenderInput> | Prisma.InviteCreateWithoutSenderInput[] | Prisma.InviteUncheckedCreateWithoutSenderInput[]
+  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutSenderInput | Prisma.InviteCreateOrConnectWithoutSenderInput[]
+  createMany?: Prisma.InviteCreateManySenderInputEnvelope
+  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+}
+
+export type InviteUpdateManyWithoutReceiverNestedInput = {
+  create?: Prisma.XOR<Prisma.InviteCreateWithoutReceiverInput, Prisma.InviteUncheckedCreateWithoutReceiverInput> | Prisma.InviteCreateWithoutReceiverInput[] | Prisma.InviteUncheckedCreateWithoutReceiverInput[]
+  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutReceiverInput | Prisma.InviteCreateOrConnectWithoutReceiverInput[]
+  upsert?: Prisma.InviteUpsertWithWhereUniqueWithoutReceiverInput | Prisma.InviteUpsertWithWhereUniqueWithoutReceiverInput[]
+  createMany?: Prisma.InviteCreateManyReceiverInputEnvelope
+  set?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  disconnect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  delete?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  update?: Prisma.InviteUpdateWithWhereUniqueWithoutReceiverInput | Prisma.InviteUpdateWithWhereUniqueWithoutReceiverInput[]
+  updateMany?: Prisma.InviteUpdateManyWithWhereWithoutReceiverInput | Prisma.InviteUpdateManyWithWhereWithoutReceiverInput[]
+  deleteMany?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
+}
+
+export type InviteUpdateManyWithoutSenderNestedInput = {
+  create?: Prisma.XOR<Prisma.InviteCreateWithoutSenderInput, Prisma.InviteUncheckedCreateWithoutSenderInput> | Prisma.InviteCreateWithoutSenderInput[] | Prisma.InviteUncheckedCreateWithoutSenderInput[]
+  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutSenderInput | Prisma.InviteCreateOrConnectWithoutSenderInput[]
+  upsert?: Prisma.InviteUpsertWithWhereUniqueWithoutSenderInput | Prisma.InviteUpsertWithWhereUniqueWithoutSenderInput[]
+  createMany?: Prisma.InviteCreateManySenderInputEnvelope
+  set?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  disconnect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  delete?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  update?: Prisma.InviteUpdateWithWhereUniqueWithoutSenderInput | Prisma.InviteUpdateWithWhereUniqueWithoutSenderInput[]
+  updateMany?: Prisma.InviteUpdateManyWithWhereWithoutSenderInput | Prisma.InviteUpdateManyWithWhereWithoutSenderInput[]
+  deleteMany?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
+}
+
+export type InviteUncheckedUpdateManyWithoutReceiverNestedInput = {
+  create?: Prisma.XOR<Prisma.InviteCreateWithoutReceiverInput, Prisma.InviteUncheckedCreateWithoutReceiverInput> | Prisma.InviteCreateWithoutReceiverInput[] | Prisma.InviteUncheckedCreateWithoutReceiverInput[]
+  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutReceiverInput | Prisma.InviteCreateOrConnectWithoutReceiverInput[]
+  upsert?: Prisma.InviteUpsertWithWhereUniqueWithoutReceiverInput | Prisma.InviteUpsertWithWhereUniqueWithoutReceiverInput[]
+  createMany?: Prisma.InviteCreateManyReceiverInputEnvelope
+  set?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  disconnect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  delete?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  update?: Prisma.InviteUpdateWithWhereUniqueWithoutReceiverInput | Prisma.InviteUpdateWithWhereUniqueWithoutReceiverInput[]
+  updateMany?: Prisma.InviteUpdateManyWithWhereWithoutReceiverInput | Prisma.InviteUpdateManyWithWhereWithoutReceiverInput[]
+  deleteMany?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
+}
+
+export type InviteUncheckedUpdateManyWithoutSenderNestedInput = {
+  create?: Prisma.XOR<Prisma.InviteCreateWithoutSenderInput, Prisma.InviteUncheckedCreateWithoutSenderInput> | Prisma.InviteCreateWithoutSenderInput[] | Prisma.InviteUncheckedCreateWithoutSenderInput[]
+  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutSenderInput | Prisma.InviteCreateOrConnectWithoutSenderInput[]
+  upsert?: Prisma.InviteUpsertWithWhereUniqueWithoutSenderInput | Prisma.InviteUpsertWithWhereUniqueWithoutSenderInput[]
+  createMany?: Prisma.InviteCreateManySenderInputEnvelope
+  set?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  disconnect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  delete?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+  update?: Prisma.InviteUpdateWithWhereUniqueWithoutSenderInput | Prisma.InviteUpdateWithWhereUniqueWithoutSenderInput[]
+  updateMany?: Prisma.InviteUpdateManyWithWhereWithoutSenderInput | Prisma.InviteUpdateManyWithWhereWithoutSenderInput[]
+  deleteMany?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
+}
+
 export type InviteCreateNestedManyWithoutChatInput = {
   create?: Prisma.XOR<Prisma.InviteCreateWithoutChatInput, Prisma.InviteUncheckedCreateWithoutChatInput> | Prisma.InviteCreateWithoutChatInput[] | Prisma.InviteUncheckedCreateWithoutChatInput[]
   connectOrCreate?: Prisma.InviteCreateOrConnectWithoutChatInput | Prisma.InviteCreateOrConnectWithoutChatInput[]
@@ -385,102 +469,114 @@ export type InviteUncheckedUpdateManyWithoutChatNestedInput = {
   deleteMany?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
 }
 
-export type InviteCreateNestedManyWithoutUser_Invite_receiverIdToUserInput = {
-  create?: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_receiverIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_receiverIdToUserInput> | Prisma.InviteCreateWithoutUser_Invite_receiverIdToUserInput[] | Prisma.InviteUncheckedCreateWithoutUser_Invite_receiverIdToUserInput[]
-  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutUser_Invite_receiverIdToUserInput | Prisma.InviteCreateOrConnectWithoutUser_Invite_receiverIdToUserInput[]
-  createMany?: Prisma.InviteCreateManyUser_Invite_receiverIdToUserInputEnvelope
-  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+export type InviteCreateWithoutReceiverInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  chat: Prisma.ChatCreateNestedOneWithoutInvitesInput
+  sender: Prisma.UserCreateNestedOneWithoutInvitesSentInput
 }
 
-export type InviteCreateNestedManyWithoutUser_Invite_senderIdToUserInput = {
-  create?: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_senderIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_senderIdToUserInput> | Prisma.InviteCreateWithoutUser_Invite_senderIdToUserInput[] | Prisma.InviteUncheckedCreateWithoutUser_Invite_senderIdToUserInput[]
-  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutUser_Invite_senderIdToUserInput | Prisma.InviteCreateOrConnectWithoutUser_Invite_senderIdToUserInput[]
-  createMany?: Prisma.InviteCreateManyUser_Invite_senderIdToUserInputEnvelope
-  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+export type InviteUncheckedCreateWithoutReceiverInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  chatId: string
+  senderId: string
 }
 
-export type InviteUncheckedCreateNestedManyWithoutUser_Invite_receiverIdToUserInput = {
-  create?: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_receiverIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_receiverIdToUserInput> | Prisma.InviteCreateWithoutUser_Invite_receiverIdToUserInput[] | Prisma.InviteUncheckedCreateWithoutUser_Invite_receiverIdToUserInput[]
-  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutUser_Invite_receiverIdToUserInput | Prisma.InviteCreateOrConnectWithoutUser_Invite_receiverIdToUserInput[]
-  createMany?: Prisma.InviteCreateManyUser_Invite_receiverIdToUserInputEnvelope
-  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+export type InviteCreateOrConnectWithoutReceiverInput = {
+  where: Prisma.InviteWhereUniqueInput
+  create: Prisma.XOR<Prisma.InviteCreateWithoutReceiverInput, Prisma.InviteUncheckedCreateWithoutReceiverInput>
 }
 
-export type InviteUncheckedCreateNestedManyWithoutUser_Invite_senderIdToUserInput = {
-  create?: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_senderIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_senderIdToUserInput> | Prisma.InviteCreateWithoutUser_Invite_senderIdToUserInput[] | Prisma.InviteUncheckedCreateWithoutUser_Invite_senderIdToUserInput[]
-  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutUser_Invite_senderIdToUserInput | Prisma.InviteCreateOrConnectWithoutUser_Invite_senderIdToUserInput[]
-  createMany?: Prisma.InviteCreateManyUser_Invite_senderIdToUserInputEnvelope
-  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
+export type InviteCreateManyReceiverInputEnvelope = {
+  data: Prisma.InviteCreateManyReceiverInput | Prisma.InviteCreateManyReceiverInput[]
+  skipDuplicates?: boolean
 }
 
-export type InviteUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput = {
-  create?: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_receiverIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_receiverIdToUserInput> | Prisma.InviteCreateWithoutUser_Invite_receiverIdToUserInput[] | Prisma.InviteUncheckedCreateWithoutUser_Invite_receiverIdToUserInput[]
-  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutUser_Invite_receiverIdToUserInput | Prisma.InviteCreateOrConnectWithoutUser_Invite_receiverIdToUserInput[]
-  upsert?: Prisma.InviteUpsertWithWhereUniqueWithoutUser_Invite_receiverIdToUserInput | Prisma.InviteUpsertWithWhereUniqueWithoutUser_Invite_receiverIdToUserInput[]
-  createMany?: Prisma.InviteCreateManyUser_Invite_receiverIdToUserInputEnvelope
-  set?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  disconnect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  delete?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  update?: Prisma.InviteUpdateWithWhereUniqueWithoutUser_Invite_receiverIdToUserInput | Prisma.InviteUpdateWithWhereUniqueWithoutUser_Invite_receiverIdToUserInput[]
-  updateMany?: Prisma.InviteUpdateManyWithWhereWithoutUser_Invite_receiverIdToUserInput | Prisma.InviteUpdateManyWithWhereWithoutUser_Invite_receiverIdToUserInput[]
-  deleteMany?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
+export type InviteCreateWithoutSenderInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  chat: Prisma.ChatCreateNestedOneWithoutInvitesInput
+  receiver: Prisma.UserCreateNestedOneWithoutInvitesReceivedInput
 }
 
-export type InviteUpdateManyWithoutUser_Invite_senderIdToUserNestedInput = {
-  create?: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_senderIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_senderIdToUserInput> | Prisma.InviteCreateWithoutUser_Invite_senderIdToUserInput[] | Prisma.InviteUncheckedCreateWithoutUser_Invite_senderIdToUserInput[]
-  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutUser_Invite_senderIdToUserInput | Prisma.InviteCreateOrConnectWithoutUser_Invite_senderIdToUserInput[]
-  upsert?: Prisma.InviteUpsertWithWhereUniqueWithoutUser_Invite_senderIdToUserInput | Prisma.InviteUpsertWithWhereUniqueWithoutUser_Invite_senderIdToUserInput[]
-  createMany?: Prisma.InviteCreateManyUser_Invite_senderIdToUserInputEnvelope
-  set?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  disconnect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  delete?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  update?: Prisma.InviteUpdateWithWhereUniqueWithoutUser_Invite_senderIdToUserInput | Prisma.InviteUpdateWithWhereUniqueWithoutUser_Invite_senderIdToUserInput[]
-  updateMany?: Prisma.InviteUpdateManyWithWhereWithoutUser_Invite_senderIdToUserInput | Prisma.InviteUpdateManyWithWhereWithoutUser_Invite_senderIdToUserInput[]
-  deleteMany?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
+export type InviteUncheckedCreateWithoutSenderInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  chatId: string
+  receiverId: string
 }
 
-export type InviteUncheckedUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput = {
-  create?: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_receiverIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_receiverIdToUserInput> | Prisma.InviteCreateWithoutUser_Invite_receiverIdToUserInput[] | Prisma.InviteUncheckedCreateWithoutUser_Invite_receiverIdToUserInput[]
-  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutUser_Invite_receiverIdToUserInput | Prisma.InviteCreateOrConnectWithoutUser_Invite_receiverIdToUserInput[]
-  upsert?: Prisma.InviteUpsertWithWhereUniqueWithoutUser_Invite_receiverIdToUserInput | Prisma.InviteUpsertWithWhereUniqueWithoutUser_Invite_receiverIdToUserInput[]
-  createMany?: Prisma.InviteCreateManyUser_Invite_receiverIdToUserInputEnvelope
-  set?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  disconnect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  delete?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  update?: Prisma.InviteUpdateWithWhereUniqueWithoutUser_Invite_receiverIdToUserInput | Prisma.InviteUpdateWithWhereUniqueWithoutUser_Invite_receiverIdToUserInput[]
-  updateMany?: Prisma.InviteUpdateManyWithWhereWithoutUser_Invite_receiverIdToUserInput | Prisma.InviteUpdateManyWithWhereWithoutUser_Invite_receiverIdToUserInput[]
-  deleteMany?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
+export type InviteCreateOrConnectWithoutSenderInput = {
+  where: Prisma.InviteWhereUniqueInput
+  create: Prisma.XOR<Prisma.InviteCreateWithoutSenderInput, Prisma.InviteUncheckedCreateWithoutSenderInput>
 }
 
-export type InviteUncheckedUpdateManyWithoutUser_Invite_senderIdToUserNestedInput = {
-  create?: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_senderIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_senderIdToUserInput> | Prisma.InviteCreateWithoutUser_Invite_senderIdToUserInput[] | Prisma.InviteUncheckedCreateWithoutUser_Invite_senderIdToUserInput[]
-  connectOrCreate?: Prisma.InviteCreateOrConnectWithoutUser_Invite_senderIdToUserInput | Prisma.InviteCreateOrConnectWithoutUser_Invite_senderIdToUserInput[]
-  upsert?: Prisma.InviteUpsertWithWhereUniqueWithoutUser_Invite_senderIdToUserInput | Prisma.InviteUpsertWithWhereUniqueWithoutUser_Invite_senderIdToUserInput[]
-  createMany?: Prisma.InviteCreateManyUser_Invite_senderIdToUserInputEnvelope
-  set?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  disconnect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  delete?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  connect?: Prisma.InviteWhereUniqueInput | Prisma.InviteWhereUniqueInput[]
-  update?: Prisma.InviteUpdateWithWhereUniqueWithoutUser_Invite_senderIdToUserInput | Prisma.InviteUpdateWithWhereUniqueWithoutUser_Invite_senderIdToUserInput[]
-  updateMany?: Prisma.InviteUpdateManyWithWhereWithoutUser_Invite_senderIdToUserInput | Prisma.InviteUpdateManyWithWhereWithoutUser_Invite_senderIdToUserInput[]
-  deleteMany?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
+export type InviteCreateManySenderInputEnvelope = {
+  data: Prisma.InviteCreateManySenderInput | Prisma.InviteCreateManySenderInput[]
+  skipDuplicates?: boolean
+}
+
+export type InviteUpsertWithWhereUniqueWithoutReceiverInput = {
+  where: Prisma.InviteWhereUniqueInput
+  update: Prisma.XOR<Prisma.InviteUpdateWithoutReceiverInput, Prisma.InviteUncheckedUpdateWithoutReceiverInput>
+  create: Prisma.XOR<Prisma.InviteCreateWithoutReceiverInput, Prisma.InviteUncheckedCreateWithoutReceiverInput>
+}
+
+export type InviteUpdateWithWhereUniqueWithoutReceiverInput = {
+  where: Prisma.InviteWhereUniqueInput
+  data: Prisma.XOR<Prisma.InviteUpdateWithoutReceiverInput, Prisma.InviteUncheckedUpdateWithoutReceiverInput>
+}
+
+export type InviteUpdateManyWithWhereWithoutReceiverInput = {
+  where: Prisma.InviteScalarWhereInput
+  data: Prisma.XOR<Prisma.InviteUpdateManyMutationInput, Prisma.InviteUncheckedUpdateManyWithoutReceiverInput>
+}
+
+export type InviteScalarWhereInput = {
+  AND?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
+  OR?: Prisma.InviteScalarWhereInput[]
+  NOT?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
+  id?: Prisma.StringFilter<"Invite"> | string
+  createdAt?: Prisma.DateTimeFilter<"Invite"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Invite"> | Date | string
+  chatId?: Prisma.StringFilter<"Invite"> | string
+  senderId?: Prisma.StringFilter<"Invite"> | string
+  receiverId?: Prisma.StringFilter<"Invite"> | string
+}
+
+export type InviteUpsertWithWhereUniqueWithoutSenderInput = {
+  where: Prisma.InviteWhereUniqueInput
+  update: Prisma.XOR<Prisma.InviteUpdateWithoutSenderInput, Prisma.InviteUncheckedUpdateWithoutSenderInput>
+  create: Prisma.XOR<Prisma.InviteCreateWithoutSenderInput, Prisma.InviteUncheckedCreateWithoutSenderInput>
+}
+
+export type InviteUpdateWithWhereUniqueWithoutSenderInput = {
+  where: Prisma.InviteWhereUniqueInput
+  data: Prisma.XOR<Prisma.InviteUpdateWithoutSenderInput, Prisma.InviteUncheckedUpdateWithoutSenderInput>
+}
+
+export type InviteUpdateManyWithWhereWithoutSenderInput = {
+  where: Prisma.InviteScalarWhereInput
+  data: Prisma.XOR<Prisma.InviteUpdateManyMutationInput, Prisma.InviteUncheckedUpdateManyWithoutSenderInput>
 }
 
 export type InviteCreateWithoutChatInput = {
-  id: string
+  id?: string
   createdAt?: Date | string
-  updatedAt: Date | string
-  User_Invite_receiverIdToUser: Prisma.UserCreateNestedOneWithoutInvite_Invite_receiverIdToUserInput
-  User_Invite_senderIdToUser: Prisma.UserCreateNestedOneWithoutInvite_Invite_senderIdToUserInput
+  updatedAt?: Date | string
+  sender: Prisma.UserCreateNestedOneWithoutInvitesSentInput
+  receiver: Prisma.UserCreateNestedOneWithoutInvitesReceivedInput
 }
 
 export type InviteUncheckedCreateWithoutChatInput = {
-  id: string
+  id?: string
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   senderId: string
   receiverId: string
 }
@@ -511,106 +607,74 @@ export type InviteUpdateManyWithWhereWithoutChatInput = {
   data: Prisma.XOR<Prisma.InviteUpdateManyMutationInput, Prisma.InviteUncheckedUpdateManyWithoutChatInput>
 }
 
-export type InviteScalarWhereInput = {
-  AND?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
-  OR?: Prisma.InviteScalarWhereInput[]
-  NOT?: Prisma.InviteScalarWhereInput | Prisma.InviteScalarWhereInput[]
-  id?: Prisma.StringFilter<"Invite"> | string
-  createdAt?: Prisma.DateTimeFilter<"Invite"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Invite"> | Date | string
-  chatId?: Prisma.StringFilter<"Invite"> | string
-  senderId?: Prisma.StringFilter<"Invite"> | string
-  receiverId?: Prisma.StringFilter<"Invite"> | string
-}
-
-export type InviteCreateWithoutUser_Invite_receiverIdToUserInput = {
-  id: string
+export type InviteCreateManyReceiverInput = {
+  id?: string
   createdAt?: Date | string
-  updatedAt: Date | string
-  Chat: Prisma.ChatCreateNestedOneWithoutInviteInput
-  User_Invite_senderIdToUser: Prisma.UserCreateNestedOneWithoutInvite_Invite_senderIdToUserInput
-}
-
-export type InviteUncheckedCreateWithoutUser_Invite_receiverIdToUserInput = {
-  id: string
-  createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   chatId: string
   senderId: string
 }
 
-export type InviteCreateOrConnectWithoutUser_Invite_receiverIdToUserInput = {
-  where: Prisma.InviteWhereUniqueInput
-  create: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_receiverIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_receiverIdToUserInput>
-}
-
-export type InviteCreateManyUser_Invite_receiverIdToUserInputEnvelope = {
-  data: Prisma.InviteCreateManyUser_Invite_receiverIdToUserInput | Prisma.InviteCreateManyUser_Invite_receiverIdToUserInput[]
-  skipDuplicates?: boolean
-}
-
-export type InviteCreateWithoutUser_Invite_senderIdToUserInput = {
-  id: string
+export type InviteCreateManySenderInput = {
+  id?: string
   createdAt?: Date | string
-  updatedAt: Date | string
-  Chat: Prisma.ChatCreateNestedOneWithoutInviteInput
-  User_Invite_receiverIdToUser: Prisma.UserCreateNestedOneWithoutInvite_Invite_receiverIdToUserInput
-}
-
-export type InviteUncheckedCreateWithoutUser_Invite_senderIdToUserInput = {
-  id: string
-  createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   chatId: string
   receiverId: string
 }
 
-export type InviteCreateOrConnectWithoutUser_Invite_senderIdToUserInput = {
-  where: Prisma.InviteWhereUniqueInput
-  create: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_senderIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_senderIdToUserInput>
+export type InviteUpdateWithoutReceiverInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chat?: Prisma.ChatUpdateOneRequiredWithoutInvitesNestedInput
+  sender?: Prisma.UserUpdateOneRequiredWithoutInvitesSentNestedInput
 }
 
-export type InviteCreateManyUser_Invite_senderIdToUserInputEnvelope = {
-  data: Prisma.InviteCreateManyUser_Invite_senderIdToUserInput | Prisma.InviteCreateManyUser_Invite_senderIdToUserInput[]
-  skipDuplicates?: boolean
+export type InviteUncheckedUpdateWithoutReceiverInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type InviteUpsertWithWhereUniqueWithoutUser_Invite_receiverIdToUserInput = {
-  where: Prisma.InviteWhereUniqueInput
-  update: Prisma.XOR<Prisma.InviteUpdateWithoutUser_Invite_receiverIdToUserInput, Prisma.InviteUncheckedUpdateWithoutUser_Invite_receiverIdToUserInput>
-  create: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_receiverIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_receiverIdToUserInput>
+export type InviteUncheckedUpdateManyWithoutReceiverInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type InviteUpdateWithWhereUniqueWithoutUser_Invite_receiverIdToUserInput = {
-  where: Prisma.InviteWhereUniqueInput
-  data: Prisma.XOR<Prisma.InviteUpdateWithoutUser_Invite_receiverIdToUserInput, Prisma.InviteUncheckedUpdateWithoutUser_Invite_receiverIdToUserInput>
+export type InviteUpdateWithoutSenderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chat?: Prisma.ChatUpdateOneRequiredWithoutInvitesNestedInput
+  receiver?: Prisma.UserUpdateOneRequiredWithoutInvitesReceivedNestedInput
 }
 
-export type InviteUpdateManyWithWhereWithoutUser_Invite_receiverIdToUserInput = {
-  where: Prisma.InviteScalarWhereInput
-  data: Prisma.XOR<Prisma.InviteUpdateManyMutationInput, Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_receiverIdToUserInput>
+export type InviteUncheckedUpdateWithoutSenderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  receiverId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type InviteUpsertWithWhereUniqueWithoutUser_Invite_senderIdToUserInput = {
-  where: Prisma.InviteWhereUniqueInput
-  update: Prisma.XOR<Prisma.InviteUpdateWithoutUser_Invite_senderIdToUserInput, Prisma.InviteUncheckedUpdateWithoutUser_Invite_senderIdToUserInput>
-  create: Prisma.XOR<Prisma.InviteCreateWithoutUser_Invite_senderIdToUserInput, Prisma.InviteUncheckedCreateWithoutUser_Invite_senderIdToUserInput>
-}
-
-export type InviteUpdateWithWhereUniqueWithoutUser_Invite_senderIdToUserInput = {
-  where: Prisma.InviteWhereUniqueInput
-  data: Prisma.XOR<Prisma.InviteUpdateWithoutUser_Invite_senderIdToUserInput, Prisma.InviteUncheckedUpdateWithoutUser_Invite_senderIdToUserInput>
-}
-
-export type InviteUpdateManyWithWhereWithoutUser_Invite_senderIdToUserInput = {
-  where: Prisma.InviteScalarWhereInput
-  data: Prisma.XOR<Prisma.InviteUpdateManyMutationInput, Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_senderIdToUserInput>
+export type InviteUncheckedUpdateManyWithoutSenderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  receiverId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type InviteCreateManyChatInput = {
-  id: string
+  id?: string
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   senderId: string
   receiverId: string
 }
@@ -619,8 +683,8 @@ export type InviteUpdateWithoutChatInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  User_Invite_receiverIdToUser?: Prisma.UserUpdateOneRequiredWithoutInvite_Invite_receiverIdToUserNestedInput
-  User_Invite_senderIdToUser?: Prisma.UserUpdateOneRequiredWithoutInvite_Invite_senderIdToUserNestedInput
+  sender?: Prisma.UserUpdateOneRequiredWithoutInvitesSentNestedInput
+  receiver?: Prisma.UserUpdateOneRequiredWithoutInvitesReceivedNestedInput
 }
 
 export type InviteUncheckedUpdateWithoutChatInput = {
@@ -639,70 +703,6 @@ export type InviteUncheckedUpdateManyWithoutChatInput = {
   receiverId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type InviteCreateManyUser_Invite_receiverIdToUserInput = {
-  id: string
-  createdAt?: Date | string
-  updatedAt: Date | string
-  chatId: string
-  senderId: string
-}
-
-export type InviteCreateManyUser_Invite_senderIdToUserInput = {
-  id: string
-  createdAt?: Date | string
-  updatedAt: Date | string
-  chatId: string
-  receiverId: string
-}
-
-export type InviteUpdateWithoutUser_Invite_receiverIdToUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Chat?: Prisma.ChatUpdateOneRequiredWithoutInviteNestedInput
-  User_Invite_senderIdToUser?: Prisma.UserUpdateOneRequiredWithoutInvite_Invite_senderIdToUserNestedInput
-}
-
-export type InviteUncheckedUpdateWithoutUser_Invite_receiverIdToUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  chatId?: Prisma.StringFieldUpdateOperationsInput | string
-  senderId?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
-export type InviteUncheckedUpdateManyWithoutUser_Invite_receiverIdToUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  chatId?: Prisma.StringFieldUpdateOperationsInput | string
-  senderId?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
-export type InviteUpdateWithoutUser_Invite_senderIdToUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Chat?: Prisma.ChatUpdateOneRequiredWithoutInviteNestedInput
-  User_Invite_receiverIdToUser?: Prisma.UserUpdateOneRequiredWithoutInvite_Invite_receiverIdToUserNestedInput
-}
-
-export type InviteUncheckedUpdateWithoutUser_Invite_senderIdToUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  chatId?: Prisma.StringFieldUpdateOperationsInput | string
-  receiverId?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
-export type InviteUncheckedUpdateManyWithoutUser_Invite_senderIdToUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  chatId?: Prisma.StringFieldUpdateOperationsInput | string
-  receiverId?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
 
 
 export type InviteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -712,9 +712,9 @@ export type InviteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   chatId?: boolean
   senderId?: boolean
   receiverId?: boolean
-  Chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
-  User_Invite_receiverIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  User_Invite_senderIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  receiver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["invite"]>
 
 export type InviteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -724,9 +724,9 @@ export type InviteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   chatId?: boolean
   senderId?: boolean
   receiverId?: boolean
-  Chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
-  User_Invite_receiverIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  User_Invite_senderIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  receiver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["invite"]>
 
 export type InviteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -736,9 +736,9 @@ export type InviteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   chatId?: boolean
   senderId?: boolean
   receiverId?: boolean
-  Chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
-  User_Invite_receiverIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  User_Invite_senderIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  receiver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["invite"]>
 
 export type InviteSelectScalar = {
@@ -752,27 +752,27 @@ export type InviteSelectScalar = {
 
 export type InviteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "chatId" | "senderId" | "receiverId", ExtArgs["result"]["invite"]>
 export type InviteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
-  User_Invite_receiverIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  User_Invite_senderIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  receiver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type InviteIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
-  User_Invite_receiverIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  User_Invite_senderIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  receiver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type InviteIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
-  User_Invite_receiverIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  User_Invite_senderIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  receiver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $InvitePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Invite"
   objects: {
-    Chat: Prisma.$ChatPayload<ExtArgs>
-    User_Invite_receiverIdToUser: Prisma.$UserPayload<ExtArgs>
-    User_Invite_senderIdToUser: Prisma.$UserPayload<ExtArgs>
+    chat: Prisma.$ChatPayload<ExtArgs>
+    sender: Prisma.$UserPayload<ExtArgs>
+    receiver: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1175,9 +1175,9 @@ readonly fields: InviteFieldRefs;
  */
 export interface Prisma__InviteClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  Chat<T extends Prisma.ChatDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatDefaultArgs<ExtArgs>>): Prisma.Prisma__ChatClient<runtime.Types.Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  User_Invite_receiverIdToUser<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  User_Invite_senderIdToUser<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  chat<T extends Prisma.ChatDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatDefaultArgs<ExtArgs>>): Prisma.Prisma__ChatClient<runtime.Types.Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  sender<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  receiver<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

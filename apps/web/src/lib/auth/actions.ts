@@ -232,7 +232,7 @@ export async function personalize(
     select: { id: true, name: true, username: true, avatarUrl: true },
   });
 
-  pusherServer.trigger(profile.id, "profile-update", profile);
+  await pusherServer.trigger(profile.id, "profile-update", profile);
 }
 
 /**

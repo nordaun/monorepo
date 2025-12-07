@@ -238,12 +238,12 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
-  File_File_authorIdToUser?: Prisma.FileListRelationFilter
-  Invite_Invite_receiverIdToUser?: Prisma.InviteListRelationFilter
-  Invite_Invite_senderIdToUser?: Prisma.InviteListRelationFilter
-  Message?: Prisma.MessageListRelationFilter
-  File_User_avatarUrlToFile?: Prisma.XOR<Prisma.FileNullableScalarRelationFilter, Prisma.FileWhereInput> | null
-  Chat?: Prisma.ChatListRelationFilter
+  avatar?: Prisma.XOR<Prisma.FileNullableScalarRelationFilter, Prisma.FileWhereInput> | null
+  files?: Prisma.FileListRelationFilter
+  messages?: Prisma.MessageListRelationFilter
+  chats?: Prisma.ChatListRelationFilter
+  invitesReceived?: Prisma.InviteListRelationFilter
+  invitesSent?: Prisma.InviteListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -259,12 +259,12 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  File_File_authorIdToUser?: Prisma.FileOrderByRelationAggregateInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteOrderByRelationAggregateInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteOrderByRelationAggregateInput
-  Message?: Prisma.MessageOrderByRelationAggregateInput
-  File_User_avatarUrlToFile?: Prisma.FileOrderByWithRelationInput
-  Chat?: Prisma.ChatOrderByRelationAggregateInput
+  avatar?: Prisma.FileOrderByWithRelationInput
+  files?: Prisma.FileOrderByRelationAggregateInput
+  messages?: Prisma.MessageOrderByRelationAggregateInput
+  chats?: Prisma.ChatOrderByRelationAggregateInput
+  invitesReceived?: Prisma.InviteOrderByRelationAggregateInput
+  invitesSent?: Prisma.InviteOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -283,12 +283,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   lastEmailChange?: Prisma.DateTimeFilter<"User"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  File_File_authorIdToUser?: Prisma.FileListRelationFilter
-  Invite_Invite_receiverIdToUser?: Prisma.InviteListRelationFilter
-  Invite_Invite_senderIdToUser?: Prisma.InviteListRelationFilter
-  Message?: Prisma.MessageListRelationFilter
-  File_User_avatarUrlToFile?: Prisma.XOR<Prisma.FileNullableScalarRelationFilter, Prisma.FileWhereInput> | null
-  Chat?: Prisma.ChatListRelationFilter
+  avatar?: Prisma.XOR<Prisma.FileNullableScalarRelationFilter, Prisma.FileWhereInput> | null
+  files?: Prisma.FileListRelationFilter
+  messages?: Prisma.MessageListRelationFilter
+  chats?: Prisma.ChatListRelationFilter
+  invitesReceived?: Prisma.InviteListRelationFilter
+  invitesSent?: Prisma.InviteListRelationFilter
 }, "id" | "email" | "phone" | "username" | "avatarUrl">
 
 export type UserOrderByWithAggregationInput = {
@@ -328,7 +328,7 @@ export type UserScalarWhereWithAggregatesInput = {
 }
 
 export type UserCreateInput = {
-  id: string
+  id?: string
   name: string
   email: string
   phone?: string | null
@@ -338,17 +338,17 @@ export type UserCreateInput = {
   twoFactorAuth?: boolean
   lastEmailChange?: Date | string
   createdAt?: Date | string
-  updatedAt: Date | string
-  File_File_authorIdToUser?: Prisma.FileCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  Message?: Prisma.MessageCreateNestedManyWithoutUserInput
-  File_User_avatarUrlToFile?: Prisma.FileCreateNestedOneWithoutUser_User_avatarUrlToFileInput
-  Chat?: Prisma.ChatCreateNestedManyWithoutUserInput
+  updatedAt?: Date | string
+  avatar?: Prisma.FileCreateNestedOneWithoutUserAvatarInput
+  files?: Prisma.FileCreateNestedManyWithoutAuthorInput
+  messages?: Prisma.MessageCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatCreateNestedManyWithoutMembersInput
+  invitesReceived?: Prisma.InviteCreateNestedManyWithoutReceiverInput
+  invitesSent?: Prisma.InviteCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateInput = {
-  id: string
+  id?: string
   name: string
   email: string
   phone?: string | null
@@ -358,13 +358,13 @@ export type UserUncheckedCreateInput = {
   twoFactorAuth?: boolean
   lastEmailChange?: Date | string
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   avatarUrl?: string | null
-  File_File_authorIdToUser?: Prisma.FileUncheckedCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  Message?: Prisma.MessageUncheckedCreateNestedManyWithoutUserInput
-  Chat?: Prisma.ChatUncheckedCreateNestedManyWithoutUserInput
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutAuthorInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatUncheckedCreateNestedManyWithoutMembersInput
+  invitesReceived?: Prisma.InviteUncheckedCreateNestedManyWithoutReceiverInput
+  invitesSent?: Prisma.InviteUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserUpdateInput = {
@@ -379,12 +379,12 @@ export type UserUpdateInput = {
   lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  File_File_authorIdToUser?: Prisma.FileUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  Message?: Prisma.MessageUpdateManyWithoutUserNestedInput
-  File_User_avatarUrlToFile?: Prisma.FileUpdateOneWithoutUser_User_avatarUrlToFileNestedInput
-  Chat?: Prisma.ChatUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.FileUpdateOneWithoutUserAvatarNestedInput
+  files?: Prisma.FileUpdateManyWithoutAuthorNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUpdateManyWithoutMembersNestedInput
+  invitesReceived?: Prisma.InviteUpdateManyWithoutReceiverNestedInput
+  invitesSent?: Prisma.InviteUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -400,15 +400,15 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  File_File_authorIdToUser?: Prisma.FileUncheckedUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  Message?: Prisma.MessageUncheckedUpdateManyWithoutUserNestedInput
-  Chat?: Prisma.ChatUncheckedUpdateManyWithoutUserNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutAuthorNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUncheckedUpdateManyWithoutMembersNestedInput
+  invitesReceived?: Prisma.InviteUncheckedUpdateManyWithoutReceiverNestedInput
+  invitesSent?: Prisma.InviteUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateManyInput = {
-  id: string
+  id?: string
   name: string
   email: string
   phone?: string | null
@@ -418,7 +418,7 @@ export type UserCreateManyInput = {
   twoFactorAuth?: boolean
   lastEmailChange?: Date | string
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   avatarUrl?: string | null
 }
 
@@ -449,26 +449,6 @@ export type UserUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type UserListRelationFilter = {
-  every?: Prisma.UserWhereInput
-  some?: Prisma.UserWhereInput
-  none?: Prisma.UserWhereInput
-}
-
-export type UserOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type UserScalarRelationFilter = {
-  is?: Prisma.UserWhereInput
-  isNot?: Prisma.UserWhereInput
-}
-
-export type UserNullableScalarRelationFilter = {
-  is?: Prisma.UserWhereInput | null
-  isNot?: Prisma.UserWhereInput | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -516,157 +496,170 @@ export type UserMinOrderByAggregateInput = {
   avatarUrl?: Prisma.SortOrder
 }
 
-export type UserCreateNestedManyWithoutChatInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutChatInput, Prisma.UserUncheckedCreateWithoutChatInput> | Prisma.UserCreateWithoutChatInput[] | Prisma.UserUncheckedCreateWithoutChatInput[]
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatInput | Prisma.UserCreateOrConnectWithoutChatInput[]
-  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
 }
 
-export type UserUncheckedCreateNestedManyWithoutChatInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutChatInput, Prisma.UserUncheckedCreateWithoutChatInput> | Prisma.UserCreateWithoutChatInput[] | Prisma.UserUncheckedCreateWithoutChatInput[]
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatInput | Prisma.UserCreateOrConnectWithoutChatInput[]
-  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
-export type UserUpdateManyWithoutChatNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutChatInput, Prisma.UserUncheckedCreateWithoutChatInput> | Prisma.UserCreateWithoutChatInput[] | Prisma.UserUncheckedCreateWithoutChatInput[]
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatInput | Prisma.UserCreateOrConnectWithoutChatInput[]
-  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutChatInput | Prisma.UserUpsertWithWhereUniqueWithoutChatInput[]
-  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
-  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
-  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
-  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
-  update?: Prisma.UserUpdateWithWhereUniqueWithoutChatInput | Prisma.UserUpdateWithWhereUniqueWithoutChatInput[]
-  updateMany?: Prisma.UserUpdateManyWithWhereWithoutChatInput | Prisma.UserUpdateManyWithWhereWithoutChatInput[]
-  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+export type UserListRelationFilter = {
+  every?: Prisma.UserWhereInput
+  some?: Prisma.UserWhereInput
+  none?: Prisma.UserWhereInput
 }
 
-export type UserUncheckedUpdateManyWithoutChatNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutChatInput, Prisma.UserUncheckedCreateWithoutChatInput> | Prisma.UserCreateWithoutChatInput[] | Prisma.UserUncheckedCreateWithoutChatInput[]
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatInput | Prisma.UserCreateOrConnectWithoutChatInput[]
-  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutChatInput | Prisma.UserUpsertWithWhereUniqueWithoutChatInput[]
-  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
-  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
-  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
-  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
-  update?: Prisma.UserUpdateWithWhereUniqueWithoutChatInput | Prisma.UserUpdateWithWhereUniqueWithoutChatInput[]
-  updateMany?: Prisma.UserUpdateManyWithWhereWithoutChatInput | Prisma.UserUpdateManyWithWhereWithoutChatInput[]
-  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+export type UserOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
-export type UserCreateNestedOneWithoutFile_File_authorIdToUserInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutFile_File_authorIdToUserInput, Prisma.UserUncheckedCreateWithoutFile_File_authorIdToUserInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFile_File_authorIdToUserInput
-  connect?: Prisma.UserWhereUniqueInput
+export type StringFieldUpdateOperationsInput = {
+  set?: string
 }
 
-export type UserCreateNestedOneWithoutFile_User_avatarUrlToFileInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutFile_User_avatarUrlToFileInput, Prisma.UserUncheckedCreateWithoutFile_User_avatarUrlToFileInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFile_User_avatarUrlToFileInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUncheckedCreateNestedOneWithoutFile_User_avatarUrlToFileInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutFile_User_avatarUrlToFileInput, Prisma.UserUncheckedCreateWithoutFile_User_avatarUrlToFileInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFile_User_avatarUrlToFileInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutFile_File_authorIdToUserNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutFile_File_authorIdToUserInput, Prisma.UserUncheckedCreateWithoutFile_File_authorIdToUserInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFile_File_authorIdToUserInput
-  upsert?: Prisma.UserUpsertWithoutFile_File_authorIdToUserInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFile_File_authorIdToUserInput, Prisma.UserUpdateWithoutFile_File_authorIdToUserInput>, Prisma.UserUncheckedUpdateWithoutFile_File_authorIdToUserInput>
-}
-
-export type UserUpdateOneWithoutFile_User_avatarUrlToFileNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutFile_User_avatarUrlToFileInput, Prisma.UserUncheckedCreateWithoutFile_User_avatarUrlToFileInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFile_User_avatarUrlToFileInput
-  upsert?: Prisma.UserUpsertWithoutFile_User_avatarUrlToFileInput
-  disconnect?: Prisma.UserWhereInput | boolean
-  delete?: Prisma.UserWhereInput | boolean
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFile_User_avatarUrlToFileInput, Prisma.UserUpdateWithoutFile_User_avatarUrlToFileInput>, Prisma.UserUncheckedUpdateWithoutFile_User_avatarUrlToFileInput>
-}
-
-export type UserUncheckedUpdateOneWithoutFile_User_avatarUrlToFileNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutFile_User_avatarUrlToFileInput, Prisma.UserUncheckedCreateWithoutFile_User_avatarUrlToFileInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFile_User_avatarUrlToFileInput
-  upsert?: Prisma.UserUpsertWithoutFile_User_avatarUrlToFileInput
-  disconnect?: Prisma.UserWhereInput | boolean
-  delete?: Prisma.UserWhereInput | boolean
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFile_User_avatarUrlToFileInput, Prisma.UserUpdateWithoutFile_User_avatarUrlToFileInput>, Prisma.UserUncheckedUpdateWithoutFile_User_avatarUrlToFileInput>
-}
-
-export type UserCreateNestedOneWithoutInvite_Invite_receiverIdToUserInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutInvite_Invite_receiverIdToUserInput, Prisma.UserUncheckedCreateWithoutInvite_Invite_receiverIdToUserInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvite_Invite_receiverIdToUserInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserCreateNestedOneWithoutInvite_Invite_senderIdToUserInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutInvite_Invite_senderIdToUserInput, Prisma.UserUncheckedCreateWithoutInvite_Invite_senderIdToUserInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvite_Invite_senderIdToUserInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutInvite_Invite_receiverIdToUserNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutInvite_Invite_receiverIdToUserInput, Prisma.UserUncheckedCreateWithoutInvite_Invite_receiverIdToUserInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvite_Invite_receiverIdToUserInput
-  upsert?: Prisma.UserUpsertWithoutInvite_Invite_receiverIdToUserInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInvite_Invite_receiverIdToUserInput, Prisma.UserUpdateWithoutInvite_Invite_receiverIdToUserInput>, Prisma.UserUncheckedUpdateWithoutInvite_Invite_receiverIdToUserInput>
-}
-
-export type UserUpdateOneRequiredWithoutInvite_Invite_senderIdToUserNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutInvite_Invite_senderIdToUserInput, Prisma.UserUncheckedCreateWithoutInvite_Invite_senderIdToUserInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvite_Invite_senderIdToUserInput
-  upsert?: Prisma.UserUpsertWithoutInvite_Invite_senderIdToUserInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInvite_Invite_senderIdToUserInput, Prisma.UserUpdateWithoutInvite_Invite_senderIdToUserInput>, Prisma.UserUncheckedUpdateWithoutInvite_Invite_senderIdToUserInput>
-}
-
-export type UserCreateNestedOneWithoutMessageInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutMessageInput, Prisma.UserUncheckedCreateWithoutMessageInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMessageInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutMessageNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutMessageInput, Prisma.UserUncheckedCreateWithoutMessageInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMessageInput
-  upsert?: Prisma.UserUpsertWithoutMessageInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMessageInput, Prisma.UserUpdateWithoutMessageInput>, Prisma.UserUncheckedUpdateWithoutMessageInput>
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type UserCreateWithoutChatInput = {
-  id: string
-  name: string
-  email: string
-  phone?: string | null
-  password: string
-  username: string
-  otp?: string | null
-  twoFactorAuth?: boolean
-  lastEmailChange?: Date | string
-  createdAt?: Date | string
-  updatedAt: Date | string
-  File_File_authorIdToUser?: Prisma.FileCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  Message?: Prisma.MessageCreateNestedManyWithoutUserInput
-  File_User_avatarUrlToFile?: Prisma.FileCreateNestedOneWithoutUser_User_avatarUrlToFileInput
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
-export type UserUncheckedCreateWithoutChatInput = {
-  id: string
+export type UserCreateNestedOneWithoutFilesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFilesInput, Prisma.UserUncheckedCreateWithoutFilesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFilesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutAvatarInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAvatarInput, Prisma.UserUncheckedCreateWithoutAvatarInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAvatarInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUncheckedCreateNestedOneWithoutAvatarInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAvatarInput, Prisma.UserUncheckedCreateWithoutAvatarInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAvatarInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFilesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFilesInput, Prisma.UserUncheckedCreateWithoutFilesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFilesInput
+  upsert?: Prisma.UserUpsertWithoutFilesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFilesInput, Prisma.UserUpdateWithoutFilesInput>, Prisma.UserUncheckedUpdateWithoutFilesInput>
+}
+
+export type UserUpdateOneWithoutAvatarNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAvatarInput, Prisma.UserUncheckedCreateWithoutAvatarInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAvatarInput
+  upsert?: Prisma.UserUpsertWithoutAvatarInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAvatarInput, Prisma.UserUpdateWithoutAvatarInput>, Prisma.UserUncheckedUpdateWithoutAvatarInput>
+}
+
+export type UserUncheckedUpdateOneWithoutAvatarNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAvatarInput, Prisma.UserUncheckedCreateWithoutAvatarInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAvatarInput
+  upsert?: Prisma.UserUpsertWithoutAvatarInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAvatarInput, Prisma.UserUpdateWithoutAvatarInput>, Prisma.UserUncheckedUpdateWithoutAvatarInput>
+}
+
+export type UserCreateNestedManyWithoutChatsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChatsInput, Prisma.UserUncheckedCreateWithoutChatsInput> | Prisma.UserCreateWithoutChatsInput[] | Prisma.UserUncheckedCreateWithoutChatsInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatsInput | Prisma.UserCreateOrConnectWithoutChatsInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUncheckedCreateNestedManyWithoutChatsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChatsInput, Prisma.UserUncheckedCreateWithoutChatsInput> | Prisma.UserCreateWithoutChatsInput[] | Prisma.UserUncheckedCreateWithoutChatsInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatsInput | Prisma.UserCreateOrConnectWithoutChatsInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUpdateManyWithoutChatsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChatsInput, Prisma.UserUncheckedCreateWithoutChatsInput> | Prisma.UserCreateWithoutChatsInput[] | Prisma.UserUncheckedCreateWithoutChatsInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatsInput | Prisma.UserCreateOrConnectWithoutChatsInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutChatsInput | Prisma.UserUpsertWithWhereUniqueWithoutChatsInput[]
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutChatsInput | Prisma.UserUpdateWithWhereUniqueWithoutChatsInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutChatsInput | Prisma.UserUpdateManyWithWhereWithoutChatsInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserUncheckedUpdateManyWithoutChatsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChatsInput, Prisma.UserUncheckedCreateWithoutChatsInput> | Prisma.UserCreateWithoutChatsInput[] | Prisma.UserUncheckedCreateWithoutChatsInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatsInput | Prisma.UserCreateOrConnectWithoutChatsInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutChatsInput | Prisma.UserUpsertWithWhereUniqueWithoutChatsInput[]
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutChatsInput | Prisma.UserUpdateWithWhereUniqueWithoutChatsInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutChatsInput | Prisma.UserUpdateManyWithWhereWithoutChatsInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserCreateNestedOneWithoutMessagesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMessagesInput, Prisma.UserUncheckedCreateWithoutMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMessagesInput, Prisma.UserUncheckedCreateWithoutMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMessagesInput
+  upsert?: Prisma.UserUpsertWithoutMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMessagesInput, Prisma.UserUpdateWithoutMessagesInput>, Prisma.UserUncheckedUpdateWithoutMessagesInput>
+}
+
+export type UserCreateNestedOneWithoutInvitesSentInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitesSentInput, Prisma.UserUncheckedCreateWithoutInvitesSentInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitesSentInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutInvitesReceivedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitesReceivedInput, Prisma.UserUncheckedCreateWithoutInvitesReceivedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitesReceivedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutInvitesSentNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitesSentInput, Prisma.UserUncheckedCreateWithoutInvitesSentInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitesSentInput
+  upsert?: Prisma.UserUpsertWithoutInvitesSentInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInvitesSentInput, Prisma.UserUpdateWithoutInvitesSentInput>, Prisma.UserUncheckedUpdateWithoutInvitesSentInput>
+}
+
+export type UserUpdateOneRequiredWithoutInvitesReceivedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitesReceivedInput, Prisma.UserUncheckedCreateWithoutInvitesReceivedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitesReceivedInput
+  upsert?: Prisma.UserUpsertWithoutInvitesReceivedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInvitesReceivedInput, Prisma.UserUpdateWithoutInvitesReceivedInput>, Prisma.UserUncheckedUpdateWithoutInvitesReceivedInput>
+}
+
+export type UserCreateWithoutFilesInput = {
+  id?: string
   name: string
   email: string
   phone?: string | null
@@ -676,33 +669,236 @@ export type UserUncheckedCreateWithoutChatInput = {
   twoFactorAuth?: boolean
   lastEmailChange?: Date | string
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
+  avatar?: Prisma.FileCreateNestedOneWithoutUserAvatarInput
+  messages?: Prisma.MessageCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatCreateNestedManyWithoutMembersInput
+  invitesReceived?: Prisma.InviteCreateNestedManyWithoutReceiverInput
+  invitesSent?: Prisma.InviteCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutFilesInput = {
+  id?: string
+  name: string
+  email: string
+  phone?: string | null
+  password: string
+  username: string
+  otp?: string | null
+  twoFactorAuth?: boolean
+  lastEmailChange?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   avatarUrl?: string | null
-  File_File_authorIdToUser?: Prisma.FileUncheckedCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  Message?: Prisma.MessageUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatUncheckedCreateNestedManyWithoutMembersInput
+  invitesReceived?: Prisma.InviteUncheckedCreateNestedManyWithoutReceiverInput
+  invitesSent?: Prisma.InviteUncheckedCreateNestedManyWithoutSenderInput
 }
 
-export type UserCreateOrConnectWithoutChatInput = {
+export type UserCreateOrConnectWithoutFilesInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutChatInput, Prisma.UserUncheckedCreateWithoutChatInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFilesInput, Prisma.UserUncheckedCreateWithoutFilesInput>
 }
 
-export type UserUpsertWithWhereUniqueWithoutChatInput = {
+export type UserCreateWithoutAvatarInput = {
+  id?: string
+  name: string
+  email: string
+  phone?: string | null
+  password: string
+  username: string
+  otp?: string | null
+  twoFactorAuth?: boolean
+  lastEmailChange?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  files?: Prisma.FileCreateNestedManyWithoutAuthorInput
+  messages?: Prisma.MessageCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatCreateNestedManyWithoutMembersInput
+  invitesReceived?: Prisma.InviteCreateNestedManyWithoutReceiverInput
+  invitesSent?: Prisma.InviteCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutAvatarInput = {
+  id?: string
+  name: string
+  email: string
+  phone?: string | null
+  password: string
+  username: string
+  otp?: string | null
+  twoFactorAuth?: boolean
+  lastEmailChange?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutAuthorInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatUncheckedCreateNestedManyWithoutMembersInput
+  invitesReceived?: Prisma.InviteUncheckedCreateNestedManyWithoutReceiverInput
+  invitesSent?: Prisma.InviteUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutAvatarInput = {
   where: Prisma.UserWhereUniqueInput
-  update: Prisma.XOR<Prisma.UserUpdateWithoutChatInput, Prisma.UserUncheckedUpdateWithoutChatInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutChatInput, Prisma.UserUncheckedCreateWithoutChatInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAvatarInput, Prisma.UserUncheckedCreateWithoutAvatarInput>
 }
 
-export type UserUpdateWithWhereUniqueWithoutChatInput = {
+export type UserUpsertWithoutFilesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFilesInput, Prisma.UserUncheckedUpdateWithoutFilesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFilesInput, Prisma.UserUncheckedCreateWithoutFilesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFilesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFilesInput, Prisma.UserUncheckedUpdateWithoutFilesInput>
+}
+
+export type UserUpdateWithoutFilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twoFactorAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  avatar?: Prisma.FileUpdateOneWithoutUserAvatarNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUpdateManyWithoutMembersNestedInput
+  invitesReceived?: Prisma.InviteUpdateManyWithoutReceiverNestedInput
+  invitesSent?: Prisma.InviteUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twoFactorAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUncheckedUpdateManyWithoutMembersNestedInput
+  invitesReceived?: Prisma.InviteUncheckedUpdateManyWithoutReceiverNestedInput
+  invitesSent?: Prisma.InviteUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUpsertWithoutAvatarInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAvatarInput, Prisma.UserUncheckedUpdateWithoutAvatarInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAvatarInput, Prisma.UserUncheckedCreateWithoutAvatarInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAvatarInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAvatarInput, Prisma.UserUncheckedUpdateWithoutAvatarInput>
+}
+
+export type UserUpdateWithoutAvatarInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twoFactorAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  files?: Prisma.FileUpdateManyWithoutAuthorNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUpdateManyWithoutMembersNestedInput
+  invitesReceived?: Prisma.InviteUpdateManyWithoutReceiverNestedInput
+  invitesSent?: Prisma.InviteUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAvatarInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twoFactorAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  files?: Prisma.FileUncheckedUpdateManyWithoutAuthorNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUncheckedUpdateManyWithoutMembersNestedInput
+  invitesReceived?: Prisma.InviteUncheckedUpdateManyWithoutReceiverNestedInput
+  invitesSent?: Prisma.InviteUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutChatsInput = {
+  id?: string
+  name: string
+  email: string
+  phone?: string | null
+  password: string
+  username: string
+  otp?: string | null
+  twoFactorAuth?: boolean
+  lastEmailChange?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  avatar?: Prisma.FileCreateNestedOneWithoutUserAvatarInput
+  files?: Prisma.FileCreateNestedManyWithoutAuthorInput
+  messages?: Prisma.MessageCreateNestedManyWithoutAuthorInput
+  invitesReceived?: Prisma.InviteCreateNestedManyWithoutReceiverInput
+  invitesSent?: Prisma.InviteCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutChatsInput = {
+  id?: string
+  name: string
+  email: string
+  phone?: string | null
+  password: string
+  username: string
+  otp?: string | null
+  twoFactorAuth?: boolean
+  lastEmailChange?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  avatarUrl?: string | null
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutAuthorInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutAuthorInput
+  invitesReceived?: Prisma.InviteUncheckedCreateNestedManyWithoutReceiverInput
+  invitesSent?: Prisma.InviteUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutChatsInput = {
   where: Prisma.UserWhereUniqueInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutChatInput, Prisma.UserUncheckedUpdateWithoutChatInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChatsInput, Prisma.UserUncheckedCreateWithoutChatsInput>
 }
 
-export type UserUpdateManyWithWhereWithoutChatInput = {
+export type UserUpsertWithWhereUniqueWithoutChatsInput = {
+  where: Prisma.UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChatsInput, Prisma.UserUncheckedUpdateWithoutChatsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChatsInput, Prisma.UserUncheckedCreateWithoutChatsInput>
+}
+
+export type UserUpdateWithWhereUniqueWithoutChatsInput = {
+  where: Prisma.UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChatsInput, Prisma.UserUncheckedUpdateWithoutChatsInput>
+}
+
+export type UserUpdateManyWithWhereWithoutChatsInput = {
   where: Prisma.UserScalarWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutChatInput>
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutChatsInput>
 }
 
 export type UserScalarWhereInput = {
@@ -723,8 +919,8 @@ export type UserScalarWhereInput = {
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
 }
 
-export type UserCreateWithoutFile_File_authorIdToUserInput = {
-  id: string
+export type UserCreateWithoutMessagesInput = {
+  id?: string
   name: string
   email: string
   phone?: string | null
@@ -734,16 +930,16 @@ export type UserCreateWithoutFile_File_authorIdToUserInput = {
   twoFactorAuth?: boolean
   lastEmailChange?: Date | string
   createdAt?: Date | string
-  updatedAt: Date | string
-  Invite_Invite_receiverIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  Message?: Prisma.MessageCreateNestedManyWithoutUserInput
-  File_User_avatarUrlToFile?: Prisma.FileCreateNestedOneWithoutUser_User_avatarUrlToFileInput
-  Chat?: Prisma.ChatCreateNestedManyWithoutUserInput
+  updatedAt?: Date | string
+  avatar?: Prisma.FileCreateNestedOneWithoutUserAvatarInput
+  files?: Prisma.FileCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatCreateNestedManyWithoutMembersInput
+  invitesReceived?: Prisma.InviteCreateNestedManyWithoutReceiverInput
+  invitesSent?: Prisma.InviteCreateNestedManyWithoutSenderInput
 }
 
-export type UserUncheckedCreateWithoutFile_File_authorIdToUserInput = {
-  id: string
+export type UserUncheckedCreateWithoutMessagesInput = {
+  id?: string
   name: string
   email: string
   phone?: string | null
@@ -753,74 +949,31 @@ export type UserUncheckedCreateWithoutFile_File_authorIdToUserInput = {
   twoFactorAuth?: boolean
   lastEmailChange?: Date | string
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   avatarUrl?: string | null
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  Message?: Prisma.MessageUncheckedCreateNestedManyWithoutUserInput
-  Chat?: Prisma.ChatUncheckedCreateNestedManyWithoutUserInput
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatUncheckedCreateNestedManyWithoutMembersInput
+  invitesReceived?: Prisma.InviteUncheckedCreateNestedManyWithoutReceiverInput
+  invitesSent?: Prisma.InviteUncheckedCreateNestedManyWithoutSenderInput
 }
 
-export type UserCreateOrConnectWithoutFile_File_authorIdToUserInput = {
+export type UserCreateOrConnectWithoutMessagesInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutFile_File_authorIdToUserInput, Prisma.UserUncheckedCreateWithoutFile_File_authorIdToUserInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutMessagesInput, Prisma.UserUncheckedCreateWithoutMessagesInput>
 }
 
-export type UserCreateWithoutFile_User_avatarUrlToFileInput = {
-  id: string
-  name: string
-  email: string
-  phone?: string | null
-  password: string
-  username: string
-  otp?: string | null
-  twoFactorAuth?: boolean
-  lastEmailChange?: Date | string
-  createdAt?: Date | string
-  updatedAt: Date | string
-  File_File_authorIdToUser?: Prisma.FileCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  Message?: Prisma.MessageCreateNestedManyWithoutUserInput
-  Chat?: Prisma.ChatCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutFile_User_avatarUrlToFileInput = {
-  id: string
-  name: string
-  email: string
-  phone?: string | null
-  password: string
-  username: string
-  otp?: string | null
-  twoFactorAuth?: boolean
-  lastEmailChange?: Date | string
-  createdAt?: Date | string
-  updatedAt: Date | string
-  File_File_authorIdToUser?: Prisma.FileUncheckedCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  Message?: Prisma.MessageUncheckedCreateNestedManyWithoutUserInput
-  Chat?: Prisma.ChatUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutFile_User_avatarUrlToFileInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutFile_User_avatarUrlToFileInput, Prisma.UserUncheckedCreateWithoutFile_User_avatarUrlToFileInput>
-}
-
-export type UserUpsertWithoutFile_File_authorIdToUserInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutFile_File_authorIdToUserInput, Prisma.UserUncheckedUpdateWithoutFile_File_authorIdToUserInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutFile_File_authorIdToUserInput, Prisma.UserUncheckedCreateWithoutFile_File_authorIdToUserInput>
+export type UserUpsertWithoutMessagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutMessagesInput, Prisma.UserUncheckedUpdateWithoutMessagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutMessagesInput, Prisma.UserUncheckedCreateWithoutMessagesInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutFile_File_authorIdToUserInput = {
+export type UserUpdateToOneWithWhereWithoutMessagesInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutFile_File_authorIdToUserInput, Prisma.UserUncheckedUpdateWithoutFile_File_authorIdToUserInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutMessagesInput, Prisma.UserUncheckedUpdateWithoutMessagesInput>
 }
 
-export type UserUpdateWithoutFile_File_authorIdToUserInput = {
+export type UserUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -832,14 +985,14 @@ export type UserUpdateWithoutFile_File_authorIdToUserInput = {
   lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  Message?: Prisma.MessageUpdateManyWithoutUserNestedInput
-  File_User_avatarUrlToFile?: Prisma.FileUpdateOneWithoutUser_User_avatarUrlToFileNestedInput
-  Chat?: Prisma.ChatUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.FileUpdateOneWithoutUserAvatarNestedInput
+  files?: Prisma.FileUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUpdateManyWithoutMembersNestedInput
+  invitesReceived?: Prisma.InviteUpdateManyWithoutReceiverNestedInput
+  invitesSent?: Prisma.InviteUpdateManyWithoutSenderNestedInput
 }
 
-export type UserUncheckedUpdateWithoutFile_File_authorIdToUserInput = {
+export type UserUncheckedUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -852,63 +1005,14 @@ export type UserUncheckedUpdateWithoutFile_File_authorIdToUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  Message?: Prisma.MessageUncheckedUpdateManyWithoutUserNestedInput
-  Chat?: Prisma.ChatUncheckedUpdateManyWithoutUserNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUncheckedUpdateManyWithoutMembersNestedInput
+  invitesReceived?: Prisma.InviteUncheckedUpdateManyWithoutReceiverNestedInput
+  invitesSent?: Prisma.InviteUncheckedUpdateManyWithoutSenderNestedInput
 }
 
-export type UserUpsertWithoutFile_User_avatarUrlToFileInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutFile_User_avatarUrlToFileInput, Prisma.UserUncheckedUpdateWithoutFile_User_avatarUrlToFileInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutFile_User_avatarUrlToFileInput, Prisma.UserUncheckedCreateWithoutFile_User_avatarUrlToFileInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutFile_User_avatarUrlToFileInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutFile_User_avatarUrlToFileInput, Prisma.UserUncheckedUpdateWithoutFile_User_avatarUrlToFileInput>
-}
-
-export type UserUpdateWithoutFile_User_avatarUrlToFileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  twoFactorAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  File_File_authorIdToUser?: Prisma.FileUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  Message?: Prisma.MessageUpdateManyWithoutUserNestedInput
-  Chat?: Prisma.ChatUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutFile_User_avatarUrlToFileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  twoFactorAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  File_File_authorIdToUser?: Prisma.FileUncheckedUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  Message?: Prisma.MessageUncheckedUpdateManyWithoutUserNestedInput
-  Chat?: Prisma.ChatUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutInvite_Invite_receiverIdToUserInput = {
-  id: string
+export type UserCreateWithoutInvitesSentInput = {
+  id?: string
   name: string
   email: string
   phone?: string | null
@@ -918,16 +1022,16 @@ export type UserCreateWithoutInvite_Invite_receiverIdToUserInput = {
   twoFactorAuth?: boolean
   lastEmailChange?: Date | string
   createdAt?: Date | string
-  updatedAt: Date | string
-  File_File_authorIdToUser?: Prisma.FileCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  Message?: Prisma.MessageCreateNestedManyWithoutUserInput
-  File_User_avatarUrlToFile?: Prisma.FileCreateNestedOneWithoutUser_User_avatarUrlToFileInput
-  Chat?: Prisma.ChatCreateNestedManyWithoutUserInput
+  updatedAt?: Date | string
+  avatar?: Prisma.FileCreateNestedOneWithoutUserAvatarInput
+  files?: Prisma.FileCreateNestedManyWithoutAuthorInput
+  messages?: Prisma.MessageCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatCreateNestedManyWithoutMembersInput
+  invitesReceived?: Prisma.InviteCreateNestedManyWithoutReceiverInput
 }
 
-export type UserUncheckedCreateWithoutInvite_Invite_receiverIdToUserInput = {
-  id: string
+export type UserUncheckedCreateWithoutInvitesSentInput = {
+  id?: string
   name: string
   email: string
   phone?: string | null
@@ -937,21 +1041,21 @@ export type UserUncheckedCreateWithoutInvite_Invite_receiverIdToUserInput = {
   twoFactorAuth?: boolean
   lastEmailChange?: Date | string
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   avatarUrl?: string | null
-  File_File_authorIdToUser?: Prisma.FileUncheckedCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  Message?: Prisma.MessageUncheckedCreateNestedManyWithoutUserInput
-  Chat?: Prisma.ChatUncheckedCreateNestedManyWithoutUserInput
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutAuthorInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatUncheckedCreateNestedManyWithoutMembersInput
+  invitesReceived?: Prisma.InviteUncheckedCreateNestedManyWithoutReceiverInput
 }
 
-export type UserCreateOrConnectWithoutInvite_Invite_receiverIdToUserInput = {
+export type UserCreateOrConnectWithoutInvitesSentInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutInvite_Invite_receiverIdToUserInput, Prisma.UserUncheckedCreateWithoutInvite_Invite_receiverIdToUserInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInvitesSentInput, Prisma.UserUncheckedCreateWithoutInvitesSentInput>
 }
 
-export type UserCreateWithoutInvite_Invite_senderIdToUserInput = {
-  id: string
+export type UserCreateWithoutInvitesReceivedInput = {
+  id?: string
   name: string
   email: string
   phone?: string | null
@@ -961,16 +1065,16 @@ export type UserCreateWithoutInvite_Invite_senderIdToUserInput = {
   twoFactorAuth?: boolean
   lastEmailChange?: Date | string
   createdAt?: Date | string
-  updatedAt: Date | string
-  File_File_authorIdToUser?: Prisma.FileCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Message?: Prisma.MessageCreateNestedManyWithoutUserInput
-  File_User_avatarUrlToFile?: Prisma.FileCreateNestedOneWithoutUser_User_avatarUrlToFileInput
-  Chat?: Prisma.ChatCreateNestedManyWithoutUserInput
+  updatedAt?: Date | string
+  avatar?: Prisma.FileCreateNestedOneWithoutUserAvatarInput
+  files?: Prisma.FileCreateNestedManyWithoutAuthorInput
+  messages?: Prisma.MessageCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatCreateNestedManyWithoutMembersInput
+  invitesSent?: Prisma.InviteCreateNestedManyWithoutSenderInput
 }
 
-export type UserUncheckedCreateWithoutInvite_Invite_senderIdToUserInput = {
-  id: string
+export type UserUncheckedCreateWithoutInvitesReceivedInput = {
+  id?: string
   name: string
   email: string
   phone?: string | null
@@ -980,31 +1084,31 @@ export type UserUncheckedCreateWithoutInvite_Invite_senderIdToUserInput = {
   twoFactorAuth?: boolean
   lastEmailChange?: Date | string
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   avatarUrl?: string | null
-  File_File_authorIdToUser?: Prisma.FileUncheckedCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Message?: Prisma.MessageUncheckedCreateNestedManyWithoutUserInput
-  Chat?: Prisma.ChatUncheckedCreateNestedManyWithoutUserInput
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutAuthorInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutAuthorInput
+  chats?: Prisma.ChatUncheckedCreateNestedManyWithoutMembersInput
+  invitesSent?: Prisma.InviteUncheckedCreateNestedManyWithoutSenderInput
 }
 
-export type UserCreateOrConnectWithoutInvite_Invite_senderIdToUserInput = {
+export type UserCreateOrConnectWithoutInvitesReceivedInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutInvite_Invite_senderIdToUserInput, Prisma.UserUncheckedCreateWithoutInvite_Invite_senderIdToUserInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInvitesReceivedInput, Prisma.UserUncheckedCreateWithoutInvitesReceivedInput>
 }
 
-export type UserUpsertWithoutInvite_Invite_receiverIdToUserInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutInvite_Invite_receiverIdToUserInput, Prisma.UserUncheckedUpdateWithoutInvite_Invite_receiverIdToUserInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutInvite_Invite_receiverIdToUserInput, Prisma.UserUncheckedCreateWithoutInvite_Invite_receiverIdToUserInput>
+export type UserUpsertWithoutInvitesSentInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInvitesSentInput, Prisma.UserUncheckedUpdateWithoutInvitesSentInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInvitesSentInput, Prisma.UserUncheckedCreateWithoutInvitesSentInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutInvite_Invite_receiverIdToUserInput = {
+export type UserUpdateToOneWithWhereWithoutInvitesSentInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutInvite_Invite_receiverIdToUserInput, Prisma.UserUncheckedUpdateWithoutInvite_Invite_receiverIdToUserInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInvitesSentInput, Prisma.UserUncheckedUpdateWithoutInvitesSentInput>
 }
 
-export type UserUpdateWithoutInvite_Invite_receiverIdToUserInput = {
+export type UserUpdateWithoutInvitesSentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1016,14 +1120,14 @@ export type UserUpdateWithoutInvite_Invite_receiverIdToUserInput = {
   lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  File_File_authorIdToUser?: Prisma.FileUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  Message?: Prisma.MessageUpdateManyWithoutUserNestedInput
-  File_User_avatarUrlToFile?: Prisma.FileUpdateOneWithoutUser_User_avatarUrlToFileNestedInput
-  Chat?: Prisma.ChatUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.FileUpdateOneWithoutUserAvatarNestedInput
+  files?: Prisma.FileUpdateManyWithoutAuthorNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUpdateManyWithoutMembersNestedInput
+  invitesReceived?: Prisma.InviteUpdateManyWithoutReceiverNestedInput
 }
 
-export type UserUncheckedUpdateWithoutInvite_Invite_receiverIdToUserInput = {
+export type UserUncheckedUpdateWithoutInvitesSentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1036,24 +1140,24 @@ export type UserUncheckedUpdateWithoutInvite_Invite_receiverIdToUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  File_File_authorIdToUser?: Prisma.FileUncheckedUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  Message?: Prisma.MessageUncheckedUpdateManyWithoutUserNestedInput
-  Chat?: Prisma.ChatUncheckedUpdateManyWithoutUserNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutAuthorNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUncheckedUpdateManyWithoutMembersNestedInput
+  invitesReceived?: Prisma.InviteUncheckedUpdateManyWithoutReceiverNestedInput
 }
 
-export type UserUpsertWithoutInvite_Invite_senderIdToUserInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutInvite_Invite_senderIdToUserInput, Prisma.UserUncheckedUpdateWithoutInvite_Invite_senderIdToUserInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutInvite_Invite_senderIdToUserInput, Prisma.UserUncheckedCreateWithoutInvite_Invite_senderIdToUserInput>
+export type UserUpsertWithoutInvitesReceivedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInvitesReceivedInput, Prisma.UserUncheckedUpdateWithoutInvitesReceivedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInvitesReceivedInput, Prisma.UserUncheckedCreateWithoutInvitesReceivedInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutInvite_Invite_senderIdToUserInput = {
+export type UserUpdateToOneWithWhereWithoutInvitesReceivedInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutInvite_Invite_senderIdToUserInput, Prisma.UserUncheckedUpdateWithoutInvite_Invite_senderIdToUserInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInvitesReceivedInput, Prisma.UserUncheckedUpdateWithoutInvitesReceivedInput>
 }
 
-export type UserUpdateWithoutInvite_Invite_senderIdToUserInput = {
+export type UserUpdateWithoutInvitesReceivedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1065,14 +1169,14 @@ export type UserUpdateWithoutInvite_Invite_senderIdToUserInput = {
   lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  File_File_authorIdToUser?: Prisma.FileUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Message?: Prisma.MessageUpdateManyWithoutUserNestedInput
-  File_User_avatarUrlToFile?: Prisma.FileUpdateOneWithoutUser_User_avatarUrlToFileNestedInput
-  Chat?: Prisma.ChatUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.FileUpdateOneWithoutUserAvatarNestedInput
+  files?: Prisma.FileUpdateManyWithoutAuthorNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUpdateManyWithoutMembersNestedInput
+  invitesSent?: Prisma.InviteUpdateManyWithoutSenderNestedInput
 }
 
-export type UserUncheckedUpdateWithoutInvite_Invite_senderIdToUserInput = {
+export type UserUncheckedUpdateWithoutInvitesReceivedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1085,67 +1189,13 @@ export type UserUncheckedUpdateWithoutInvite_Invite_senderIdToUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  File_File_authorIdToUser?: Prisma.FileUncheckedUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Message?: Prisma.MessageUncheckedUpdateManyWithoutUserNestedInput
-  Chat?: Prisma.ChatUncheckedUpdateManyWithoutUserNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutAuthorNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutAuthorNestedInput
+  chats?: Prisma.ChatUncheckedUpdateManyWithoutMembersNestedInput
+  invitesSent?: Prisma.InviteUncheckedUpdateManyWithoutSenderNestedInput
 }
 
-export type UserCreateWithoutMessageInput = {
-  id: string
-  name: string
-  email: string
-  phone?: string | null
-  password: string
-  username: string
-  otp?: string | null
-  twoFactorAuth?: boolean
-  lastEmailChange?: Date | string
-  createdAt?: Date | string
-  updatedAt: Date | string
-  File_File_authorIdToUser?: Prisma.FileCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  File_User_avatarUrlToFile?: Prisma.FileCreateNestedOneWithoutUser_User_avatarUrlToFileInput
-  Chat?: Prisma.ChatCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutMessageInput = {
-  id: string
-  name: string
-  email: string
-  phone?: string | null
-  password: string
-  username: string
-  otp?: string | null
-  twoFactorAuth?: boolean
-  lastEmailChange?: Date | string
-  createdAt?: Date | string
-  updatedAt: Date | string
-  avatarUrl?: string | null
-  File_File_authorIdToUser?: Prisma.FileUncheckedCreateNestedManyWithoutUser_File_authorIdToUserInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_receiverIdToUserInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedCreateNestedManyWithoutUser_Invite_senderIdToUserInput
-  Chat?: Prisma.ChatUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutMessageInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutMessageInput, Prisma.UserUncheckedCreateWithoutMessageInput>
-}
-
-export type UserUpsertWithoutMessageInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutMessageInput, Prisma.UserUncheckedUpdateWithoutMessageInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutMessageInput, Prisma.UserUncheckedCreateWithoutMessageInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutMessageInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutMessageInput, Prisma.UserUncheckedUpdateWithoutMessageInput>
-}
-
-export type UserUpdateWithoutMessageInput = {
+export type UserUpdateWithoutChatsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1157,14 +1207,14 @@ export type UserUpdateWithoutMessageInput = {
   lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  File_File_authorIdToUser?: Prisma.FileUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  File_User_avatarUrlToFile?: Prisma.FileUpdateOneWithoutUser_User_avatarUrlToFileNestedInput
-  Chat?: Prisma.ChatUpdateManyWithoutUserNestedInput
+  avatar?: Prisma.FileUpdateOneWithoutUserAvatarNestedInput
+  files?: Prisma.FileUpdateManyWithoutAuthorNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutAuthorNestedInput
+  invitesReceived?: Prisma.InviteUpdateManyWithoutReceiverNestedInput
+  invitesSent?: Prisma.InviteUpdateManyWithoutSenderNestedInput
 }
 
-export type UserUncheckedUpdateWithoutMessageInput = {
+export type UserUncheckedUpdateWithoutChatsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1177,51 +1227,13 @@ export type UserUncheckedUpdateWithoutMessageInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  File_File_authorIdToUser?: Prisma.FileUncheckedUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  Chat?: Prisma.ChatUncheckedUpdateManyWithoutUserNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutAuthorNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutAuthorNestedInput
+  invitesReceived?: Prisma.InviteUncheckedUpdateManyWithoutReceiverNestedInput
+  invitesSent?: Prisma.InviteUncheckedUpdateManyWithoutSenderNestedInput
 }
 
-export type UserUpdateWithoutChatInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  twoFactorAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  File_File_authorIdToUser?: Prisma.FileUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  Message?: Prisma.MessageUpdateManyWithoutUserNestedInput
-  File_User_avatarUrlToFile?: Prisma.FileUpdateOneWithoutUser_User_avatarUrlToFileNestedInput
-}
-
-export type UserUncheckedUpdateWithoutChatInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  otp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  twoFactorAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  lastEmailChange?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  File_File_authorIdToUser?: Prisma.FileUncheckedUpdateManyWithoutUser_File_authorIdToUserNestedInput
-  Invite_Invite_receiverIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_receiverIdToUserNestedInput
-  Invite_Invite_senderIdToUser?: Prisma.InviteUncheckedUpdateManyWithoutUser_Invite_senderIdToUserNestedInput
-  Message?: Prisma.MessageUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateManyWithoutChatInput = {
+export type UserUncheckedUpdateManyWithoutChatsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1242,19 +1254,19 @@ export type UserUncheckedUpdateManyWithoutChatInput = {
  */
 
 export type UserCountOutputType = {
-  File_File_authorIdToUser: number
-  Invite_Invite_receiverIdToUser: number
-  Invite_Invite_senderIdToUser: number
-  Message: number
-  Chat: number
+  files: number
+  messages: number
+  chats: number
+  invitesReceived: number
+  invitesSent: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  File_File_authorIdToUser?: boolean | UserCountOutputTypeCountFile_File_authorIdToUserArgs
-  Invite_Invite_receiverIdToUser?: boolean | UserCountOutputTypeCountInvite_Invite_receiverIdToUserArgs
-  Invite_Invite_senderIdToUser?: boolean | UserCountOutputTypeCountInvite_Invite_senderIdToUserArgs
-  Message?: boolean | UserCountOutputTypeCountMessageArgs
-  Chat?: boolean | UserCountOutputTypeCountChatArgs
+  files?: boolean | UserCountOutputTypeCountFilesArgs
+  messages?: boolean | UserCountOutputTypeCountMessagesArgs
+  chats?: boolean | UserCountOutputTypeCountChatsArgs
+  invitesReceived?: boolean | UserCountOutputTypeCountInvitesReceivedArgs
+  invitesSent?: boolean | UserCountOutputTypeCountInvitesSentArgs
 }
 
 /**
@@ -1270,36 +1282,36 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountFile_File_authorIdToUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountFilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FileWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountInvite_Invite_receiverIdToUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InviteWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountInvite_Invite_senderIdToUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InviteWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountMessageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.MessageWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountChatArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountChatsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ChatWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInvitesReceivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InviteWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInvitesSentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InviteWhereInput
 }
 
 
@@ -1316,12 +1328,12 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   avatarUrl?: boolean
-  File_File_authorIdToUser?: boolean | Prisma.User$File_File_authorIdToUserArgs<ExtArgs>
-  Invite_Invite_receiverIdToUser?: boolean | Prisma.User$Invite_Invite_receiverIdToUserArgs<ExtArgs>
-  Invite_Invite_senderIdToUser?: boolean | Prisma.User$Invite_Invite_senderIdToUserArgs<ExtArgs>
-  Message?: boolean | Prisma.User$MessageArgs<ExtArgs>
-  File_User_avatarUrlToFile?: boolean | Prisma.User$File_User_avatarUrlToFileArgs<ExtArgs>
-  Chat?: boolean | Prisma.User$ChatArgs<ExtArgs>
+  avatar?: boolean | Prisma.User$avatarArgs<ExtArgs>
+  files?: boolean | Prisma.User$filesArgs<ExtArgs>
+  messages?: boolean | Prisma.User$messagesArgs<ExtArgs>
+  chats?: boolean | Prisma.User$chatsArgs<ExtArgs>
+  invitesReceived?: boolean | Prisma.User$invitesReceivedArgs<ExtArgs>
+  invitesSent?: boolean | Prisma.User$invitesSentArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1338,7 +1350,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   avatarUrl?: boolean
-  File_User_avatarUrlToFile?: boolean | Prisma.User$File_User_avatarUrlToFileArgs<ExtArgs>
+  avatar?: boolean | Prisma.User$avatarArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1354,7 +1366,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   avatarUrl?: boolean
-  File_User_avatarUrlToFile?: boolean | Prisma.User$File_User_avatarUrlToFileArgs<ExtArgs>
+  avatar?: boolean | Prisma.User$avatarArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -1374,30 +1386,30 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "password" | "username" | "otp" | "twoFactorAuth" | "lastEmailChange" | "createdAt" | "updatedAt" | "avatarUrl", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  File_File_authorIdToUser?: boolean | Prisma.User$File_File_authorIdToUserArgs<ExtArgs>
-  Invite_Invite_receiverIdToUser?: boolean | Prisma.User$Invite_Invite_receiverIdToUserArgs<ExtArgs>
-  Invite_Invite_senderIdToUser?: boolean | Prisma.User$Invite_Invite_senderIdToUserArgs<ExtArgs>
-  Message?: boolean | Prisma.User$MessageArgs<ExtArgs>
-  File_User_avatarUrlToFile?: boolean | Prisma.User$File_User_avatarUrlToFileArgs<ExtArgs>
-  Chat?: boolean | Prisma.User$ChatArgs<ExtArgs>
+  avatar?: boolean | Prisma.User$avatarArgs<ExtArgs>
+  files?: boolean | Prisma.User$filesArgs<ExtArgs>
+  messages?: boolean | Prisma.User$messagesArgs<ExtArgs>
+  chats?: boolean | Prisma.User$chatsArgs<ExtArgs>
+  invitesReceived?: boolean | Prisma.User$invitesReceivedArgs<ExtArgs>
+  invitesSent?: boolean | Prisma.User$invitesSentArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  File_User_avatarUrlToFile?: boolean | Prisma.User$File_User_avatarUrlToFileArgs<ExtArgs>
+  avatar?: boolean | Prisma.User$avatarArgs<ExtArgs>
 }
 export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  File_User_avatarUrlToFile?: boolean | Prisma.User$File_User_avatarUrlToFileArgs<ExtArgs>
+  avatar?: boolean | Prisma.User$avatarArgs<ExtArgs>
 }
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    File_File_authorIdToUser: Prisma.$FilePayload<ExtArgs>[]
-    Invite_Invite_receiverIdToUser: Prisma.$InvitePayload<ExtArgs>[]
-    Invite_Invite_senderIdToUser: Prisma.$InvitePayload<ExtArgs>[]
-    Message: Prisma.$MessagePayload<ExtArgs>[]
-    File_User_avatarUrlToFile: Prisma.$FilePayload<ExtArgs> | null
-    Chat: Prisma.$ChatPayload<ExtArgs>[]
+    avatar: Prisma.$FilePayload<ExtArgs> | null
+    files: Prisma.$FilePayload<ExtArgs>[]
+    messages: Prisma.$MessagePayload<ExtArgs>[]
+    chats: Prisma.$ChatPayload<ExtArgs>[]
+    invitesReceived: Prisma.$InvitePayload<ExtArgs>[]
+    invitesSent: Prisma.$InvitePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1806,12 +1818,12 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  File_File_authorIdToUser<T extends Prisma.User$File_File_authorIdToUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$File_File_authorIdToUserArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Invite_Invite_receiverIdToUser<T extends Prisma.User$Invite_Invite_receiverIdToUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$Invite_Invite_receiverIdToUserArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Invite_Invite_senderIdToUser<T extends Prisma.User$Invite_Invite_senderIdToUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$Invite_Invite_senderIdToUserArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Message<T extends Prisma.User$MessageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$MessageArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  File_User_avatarUrlToFile<T extends Prisma.User$File_User_avatarUrlToFileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$File_User_avatarUrlToFileArgs<ExtArgs>>): Prisma.Prisma__FileClient<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  Chat<T extends Prisma.User$ChatArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ChatArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  avatar<T extends Prisma.User$avatarArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$avatarArgs<ExtArgs>>): Prisma.Prisma__FileClient<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  files<T extends Prisma.User$filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  messages<T extends Prisma.User$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chats<T extends Prisma.User$chatsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chatsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  invitesReceived<T extends Prisma.User$invitesReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$invitesReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  invitesSent<T extends Prisma.User$invitesSentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$invitesSentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2249,9 +2261,28 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.File_File_authorIdToUser
+ * User.avatar
  */
-export type User$File_File_authorIdToUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$avatarArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the File
+   */
+  select?: Prisma.FileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the File
+   */
+  omit?: Prisma.FileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileInclude<ExtArgs> | null
+  where?: Prisma.FileWhereInput
+}
+
+/**
+ * User.files
+ */
+export type User$filesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the File
    */
@@ -2273,57 +2304,9 @@ export type User$File_File_authorIdToUserArgs<ExtArgs extends runtime.Types.Exte
 }
 
 /**
- * User.Invite_Invite_receiverIdToUser
+ * User.messages
  */
-export type User$Invite_Invite_receiverIdToUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Invite
-   */
-  select?: Prisma.InviteSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Invite
-   */
-  omit?: Prisma.InviteOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.InviteInclude<ExtArgs> | null
-  where?: Prisma.InviteWhereInput
-  orderBy?: Prisma.InviteOrderByWithRelationInput | Prisma.InviteOrderByWithRelationInput[]
-  cursor?: Prisma.InviteWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.InviteScalarFieldEnum | Prisma.InviteScalarFieldEnum[]
-}
-
-/**
- * User.Invite_Invite_senderIdToUser
- */
-export type User$Invite_Invite_senderIdToUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Invite
-   */
-  select?: Prisma.InviteSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Invite
-   */
-  omit?: Prisma.InviteOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.InviteInclude<ExtArgs> | null
-  where?: Prisma.InviteWhereInput
-  orderBy?: Prisma.InviteOrderByWithRelationInput | Prisma.InviteOrderByWithRelationInput[]
-  cursor?: Prisma.InviteWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.InviteScalarFieldEnum | Prisma.InviteScalarFieldEnum[]
-}
-
-/**
- * User.Message
- */
-export type User$MessageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Message
    */
@@ -2345,28 +2328,9 @@ export type User$MessageArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
- * User.File_User_avatarUrlToFile
+ * User.chats
  */
-export type User$File_User_avatarUrlToFileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the File
-   */
-  select?: Prisma.FileSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the File
-   */
-  omit?: Prisma.FileOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FileInclude<ExtArgs> | null
-  where?: Prisma.FileWhereInput
-}
-
-/**
- * User.Chat
- */
-export type User$ChatArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$chatsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Chat
    */
@@ -2385,6 +2349,54 @@ export type User$ChatArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   take?: number
   skip?: number
   distinct?: Prisma.ChatScalarFieldEnum | Prisma.ChatScalarFieldEnum[]
+}
+
+/**
+ * User.invitesReceived
+ */
+export type User$invitesReceivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Invite
+   */
+  select?: Prisma.InviteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Invite
+   */
+  omit?: Prisma.InviteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InviteInclude<ExtArgs> | null
+  where?: Prisma.InviteWhereInput
+  orderBy?: Prisma.InviteOrderByWithRelationInput | Prisma.InviteOrderByWithRelationInput[]
+  cursor?: Prisma.InviteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InviteScalarFieldEnum | Prisma.InviteScalarFieldEnum[]
+}
+
+/**
+ * User.invitesSent
+ */
+export type User$invitesSentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Invite
+   */
+  select?: Prisma.InviteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Invite
+   */
+  omit?: Prisma.InviteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InviteInclude<ExtArgs> | null
+  where?: Prisma.InviteWhereInput
+  orderBy?: Prisma.InviteOrderByWithRelationInput | Prisma.InviteOrderByWithRelationInput[]
+  cursor?: Prisma.InviteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InviteScalarFieldEnum | Prisma.InviteScalarFieldEnum[]
 }
 
 /**

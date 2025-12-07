@@ -1,5 +1,5 @@
 import config from "@repo/config";
-import { User } from "@repo/database";
+import { User } from "@repo/database/types";
 import {
   isValidPhoneNumber,
   parsePhoneNumberFromString,

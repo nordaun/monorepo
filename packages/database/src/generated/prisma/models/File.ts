@@ -36,6 +36,7 @@ export type FileSumAggregateOutputType = {
 
 export type FileMinAggregateOutputType = {
   id: string | null
+  name: string | null
   url: string | null
   type: string | null
   size: number | null
@@ -47,6 +48,7 @@ export type FileMinAggregateOutputType = {
 
 export type FileMaxAggregateOutputType = {
   id: string | null
+  name: string | null
   url: string | null
   type: string | null
   size: number | null
@@ -58,6 +60,7 @@ export type FileMaxAggregateOutputType = {
 
 export type FileCountAggregateOutputType = {
   id: number
+  name: number
   url: number
   type: number
   size: number
@@ -79,6 +82,7 @@ export type FileSumAggregateInputType = {
 
 export type FileMinAggregateInputType = {
   id?: true
+  name?: true
   url?: true
   type?: true
   size?: true
@@ -90,6 +94,7 @@ export type FileMinAggregateInputType = {
 
 export type FileMaxAggregateInputType = {
   id?: true
+  name?: true
   url?: true
   type?: true
   size?: true
@@ -101,6 +106,7 @@ export type FileMaxAggregateInputType = {
 
 export type FileCountAggregateInputType = {
   id?: true
+  name?: true
   url?: true
   type?: true
   size?: true
@@ -199,6 +205,7 @@ export type FileGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type FileGroupByOutputType = {
   id: string
+  name: string
   url: string
   type: string
   size: number
@@ -233,6 +240,7 @@ export type FileWhereInput = {
   OR?: Prisma.FileWhereInput[]
   NOT?: Prisma.FileWhereInput | Prisma.FileWhereInput[]
   id?: Prisma.StringFilter<"File"> | string
+  name?: Prisma.StringFilter<"File"> | string
   url?: Prisma.StringFilter<"File"> | string
   type?: Prisma.StringFilter<"File"> | string
   size?: Prisma.IntFilter<"File"> | number
@@ -240,14 +248,15 @@ export type FileWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"File"> | Date | string
   authorId?: Prisma.StringFilter<"File"> | string
   messageId?: Prisma.StringNullableFilter<"File"> | string | null
-  Chat?: Prisma.XOR<Prisma.ChatNullableScalarRelationFilter, Prisma.ChatWhereInput> | null
-  User_File_authorIdToUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  Message?: Prisma.XOR<Prisma.MessageNullableScalarRelationFilter, Prisma.MessageWhereInput> | null
-  User_User_avatarUrlToFile?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  message?: Prisma.XOR<Prisma.MessageNullableScalarRelationFilter, Prisma.MessageWhereInput> | null
+  userAvatar?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  chatAvatar?: Prisma.XOR<Prisma.ChatNullableScalarRelationFilter, Prisma.ChatWhereInput> | null
 }
 
 export type FileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   url?: Prisma.SortOrder
   type?: Prisma.SortOrder
   size?: Prisma.SortOrder
@@ -255,10 +264,10 @@ export type FileOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   messageId?: Prisma.SortOrderInput | Prisma.SortOrder
-  Chat?: Prisma.ChatOrderByWithRelationInput
-  User_File_authorIdToUser?: Prisma.UserOrderByWithRelationInput
-  Message?: Prisma.MessageOrderByWithRelationInput
-  User_User_avatarUrlToFile?: Prisma.UserOrderByWithRelationInput
+  author?: Prisma.UserOrderByWithRelationInput
+  message?: Prisma.MessageOrderByWithRelationInput
+  userAvatar?: Prisma.UserOrderByWithRelationInput
+  chatAvatar?: Prisma.ChatOrderByWithRelationInput
 }
 
 export type FileWhereUniqueInput = Prisma.AtLeast<{
@@ -267,20 +276,22 @@ export type FileWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.FileWhereInput | Prisma.FileWhereInput[]
   OR?: Prisma.FileWhereInput[]
   NOT?: Prisma.FileWhereInput | Prisma.FileWhereInput[]
+  name?: Prisma.StringFilter<"File"> | string
   type?: Prisma.StringFilter<"File"> | string
   size?: Prisma.IntFilter<"File"> | number
   folder?: Prisma.StringNullableFilter<"File"> | string | null
   createdAt?: Prisma.DateTimeFilter<"File"> | Date | string
   authorId?: Prisma.StringFilter<"File"> | string
   messageId?: Prisma.StringNullableFilter<"File"> | string | null
-  Chat?: Prisma.XOR<Prisma.ChatNullableScalarRelationFilter, Prisma.ChatWhereInput> | null
-  User_File_authorIdToUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  Message?: Prisma.XOR<Prisma.MessageNullableScalarRelationFilter, Prisma.MessageWhereInput> | null
-  User_User_avatarUrlToFile?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  message?: Prisma.XOR<Prisma.MessageNullableScalarRelationFilter, Prisma.MessageWhereInput> | null
+  userAvatar?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  chatAvatar?: Prisma.XOR<Prisma.ChatNullableScalarRelationFilter, Prisma.ChatWhereInput> | null
 }, "id" | "url">
 
 export type FileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   url?: Prisma.SortOrder
   type?: Prisma.SortOrder
   size?: Prisma.SortOrder
@@ -300,6 +311,7 @@ export type FileScalarWhereWithAggregatesInput = {
   OR?: Prisma.FileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.FileScalarWhereWithAggregatesInput | Prisma.FileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"File"> | string
+  name?: Prisma.StringWithAggregatesFilter<"File"> | string
   url?: Prisma.StringWithAggregatesFilter<"File"> | string
   type?: Prisma.StringWithAggregatesFilter<"File"> | string
   size?: Prisma.IntWithAggregatesFilter<"File"> | number
@@ -310,20 +322,22 @@ export type FileScalarWhereWithAggregatesInput = {
 }
 
 export type FileCreateInput = {
-  id: string
+  id?: string
+  name: string
   url: string
   type: string
   size: number
   folder?: string | null
   createdAt?: Date | string
-  Chat?: Prisma.ChatCreateNestedOneWithoutFileInput
-  User_File_authorIdToUser: Prisma.UserCreateNestedOneWithoutFile_File_authorIdToUserInput
-  Message?: Prisma.MessageCreateNestedOneWithoutFileInput
-  User_User_avatarUrlToFile?: Prisma.UserCreateNestedOneWithoutFile_User_avatarUrlToFileInput
+  author: Prisma.UserCreateNestedOneWithoutFilesInput
+  message?: Prisma.MessageCreateNestedOneWithoutAttachmentsInput
+  userAvatar?: Prisma.UserCreateNestedOneWithoutAvatarInput
+  chatAvatar?: Prisma.ChatCreateNestedOneWithoutAvatarInput
 }
 
 export type FileUncheckedCreateInput = {
-  id: string
+  id?: string
+  name: string
   url: string
   type: string
   size: number
@@ -331,25 +345,27 @@ export type FileUncheckedCreateInput = {
   createdAt?: Date | string
   authorId: string
   messageId?: string | null
-  Chat?: Prisma.ChatUncheckedCreateNestedOneWithoutFileInput
-  User_User_avatarUrlToFile?: Prisma.UserUncheckedCreateNestedOneWithoutFile_User_avatarUrlToFileInput
+  userAvatar?: Prisma.UserUncheckedCreateNestedOneWithoutAvatarInput
+  chatAvatar?: Prisma.ChatUncheckedCreateNestedOneWithoutAvatarInput
 }
 
 export type FileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
   folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Chat?: Prisma.ChatUpdateOneWithoutFileNestedInput
-  User_File_authorIdToUser?: Prisma.UserUpdateOneRequiredWithoutFile_File_authorIdToUserNestedInput
-  Message?: Prisma.MessageUpdateOneWithoutFileNestedInput
-  User_User_avatarUrlToFile?: Prisma.UserUpdateOneWithoutFile_User_avatarUrlToFileNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutFilesNestedInput
+  message?: Prisma.MessageUpdateOneWithoutAttachmentsNestedInput
+  userAvatar?: Prisma.UserUpdateOneWithoutAvatarNestedInput
+  chatAvatar?: Prisma.ChatUpdateOneWithoutAvatarNestedInput
 }
 
 export type FileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
@@ -357,12 +373,13 @@ export type FileUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   messageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Chat?: Prisma.ChatUncheckedUpdateOneWithoutFileNestedInput
-  User_User_avatarUrlToFile?: Prisma.UserUncheckedUpdateOneWithoutFile_User_avatarUrlToFileNestedInput
+  userAvatar?: Prisma.UserUncheckedUpdateOneWithoutAvatarNestedInput
+  chatAvatar?: Prisma.ChatUncheckedUpdateOneWithoutAvatarNestedInput
 }
 
 export type FileCreateManyInput = {
-  id: string
+  id?: string
+  name: string
   url: string
   type: string
   size: number
@@ -374,6 +391,7 @@ export type FileCreateManyInput = {
 
 export type FileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
@@ -383,6 +401,7 @@ export type FileUpdateManyMutationInput = {
 
 export type FileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
@@ -397,8 +416,19 @@ export type FileNullableScalarRelationFilter = {
   isNot?: Prisma.FileWhereInput | null
 }
 
+export type FileListRelationFilter = {
+  every?: Prisma.FileWhereInput
+  some?: Prisma.FileWhereInput
+  none?: Prisma.FileWhereInput
+}
+
+export type FileOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type FileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   url?: Prisma.SortOrder
   type?: Prisma.SortOrder
   size?: Prisma.SortOrder
@@ -414,6 +444,7 @@ export type FileAvgOrderByAggregateInput = {
 
 export type FileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   url?: Prisma.SortOrder
   type?: Prisma.SortOrder
   size?: Prisma.SortOrder
@@ -425,6 +456,7 @@ export type FileMaxOrderByAggregateInput = {
 
 export type FileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   url?: Prisma.SortOrder
   type?: Prisma.SortOrder
   size?: Prisma.SortOrder
@@ -438,30 +470,62 @@ export type FileSumOrderByAggregateInput = {
   size?: Prisma.SortOrder
 }
 
-export type FileListRelationFilter = {
-  every?: Prisma.FileWhereInput
-  some?: Prisma.FileWhereInput
-  none?: Prisma.FileWhereInput
-}
-
-export type FileOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type FileCreateNestedOneWithoutChatInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutChatInput, Prisma.FileUncheckedCreateWithoutChatInput>
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutChatInput
+export type FileCreateNestedOneWithoutUserAvatarInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutUserAvatarInput, Prisma.FileUncheckedCreateWithoutUserAvatarInput>
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutUserAvatarInput
   connect?: Prisma.FileWhereUniqueInput
 }
 
-export type FileUpdateOneWithoutChatNestedInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutChatInput, Prisma.FileUncheckedCreateWithoutChatInput>
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutChatInput
-  upsert?: Prisma.FileUpsertWithoutChatInput
+export type FileCreateNestedManyWithoutAuthorInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutAuthorInput, Prisma.FileUncheckedCreateWithoutAuthorInput> | Prisma.FileCreateWithoutAuthorInput[] | Prisma.FileUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutAuthorInput | Prisma.FileCreateOrConnectWithoutAuthorInput[]
+  createMany?: Prisma.FileCreateManyAuthorInputEnvelope
+  connect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
+}
+
+export type FileUncheckedCreateNestedManyWithoutAuthorInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutAuthorInput, Prisma.FileUncheckedCreateWithoutAuthorInput> | Prisma.FileCreateWithoutAuthorInput[] | Prisma.FileUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutAuthorInput | Prisma.FileCreateOrConnectWithoutAuthorInput[]
+  createMany?: Prisma.FileCreateManyAuthorInputEnvelope
+  connect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
+}
+
+export type FileUpdateOneWithoutUserAvatarNestedInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutUserAvatarInput, Prisma.FileUncheckedCreateWithoutUserAvatarInput>
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutUserAvatarInput
+  upsert?: Prisma.FileUpsertWithoutUserAvatarInput
   disconnect?: Prisma.FileWhereInput | boolean
   delete?: Prisma.FileWhereInput | boolean
   connect?: Prisma.FileWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutChatInput, Prisma.FileUpdateWithoutChatInput>, Prisma.FileUncheckedUpdateWithoutChatInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutUserAvatarInput, Prisma.FileUpdateWithoutUserAvatarInput>, Prisma.FileUncheckedUpdateWithoutUserAvatarInput>
+}
+
+export type FileUpdateManyWithoutAuthorNestedInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutAuthorInput, Prisma.FileUncheckedCreateWithoutAuthorInput> | Prisma.FileCreateWithoutAuthorInput[] | Prisma.FileUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutAuthorInput | Prisma.FileCreateOrConnectWithoutAuthorInput[]
+  upsert?: Prisma.FileUpsertWithWhereUniqueWithoutAuthorInput | Prisma.FileUpsertWithWhereUniqueWithoutAuthorInput[]
+  createMany?: Prisma.FileCreateManyAuthorInputEnvelope
+  set?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
+  disconnect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
+  delete?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
+  connect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
+  update?: Prisma.FileUpdateWithWhereUniqueWithoutAuthorInput | Prisma.FileUpdateWithWhereUniqueWithoutAuthorInput[]
+  updateMany?: Prisma.FileUpdateManyWithWhereWithoutAuthorInput | Prisma.FileUpdateManyWithWhereWithoutAuthorInput[]
+  deleteMany?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
+}
+
+export type FileUncheckedUpdateManyWithoutAuthorNestedInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutAuthorInput, Prisma.FileUncheckedCreateWithoutAuthorInput> | Prisma.FileCreateWithoutAuthorInput[] | Prisma.FileUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutAuthorInput | Prisma.FileCreateOrConnectWithoutAuthorInput[]
+  upsert?: Prisma.FileUpsertWithWhereUniqueWithoutAuthorInput | Prisma.FileUpsertWithWhereUniqueWithoutAuthorInput[]
+  createMany?: Prisma.FileCreateManyAuthorInputEnvelope
+  set?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
+  disconnect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
+  delete?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
+  connect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
+  update?: Prisma.FileUpdateWithWhereUniqueWithoutAuthorInput | Prisma.FileUpdateWithWhereUniqueWithoutAuthorInput[]
+  updateMany?: Prisma.FileUpdateManyWithWhereWithoutAuthorInput | Prisma.FileUpdateManyWithWhereWithoutAuthorInput[]
+  deleteMany?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -470,6 +534,22 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type FileCreateNestedOneWithoutChatAvatarInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutChatAvatarInput, Prisma.FileUncheckedCreateWithoutChatAvatarInput>
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutChatAvatarInput
+  connect?: Prisma.FileWhereUniqueInput
+}
+
+export type FileUpdateOneWithoutChatAvatarNestedInput = {
+  create?: Prisma.XOR<Prisma.FileCreateWithoutChatAvatarInput, Prisma.FileUncheckedCreateWithoutChatAvatarInput>
+  connectOrCreate?: Prisma.FileCreateOrConnectWithoutChatAvatarInput
+  upsert?: Prisma.FileUpsertWithoutChatAvatarInput
+  disconnect?: Prisma.FileWhereInput | boolean
+  delete?: Prisma.FileWhereInput | boolean
+  connect?: Prisma.FileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutChatAvatarInput, Prisma.FileUpdateWithoutChatAvatarInput>, Prisma.FileUncheckedUpdateWithoutChatAvatarInput>
 }
 
 export type FileCreateNestedManyWithoutMessageInput = {
@@ -514,78 +594,22 @@ export type FileUncheckedUpdateManyWithoutMessageNestedInput = {
   deleteMany?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
 }
 
-export type FileCreateNestedManyWithoutUser_File_authorIdToUserInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutUser_File_authorIdToUserInput, Prisma.FileUncheckedCreateWithoutUser_File_authorIdToUserInput> | Prisma.FileCreateWithoutUser_File_authorIdToUserInput[] | Prisma.FileUncheckedCreateWithoutUser_File_authorIdToUserInput[]
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutUser_File_authorIdToUserInput | Prisma.FileCreateOrConnectWithoutUser_File_authorIdToUserInput[]
-  createMany?: Prisma.FileCreateManyUser_File_authorIdToUserInputEnvelope
-  connect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
-}
-
-export type FileCreateNestedOneWithoutUser_User_avatarUrlToFileInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutUser_User_avatarUrlToFileInput, Prisma.FileUncheckedCreateWithoutUser_User_avatarUrlToFileInput>
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutUser_User_avatarUrlToFileInput
-  connect?: Prisma.FileWhereUniqueInput
-}
-
-export type FileUncheckedCreateNestedManyWithoutUser_File_authorIdToUserInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutUser_File_authorIdToUserInput, Prisma.FileUncheckedCreateWithoutUser_File_authorIdToUserInput> | Prisma.FileCreateWithoutUser_File_authorIdToUserInput[] | Prisma.FileUncheckedCreateWithoutUser_File_authorIdToUserInput[]
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutUser_File_authorIdToUserInput | Prisma.FileCreateOrConnectWithoutUser_File_authorIdToUserInput[]
-  createMany?: Prisma.FileCreateManyUser_File_authorIdToUserInputEnvelope
-  connect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
-}
-
-export type FileUpdateManyWithoutUser_File_authorIdToUserNestedInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutUser_File_authorIdToUserInput, Prisma.FileUncheckedCreateWithoutUser_File_authorIdToUserInput> | Prisma.FileCreateWithoutUser_File_authorIdToUserInput[] | Prisma.FileUncheckedCreateWithoutUser_File_authorIdToUserInput[]
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutUser_File_authorIdToUserInput | Prisma.FileCreateOrConnectWithoutUser_File_authorIdToUserInput[]
-  upsert?: Prisma.FileUpsertWithWhereUniqueWithoutUser_File_authorIdToUserInput | Prisma.FileUpsertWithWhereUniqueWithoutUser_File_authorIdToUserInput[]
-  createMany?: Prisma.FileCreateManyUser_File_authorIdToUserInputEnvelope
-  set?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
-  disconnect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
-  delete?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
-  connect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
-  update?: Prisma.FileUpdateWithWhereUniqueWithoutUser_File_authorIdToUserInput | Prisma.FileUpdateWithWhereUniqueWithoutUser_File_authorIdToUserInput[]
-  updateMany?: Prisma.FileUpdateManyWithWhereWithoutUser_File_authorIdToUserInput | Prisma.FileUpdateManyWithWhereWithoutUser_File_authorIdToUserInput[]
-  deleteMany?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
-}
-
-export type FileUpdateOneWithoutUser_User_avatarUrlToFileNestedInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutUser_User_avatarUrlToFileInput, Prisma.FileUncheckedCreateWithoutUser_User_avatarUrlToFileInput>
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutUser_User_avatarUrlToFileInput
-  upsert?: Prisma.FileUpsertWithoutUser_User_avatarUrlToFileInput
-  disconnect?: Prisma.FileWhereInput | boolean
-  delete?: Prisma.FileWhereInput | boolean
-  connect?: Prisma.FileWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.FileUpdateToOneWithWhereWithoutUser_User_avatarUrlToFileInput, Prisma.FileUpdateWithoutUser_User_avatarUrlToFileInput>, Prisma.FileUncheckedUpdateWithoutUser_User_avatarUrlToFileInput>
-}
-
-export type FileUncheckedUpdateManyWithoutUser_File_authorIdToUserNestedInput = {
-  create?: Prisma.XOR<Prisma.FileCreateWithoutUser_File_authorIdToUserInput, Prisma.FileUncheckedCreateWithoutUser_File_authorIdToUserInput> | Prisma.FileCreateWithoutUser_File_authorIdToUserInput[] | Prisma.FileUncheckedCreateWithoutUser_File_authorIdToUserInput[]
-  connectOrCreate?: Prisma.FileCreateOrConnectWithoutUser_File_authorIdToUserInput | Prisma.FileCreateOrConnectWithoutUser_File_authorIdToUserInput[]
-  upsert?: Prisma.FileUpsertWithWhereUniqueWithoutUser_File_authorIdToUserInput | Prisma.FileUpsertWithWhereUniqueWithoutUser_File_authorIdToUserInput[]
-  createMany?: Prisma.FileCreateManyUser_File_authorIdToUserInputEnvelope
-  set?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
-  disconnect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
-  delete?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
-  connect?: Prisma.FileWhereUniqueInput | Prisma.FileWhereUniqueInput[]
-  update?: Prisma.FileUpdateWithWhereUniqueWithoutUser_File_authorIdToUserInput | Prisma.FileUpdateWithWhereUniqueWithoutUser_File_authorIdToUserInput[]
-  updateMany?: Prisma.FileUpdateManyWithWhereWithoutUser_File_authorIdToUserInput | Prisma.FileUpdateManyWithWhereWithoutUser_File_authorIdToUserInput[]
-  deleteMany?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
-}
-
-export type FileCreateWithoutChatInput = {
-  id: string
+export type FileCreateWithoutUserAvatarInput = {
+  id?: string
+  name: string
   url: string
   type: string
   size: number
   folder?: string | null
   createdAt?: Date | string
-  User_File_authorIdToUser: Prisma.UserCreateNestedOneWithoutFile_File_authorIdToUserInput
-  Message?: Prisma.MessageCreateNestedOneWithoutFileInput
-  User_User_avatarUrlToFile?: Prisma.UserCreateNestedOneWithoutFile_User_avatarUrlToFileInput
+  author: Prisma.UserCreateNestedOneWithoutFilesInput
+  message?: Prisma.MessageCreateNestedOneWithoutAttachmentsInput
+  chatAvatar?: Prisma.ChatCreateNestedOneWithoutAvatarInput
 }
 
-export type FileUncheckedCreateWithoutChatInput = {
-  id: string
+export type FileUncheckedCreateWithoutUserAvatarInput = {
+  id?: string
+  name: string
   url: string
   type: string
   size: number
@@ -593,39 +617,77 @@ export type FileUncheckedCreateWithoutChatInput = {
   createdAt?: Date | string
   authorId: string
   messageId?: string | null
-  User_User_avatarUrlToFile?: Prisma.UserUncheckedCreateNestedOneWithoutFile_User_avatarUrlToFileInput
+  chatAvatar?: Prisma.ChatUncheckedCreateNestedOneWithoutAvatarInput
 }
 
-export type FileCreateOrConnectWithoutChatInput = {
+export type FileCreateOrConnectWithoutUserAvatarInput = {
   where: Prisma.FileWhereUniqueInput
-  create: Prisma.XOR<Prisma.FileCreateWithoutChatInput, Prisma.FileUncheckedCreateWithoutChatInput>
+  create: Prisma.XOR<Prisma.FileCreateWithoutUserAvatarInput, Prisma.FileUncheckedCreateWithoutUserAvatarInput>
 }
 
-export type FileUpsertWithoutChatInput = {
-  update: Prisma.XOR<Prisma.FileUpdateWithoutChatInput, Prisma.FileUncheckedUpdateWithoutChatInput>
-  create: Prisma.XOR<Prisma.FileCreateWithoutChatInput, Prisma.FileUncheckedCreateWithoutChatInput>
+export type FileCreateWithoutAuthorInput = {
+  id?: string
+  name: string
+  url: string
+  type: string
+  size: number
+  folder?: string | null
+  createdAt?: Date | string
+  message?: Prisma.MessageCreateNestedOneWithoutAttachmentsInput
+  userAvatar?: Prisma.UserCreateNestedOneWithoutAvatarInput
+  chatAvatar?: Prisma.ChatCreateNestedOneWithoutAvatarInput
+}
+
+export type FileUncheckedCreateWithoutAuthorInput = {
+  id?: string
+  name: string
+  url: string
+  type: string
+  size: number
+  folder?: string | null
+  createdAt?: Date | string
+  messageId?: string | null
+  userAvatar?: Prisma.UserUncheckedCreateNestedOneWithoutAvatarInput
+  chatAvatar?: Prisma.ChatUncheckedCreateNestedOneWithoutAvatarInput
+}
+
+export type FileCreateOrConnectWithoutAuthorInput = {
+  where: Prisma.FileWhereUniqueInput
+  create: Prisma.XOR<Prisma.FileCreateWithoutAuthorInput, Prisma.FileUncheckedCreateWithoutAuthorInput>
+}
+
+export type FileCreateManyAuthorInputEnvelope = {
+  data: Prisma.FileCreateManyAuthorInput | Prisma.FileCreateManyAuthorInput[]
+  skipDuplicates?: boolean
+}
+
+export type FileUpsertWithoutUserAvatarInput = {
+  update: Prisma.XOR<Prisma.FileUpdateWithoutUserAvatarInput, Prisma.FileUncheckedUpdateWithoutUserAvatarInput>
+  create: Prisma.XOR<Prisma.FileCreateWithoutUserAvatarInput, Prisma.FileUncheckedCreateWithoutUserAvatarInput>
   where?: Prisma.FileWhereInput
 }
 
-export type FileUpdateToOneWithWhereWithoutChatInput = {
+export type FileUpdateToOneWithWhereWithoutUserAvatarInput = {
   where?: Prisma.FileWhereInput
-  data: Prisma.XOR<Prisma.FileUpdateWithoutChatInput, Prisma.FileUncheckedUpdateWithoutChatInput>
+  data: Prisma.XOR<Prisma.FileUpdateWithoutUserAvatarInput, Prisma.FileUncheckedUpdateWithoutUserAvatarInput>
 }
 
-export type FileUpdateWithoutChatInput = {
+export type FileUpdateWithoutUserAvatarInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
   folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  User_File_authorIdToUser?: Prisma.UserUpdateOneRequiredWithoutFile_File_authorIdToUserNestedInput
-  Message?: Prisma.MessageUpdateOneWithoutFileNestedInput
-  User_User_avatarUrlToFile?: Prisma.UserUpdateOneWithoutFile_User_avatarUrlToFileNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutFilesNestedInput
+  message?: Prisma.MessageUpdateOneWithoutAttachmentsNestedInput
+  chatAvatar?: Prisma.ChatUpdateOneWithoutAvatarNestedInput
 }
 
-export type FileUncheckedUpdateWithoutChatInput = {
+export type FileUncheckedUpdateWithoutUserAvatarInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
@@ -633,31 +695,132 @@ export type FileUncheckedUpdateWithoutChatInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   messageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  User_User_avatarUrlToFile?: Prisma.UserUncheckedUpdateOneWithoutFile_User_avatarUrlToFileNestedInput
+  chatAvatar?: Prisma.ChatUncheckedUpdateOneWithoutAvatarNestedInput
 }
 
-export type FileCreateWithoutMessageInput = {
-  id: string
+export type FileUpsertWithWhereUniqueWithoutAuthorInput = {
+  where: Prisma.FileWhereUniqueInput
+  update: Prisma.XOR<Prisma.FileUpdateWithoutAuthorInput, Prisma.FileUncheckedUpdateWithoutAuthorInput>
+  create: Prisma.XOR<Prisma.FileCreateWithoutAuthorInput, Prisma.FileUncheckedCreateWithoutAuthorInput>
+}
+
+export type FileUpdateWithWhereUniqueWithoutAuthorInput = {
+  where: Prisma.FileWhereUniqueInput
+  data: Prisma.XOR<Prisma.FileUpdateWithoutAuthorInput, Prisma.FileUncheckedUpdateWithoutAuthorInput>
+}
+
+export type FileUpdateManyWithWhereWithoutAuthorInput = {
+  where: Prisma.FileScalarWhereInput
+  data: Prisma.XOR<Prisma.FileUpdateManyMutationInput, Prisma.FileUncheckedUpdateManyWithoutAuthorInput>
+}
+
+export type FileScalarWhereInput = {
+  AND?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
+  OR?: Prisma.FileScalarWhereInput[]
+  NOT?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
+  id?: Prisma.StringFilter<"File"> | string
+  name?: Prisma.StringFilter<"File"> | string
+  url?: Prisma.StringFilter<"File"> | string
+  type?: Prisma.StringFilter<"File"> | string
+  size?: Prisma.IntFilter<"File"> | number
+  folder?: Prisma.StringNullableFilter<"File"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"File"> | Date | string
+  authorId?: Prisma.StringFilter<"File"> | string
+  messageId?: Prisma.StringNullableFilter<"File"> | string | null
+}
+
+export type FileCreateWithoutChatAvatarInput = {
+  id?: string
+  name: string
   url: string
   type: string
   size: number
   folder?: string | null
   createdAt?: Date | string
-  Chat?: Prisma.ChatCreateNestedOneWithoutFileInput
-  User_File_authorIdToUser: Prisma.UserCreateNestedOneWithoutFile_File_authorIdToUserInput
-  User_User_avatarUrlToFile?: Prisma.UserCreateNestedOneWithoutFile_User_avatarUrlToFileInput
+  author: Prisma.UserCreateNestedOneWithoutFilesInput
+  message?: Prisma.MessageCreateNestedOneWithoutAttachmentsInput
+  userAvatar?: Prisma.UserCreateNestedOneWithoutAvatarInput
 }
 
-export type FileUncheckedCreateWithoutMessageInput = {
-  id: string
+export type FileUncheckedCreateWithoutChatAvatarInput = {
+  id?: string
+  name: string
   url: string
   type: string
   size: number
   folder?: string | null
   createdAt?: Date | string
   authorId: string
-  Chat?: Prisma.ChatUncheckedCreateNestedOneWithoutFileInput
-  User_User_avatarUrlToFile?: Prisma.UserUncheckedCreateNestedOneWithoutFile_User_avatarUrlToFileInput
+  messageId?: string | null
+  userAvatar?: Prisma.UserUncheckedCreateNestedOneWithoutAvatarInput
+}
+
+export type FileCreateOrConnectWithoutChatAvatarInput = {
+  where: Prisma.FileWhereUniqueInput
+  create: Prisma.XOR<Prisma.FileCreateWithoutChatAvatarInput, Prisma.FileUncheckedCreateWithoutChatAvatarInput>
+}
+
+export type FileUpsertWithoutChatAvatarInput = {
+  update: Prisma.XOR<Prisma.FileUpdateWithoutChatAvatarInput, Prisma.FileUncheckedUpdateWithoutChatAvatarInput>
+  create: Prisma.XOR<Prisma.FileCreateWithoutChatAvatarInput, Prisma.FileUncheckedCreateWithoutChatAvatarInput>
+  where?: Prisma.FileWhereInput
+}
+
+export type FileUpdateToOneWithWhereWithoutChatAvatarInput = {
+  where?: Prisma.FileWhereInput
+  data: Prisma.XOR<Prisma.FileUpdateWithoutChatAvatarInput, Prisma.FileUncheckedUpdateWithoutChatAvatarInput>
+}
+
+export type FileUpdateWithoutChatAvatarInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  author?: Prisma.UserUpdateOneRequiredWithoutFilesNestedInput
+  message?: Prisma.MessageUpdateOneWithoutAttachmentsNestedInput
+  userAvatar?: Prisma.UserUpdateOneWithoutAvatarNestedInput
+}
+
+export type FileUncheckedUpdateWithoutChatAvatarInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  messageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAvatar?: Prisma.UserUncheckedUpdateOneWithoutAvatarNestedInput
+}
+
+export type FileCreateWithoutMessageInput = {
+  id?: string
+  name: string
+  url: string
+  type: string
+  size: number
+  folder?: string | null
+  createdAt?: Date | string
+  author: Prisma.UserCreateNestedOneWithoutFilesInput
+  userAvatar?: Prisma.UserCreateNestedOneWithoutAvatarInput
+  chatAvatar?: Prisma.ChatCreateNestedOneWithoutAvatarInput
+}
+
+export type FileUncheckedCreateWithoutMessageInput = {
+  id?: string
+  name: string
+  url: string
+  type: string
+  size: number
+  folder?: string | null
+  createdAt?: Date | string
+  authorId: string
+  userAvatar?: Prisma.UserUncheckedCreateNestedOneWithoutAvatarInput
+  chatAvatar?: Prisma.ChatUncheckedCreateNestedOneWithoutAvatarInput
 }
 
 export type FileCreateOrConnectWithoutMessageInput = {
@@ -686,136 +849,57 @@ export type FileUpdateManyWithWhereWithoutMessageInput = {
   data: Prisma.XOR<Prisma.FileUpdateManyMutationInput, Prisma.FileUncheckedUpdateManyWithoutMessageInput>
 }
 
-export type FileScalarWhereInput = {
-  AND?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
-  OR?: Prisma.FileScalarWhereInput[]
-  NOT?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
-  id?: Prisma.StringFilter<"File"> | string
-  url?: Prisma.StringFilter<"File"> | string
-  type?: Prisma.StringFilter<"File"> | string
-  size?: Prisma.IntFilter<"File"> | number
-  folder?: Prisma.StringNullableFilter<"File"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"File"> | Date | string
-  authorId?: Prisma.StringFilter<"File"> | string
-  messageId?: Prisma.StringNullableFilter<"File"> | string | null
-}
-
-export type FileCreateWithoutUser_File_authorIdToUserInput = {
-  id: string
-  url: string
-  type: string
-  size: number
-  folder?: string | null
-  createdAt?: Date | string
-  Chat?: Prisma.ChatCreateNestedOneWithoutFileInput
-  Message?: Prisma.MessageCreateNestedOneWithoutFileInput
-  User_User_avatarUrlToFile?: Prisma.UserCreateNestedOneWithoutFile_User_avatarUrlToFileInput
-}
-
-export type FileUncheckedCreateWithoutUser_File_authorIdToUserInput = {
-  id: string
+export type FileCreateManyAuthorInput = {
+  id?: string
+  name: string
   url: string
   type: string
   size: number
   folder?: string | null
   createdAt?: Date | string
   messageId?: string | null
-  Chat?: Prisma.ChatUncheckedCreateNestedOneWithoutFileInput
-  User_User_avatarUrlToFile?: Prisma.UserUncheckedCreateNestedOneWithoutFile_User_avatarUrlToFileInput
 }
 
-export type FileCreateOrConnectWithoutUser_File_authorIdToUserInput = {
-  where: Prisma.FileWhereUniqueInput
-  create: Prisma.XOR<Prisma.FileCreateWithoutUser_File_authorIdToUserInput, Prisma.FileUncheckedCreateWithoutUser_File_authorIdToUserInput>
-}
-
-export type FileCreateManyUser_File_authorIdToUserInputEnvelope = {
-  data: Prisma.FileCreateManyUser_File_authorIdToUserInput | Prisma.FileCreateManyUser_File_authorIdToUserInput[]
-  skipDuplicates?: boolean
-}
-
-export type FileCreateWithoutUser_User_avatarUrlToFileInput = {
-  id: string
-  url: string
-  type: string
-  size: number
-  folder?: string | null
-  createdAt?: Date | string
-  Chat?: Prisma.ChatCreateNestedOneWithoutFileInput
-  User_File_authorIdToUser: Prisma.UserCreateNestedOneWithoutFile_File_authorIdToUserInput
-  Message?: Prisma.MessageCreateNestedOneWithoutFileInput
-}
-
-export type FileUncheckedCreateWithoutUser_User_avatarUrlToFileInput = {
-  id: string
-  url: string
-  type: string
-  size: number
-  folder?: string | null
-  createdAt?: Date | string
-  authorId: string
-  messageId?: string | null
-  Chat?: Prisma.ChatUncheckedCreateNestedOneWithoutFileInput
-}
-
-export type FileCreateOrConnectWithoutUser_User_avatarUrlToFileInput = {
-  where: Prisma.FileWhereUniqueInput
-  create: Prisma.XOR<Prisma.FileCreateWithoutUser_User_avatarUrlToFileInput, Prisma.FileUncheckedCreateWithoutUser_User_avatarUrlToFileInput>
-}
-
-export type FileUpsertWithWhereUniqueWithoutUser_File_authorIdToUserInput = {
-  where: Prisma.FileWhereUniqueInput
-  update: Prisma.XOR<Prisma.FileUpdateWithoutUser_File_authorIdToUserInput, Prisma.FileUncheckedUpdateWithoutUser_File_authorIdToUserInput>
-  create: Prisma.XOR<Prisma.FileCreateWithoutUser_File_authorIdToUserInput, Prisma.FileUncheckedCreateWithoutUser_File_authorIdToUserInput>
-}
-
-export type FileUpdateWithWhereUniqueWithoutUser_File_authorIdToUserInput = {
-  where: Prisma.FileWhereUniqueInput
-  data: Prisma.XOR<Prisma.FileUpdateWithoutUser_File_authorIdToUserInput, Prisma.FileUncheckedUpdateWithoutUser_File_authorIdToUserInput>
-}
-
-export type FileUpdateManyWithWhereWithoutUser_File_authorIdToUserInput = {
-  where: Prisma.FileScalarWhereInput
-  data: Prisma.XOR<Prisma.FileUpdateManyMutationInput, Prisma.FileUncheckedUpdateManyWithoutUser_File_authorIdToUserInput>
-}
-
-export type FileUpsertWithoutUser_User_avatarUrlToFileInput = {
-  update: Prisma.XOR<Prisma.FileUpdateWithoutUser_User_avatarUrlToFileInput, Prisma.FileUncheckedUpdateWithoutUser_User_avatarUrlToFileInput>
-  create: Prisma.XOR<Prisma.FileCreateWithoutUser_User_avatarUrlToFileInput, Prisma.FileUncheckedCreateWithoutUser_User_avatarUrlToFileInput>
-  where?: Prisma.FileWhereInput
-}
-
-export type FileUpdateToOneWithWhereWithoutUser_User_avatarUrlToFileInput = {
-  where?: Prisma.FileWhereInput
-  data: Prisma.XOR<Prisma.FileUpdateWithoutUser_User_avatarUrlToFileInput, Prisma.FileUncheckedUpdateWithoutUser_User_avatarUrlToFileInput>
-}
-
-export type FileUpdateWithoutUser_User_avatarUrlToFileInput = {
+export type FileUpdateWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
   folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Chat?: Prisma.ChatUpdateOneWithoutFileNestedInput
-  User_File_authorIdToUser?: Prisma.UserUpdateOneRequiredWithoutFile_File_authorIdToUserNestedInput
-  Message?: Prisma.MessageUpdateOneWithoutFileNestedInput
+  message?: Prisma.MessageUpdateOneWithoutAttachmentsNestedInput
+  userAvatar?: Prisma.UserUpdateOneWithoutAvatarNestedInput
+  chatAvatar?: Prisma.ChatUpdateOneWithoutAvatarNestedInput
 }
 
-export type FileUncheckedUpdateWithoutUser_User_avatarUrlToFileInput = {
+export type FileUncheckedUpdateWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
   folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  authorId?: Prisma.StringFieldUpdateOperationsInput | string
   messageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Chat?: Prisma.ChatUncheckedUpdateOneWithoutFileNestedInput
+  userAvatar?: Prisma.UserUncheckedUpdateOneWithoutAvatarNestedInput
+  chatAvatar?: Prisma.ChatUncheckedUpdateOneWithoutAvatarNestedInput
+}
+
+export type FileUncheckedUpdateManyWithoutAuthorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  messageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FileCreateManyMessageInput = {
-  id: string
+  id?: string
+  name: string
   url: string
   type: string
   size: number
@@ -826,86 +910,46 @@ export type FileCreateManyMessageInput = {
 
 export type FileUpdateWithoutMessageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
   folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Chat?: Prisma.ChatUpdateOneWithoutFileNestedInput
-  User_File_authorIdToUser?: Prisma.UserUpdateOneRequiredWithoutFile_File_authorIdToUserNestedInput
-  User_User_avatarUrlToFile?: Prisma.UserUpdateOneWithoutFile_User_avatarUrlToFileNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutFilesNestedInput
+  userAvatar?: Prisma.UserUpdateOneWithoutAvatarNestedInput
+  chatAvatar?: Prisma.ChatUpdateOneWithoutAvatarNestedInput
 }
 
 export type FileUncheckedUpdateWithoutMessageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
   folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
-  Chat?: Prisma.ChatUncheckedUpdateOneWithoutFileNestedInput
-  User_User_avatarUrlToFile?: Prisma.UserUncheckedUpdateOneWithoutFile_User_avatarUrlToFileNestedInput
+  userAvatar?: Prisma.UserUncheckedUpdateOneWithoutAvatarNestedInput
+  chatAvatar?: Prisma.ChatUncheckedUpdateOneWithoutAvatarNestedInput
 }
 
 export type FileUncheckedUpdateManyWithoutMessageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   size?: Prisma.IntFieldUpdateOperationsInput | number
   folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
-export type FileCreateManyUser_File_authorIdToUserInput = {
-  id: string
-  url: string
-  type: string
-  size: number
-  folder?: string | null
-  createdAt?: Date | string
-  messageId?: string | null
-}
-
-export type FileUpdateWithoutUser_File_authorIdToUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
-  size?: Prisma.IntFieldUpdateOperationsInput | number
-  folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Chat?: Prisma.ChatUpdateOneWithoutFileNestedInput
-  Message?: Prisma.MessageUpdateOneWithoutFileNestedInput
-  User_User_avatarUrlToFile?: Prisma.UserUpdateOneWithoutFile_User_avatarUrlToFileNestedInput
-}
-
-export type FileUncheckedUpdateWithoutUser_File_authorIdToUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
-  size?: Prisma.IntFieldUpdateOperationsInput | number
-  folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  messageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  Chat?: Prisma.ChatUncheckedUpdateOneWithoutFileNestedInput
-  User_User_avatarUrlToFile?: Prisma.UserUncheckedUpdateOneWithoutFile_User_avatarUrlToFileNestedInput
-}
-
-export type FileUncheckedUpdateManyWithoutUser_File_authorIdToUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
-  size?: Prisma.IntFieldUpdateOperationsInput | number
-  folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  messageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
 
 export type FileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  name?: boolean
   url?: boolean
   type?: boolean
   size?: boolean
@@ -913,14 +957,15 @@ export type FileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   authorId?: boolean
   messageId?: boolean
-  Chat?: boolean | Prisma.File$ChatArgs<ExtArgs>
-  User_File_authorIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  Message?: boolean | Prisma.File$MessageArgs<ExtArgs>
-  User_User_avatarUrlToFile?: boolean | Prisma.File$User_User_avatarUrlToFileArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  message?: boolean | Prisma.File$messageArgs<ExtArgs>
+  userAvatar?: boolean | Prisma.File$userAvatarArgs<ExtArgs>
+  chatAvatar?: boolean | Prisma.File$chatAvatarArgs<ExtArgs>
 }, ExtArgs["result"]["file"]>
 
 export type FileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  name?: boolean
   url?: boolean
   type?: boolean
   size?: boolean
@@ -928,12 +973,13 @@ export type FileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   authorId?: boolean
   messageId?: boolean
-  User_File_authorIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  Message?: boolean | Prisma.File$MessageArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  message?: boolean | Prisma.File$messageArgs<ExtArgs>
 }, ExtArgs["result"]["file"]>
 
 export type FileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  name?: boolean
   url?: boolean
   type?: boolean
   size?: boolean
@@ -941,12 +987,13 @@ export type FileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   authorId?: boolean
   messageId?: boolean
-  User_File_authorIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  Message?: boolean | Prisma.File$MessageArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  message?: boolean | Prisma.File$messageArgs<ExtArgs>
 }, ExtArgs["result"]["file"]>
 
 export type FileSelectScalar = {
   id?: boolean
+  name?: boolean
   url?: boolean
   type?: boolean
   size?: boolean
@@ -956,32 +1003,33 @@ export type FileSelectScalar = {
   messageId?: boolean
 }
 
-export type FileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "type" | "size" | "folder" | "createdAt" | "authorId" | "messageId", ExtArgs["result"]["file"]>
+export type FileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "url" | "type" | "size" | "folder" | "createdAt" | "authorId" | "messageId", ExtArgs["result"]["file"]>
 export type FileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Chat?: boolean | Prisma.File$ChatArgs<ExtArgs>
-  User_File_authorIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  Message?: boolean | Prisma.File$MessageArgs<ExtArgs>
-  User_User_avatarUrlToFile?: boolean | Prisma.File$User_User_avatarUrlToFileArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  message?: boolean | Prisma.File$messageArgs<ExtArgs>
+  userAvatar?: boolean | Prisma.File$userAvatarArgs<ExtArgs>
+  chatAvatar?: boolean | Prisma.File$chatAvatarArgs<ExtArgs>
 }
 export type FileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  User_File_authorIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  Message?: boolean | Prisma.File$MessageArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  message?: boolean | Prisma.File$messageArgs<ExtArgs>
 }
 export type FileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  User_File_authorIdToUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  Message?: boolean | Prisma.File$MessageArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  message?: boolean | Prisma.File$messageArgs<ExtArgs>
 }
 
 export type $FilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "File"
   objects: {
-    Chat: Prisma.$ChatPayload<ExtArgs> | null
-    User_File_authorIdToUser: Prisma.$UserPayload<ExtArgs>
-    Message: Prisma.$MessagePayload<ExtArgs> | null
-    User_User_avatarUrlToFile: Prisma.$UserPayload<ExtArgs> | null
+    author: Prisma.$UserPayload<ExtArgs>
+    message: Prisma.$MessagePayload<ExtArgs> | null
+    userAvatar: Prisma.$UserPayload<ExtArgs> | null
+    chatAvatar: Prisma.$ChatPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    name: string
     url: string
     type: string
     size: number
@@ -1383,10 +1431,10 @@ readonly fields: FileFieldRefs;
  */
 export interface Prisma__FileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  Chat<T extends Prisma.File$ChatArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$ChatArgs<ExtArgs>>): Prisma.Prisma__ChatClient<runtime.Types.Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  User_File_authorIdToUser<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  Message<T extends Prisma.File$MessageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$MessageArgs<ExtArgs>>): Prisma.Prisma__MessageClient<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  User_User_avatarUrlToFile<T extends Prisma.File$User_User_avatarUrlToFileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$User_User_avatarUrlToFileArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  message<T extends Prisma.File$messageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$messageArgs<ExtArgs>>): Prisma.Prisma__MessageClient<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  userAvatar<T extends Prisma.File$userAvatarArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$userAvatarArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  chatAvatar<T extends Prisma.File$chatAvatarArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.File$chatAvatarArgs<ExtArgs>>): Prisma.Prisma__ChatClient<runtime.Types.Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1417,6 +1465,7 @@ export interface Prisma__FileClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface FileFieldRefs {
   readonly id: Prisma.FieldRef<"File", 'String'>
+  readonly name: Prisma.FieldRef<"File", 'String'>
   readonly url: Prisma.FieldRef<"File", 'String'>
   readonly type: Prisma.FieldRef<"File", 'String'>
   readonly size: Prisma.FieldRef<"File", 'Int'>
@@ -1820,28 +1869,9 @@ export type FileDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * File.Chat
+ * File.message
  */
-export type File$ChatArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Chat
-   */
-  select?: Prisma.ChatSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Chat
-   */
-  omit?: Prisma.ChatOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ChatInclude<ExtArgs> | null
-  where?: Prisma.ChatWhereInput
-}
-
-/**
- * File.Message
- */
-export type File$MessageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type File$messageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Message
    */
@@ -1858,9 +1888,9 @@ export type File$MessageArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
- * File.User_User_avatarUrlToFile
+ * File.userAvatar
  */
-export type File$User_User_avatarUrlToFileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type File$userAvatarArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */
@@ -1874,6 +1904,25 @@ export type File$User_User_avatarUrlToFileArgs<ExtArgs extends runtime.Types.Ext
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
+}
+
+/**
+ * File.chatAvatar
+ */
+export type File$chatAvatarArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Chat
+   */
+  select?: Prisma.ChatSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Chat
+   */
+  omit?: Prisma.ChatOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChatInclude<ExtArgs> | null
+  where?: Prisma.ChatWhereInput
 }
 
 /**

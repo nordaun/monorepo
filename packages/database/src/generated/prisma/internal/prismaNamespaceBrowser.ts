@@ -51,11 +51,11 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Chat: 'Chat',
+  User: 'User',
   File: 'File',
-  Invite: 'Invite',
+  Chat: 'Chat',
   Message: 'Message',
-  User: 'User'
+  Invite: 'Invite'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -74,56 +74,6 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const ChatScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  avatarUrl: 'avatarUrl',
-  type: 'type'
-} as const
-
-export type ChatScalarFieldEnum = (typeof ChatScalarFieldEnum)[keyof typeof ChatScalarFieldEnum]
-
-
-export const FileScalarFieldEnum = {
-  id: 'id',
-  url: 'url',
-  type: 'type',
-  size: 'size',
-  folder: 'folder',
-  createdAt: 'createdAt',
-  authorId: 'authorId',
-  messageId: 'messageId'
-} as const
-
-export type FileScalarFieldEnum = (typeof FileScalarFieldEnum)[keyof typeof FileScalarFieldEnum]
-
-
-export const InviteScalarFieldEnum = {
-  id: 'id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  chatId: 'chatId',
-  senderId: 'senderId',
-  receiverId: 'receiverId'
-} as const
-
-export type InviteScalarFieldEnum = (typeof InviteScalarFieldEnum)[keyof typeof InviteScalarFieldEnum]
-
-
-export const MessageScalarFieldEnum = {
-  id: 'id',
-  text: 'text',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  authorId: 'authorId',
-  chatId: 'chatId'
-} as const
-
-export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
-
-
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -140,6 +90,57 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const FileScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  type: 'type',
+  size: 'size',
+  folder: 'folder',
+  createdAt: 'createdAt',
+  authorId: 'authorId',
+  messageId: 'messageId'
+} as const
+
+export type FileScalarFieldEnum = (typeof FileScalarFieldEnum)[keyof typeof FileScalarFieldEnum]
+
+
+export const ChatScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  avatarUrl: 'avatarUrl'
+} as const
+
+export type ChatScalarFieldEnum = (typeof ChatScalarFieldEnum)[keyof typeof ChatScalarFieldEnum]
+
+
+export const MessageScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  authorId: 'authorId',
+  chatId: 'chatId'
+} as const
+
+export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
+
+
+export const InviteScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  chatId: 'chatId',
+  senderId: 'senderId',
+  receiverId: 'receiverId'
+} as const
+
+export type InviteScalarFieldEnum = (typeof InviteScalarFieldEnum)[keyof typeof InviteScalarFieldEnum]
 
 
 export const SortOrder = {

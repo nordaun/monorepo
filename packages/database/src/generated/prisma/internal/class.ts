@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.0.1",
   "engineVersion": "f09f2815f091dbba658cdcd2264306d88bb5bda6",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Chat {\n  id        String    @id\n  name      String?\n  createdAt DateTime  @default(now())\n  updatedAt DateTime\n  avatarUrl String?   @unique\n  type      ChatType  @default(direct)\n  File      File?     @relation(fields: [avatarUrl], references: [url])\n  Invite    Invite[]\n  Message   Message[]\n  User      User[]    @relation(\"ChatMembers\")\n}\n\nmodel File {\n  id                        String   @id\n  url                       String   @unique\n  type                      String\n  size                      Int\n  folder                    String?\n  createdAt                 DateTime @default(now())\n  authorId                  String\n  messageId                 String?\n  Chat                      Chat?\n  User_File_authorIdToUser  User     @relation(\"File_authorIdToUser\", fields: [authorId], references: [id], onDelete: Cascade)\n  Message                   Message? @relation(fields: [messageId], references: [id], onDelete: Cascade)\n  User_User_avatarUrlToFile User?    @relation(\"User_avatarUrlToFile\")\n}\n\nmodel Invite {\n  id                           String   @id\n  createdAt                    DateTime @default(now())\n  updatedAt                    DateTime\n  chatId                       String\n  senderId                     String\n  receiverId                   String\n  Chat                         Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)\n  User_Invite_receiverIdToUser User     @relation(\"Invite_receiverIdToUser\", fields: [receiverId], references: [id], onDelete: Cascade)\n  User_Invite_senderIdToUser   User     @relation(\"Invite_senderIdToUser\", fields: [senderId], references: [id], onDelete: Cascade)\n}\n\nmodel Message {\n  id        String   @id\n  text      String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime\n  authorId  String\n  chatId    String\n  File      File[]\n  User      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)\n  Chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)\n}\n\nmodel User {\n  id                             String    @id\n  name                           String\n  email                          String    @unique\n  phone                          String?   @unique\n  password                       String\n  username                       String    @unique\n  otp                            String?\n  twoFactorAuth                  Boolean   @default(false)\n  lastEmailChange                DateTime  @default(now())\n  createdAt                      DateTime  @default(now())\n  updatedAt                      DateTime\n  avatarUrl                      String?   @unique\n  File_File_authorIdToUser       File[]    @relation(\"File_authorIdToUser\")\n  Invite_Invite_receiverIdToUser Invite[]  @relation(\"Invite_receiverIdToUser\")\n  Invite_Invite_senderIdToUser   Invite[]  @relation(\"Invite_senderIdToUser\")\n  Message                        Message[]\n  File_User_avatarUrlToFile      File?     @relation(\"User_avatarUrlToFile\", fields: [avatarUrl], references: [url])\n  Chat                           Chat[]    @relation(\"ChatMembers\")\n}\n\nenum ChatType {\n  direct\n  group\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id              String   @id @default(cuid())\n  name            String\n  email           String   @unique\n  phone           String?  @unique\n  password        String\n  username        String   @unique\n  otp             String?\n  twoFactorAuth   Boolean  @default(false)\n  lastEmailChange DateTime @default(now())\n  createdAt       DateTime @default(now())\n  updatedAt       DateTime @updatedAt\n\n  // Relations\n  avatarUrl       String?   @unique\n  avatar          File?     @relation(\"UserAvatar\", fields: [avatarUrl], references: [url])\n  files           File[]    @relation(\"UserFiles\")\n  messages        Message[] @relation(\"UserMessages\")\n  chats           Chat[]    @relation(\"ChatMembers\")\n  invitesReceived Invite[]  @relation(\"InviteReceiver\")\n  invitesSent     Invite[]  @relation(\"InviteSender\")\n}\n\nmodel File {\n  id        String   @id @default(cuid())\n  name      String\n  url       String   @unique\n  type      String\n  size      Int\n  folder    String?\n  createdAt DateTime @default(now())\n\n  // Relations\n  authorId   String\n  author     User     @relation(\"UserFiles\", fields: [authorId], references: [id], onDelete: Cascade)\n  messageId  String?\n  message    Message? @relation(\"MessageFiles\", fields: [messageId], references: [id], onDelete: Cascade)\n  userAvatar User?    @relation(\"UserAvatar\")\n  chatAvatar Chat?    @relation(\"ChatAvatar\")\n}\n\nenum ChatType {\n  direct\n  group\n}\n\nmodel Chat {\n  id        String   @id @default(cuid())\n  name      String?\n  type      ChatType @default(direct)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  avatarUrl String?   @unique\n  avatar    File?     @relation(\"ChatAvatar\", fields: [avatarUrl], references: [url])\n  members   User[]    @relation(\"ChatMembers\")\n  messages  Message[] @relation(\"ChatMessage\")\n  invites   Invite[]  @relation(\"ChatInvite\")\n}\n\nmodel Message {\n  id        String   @id @default(cuid())\n  text      String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  authorId    String\n  author      User   @relation(\"UserMessages\", fields: [authorId], references: [id], onDelete: Cascade)\n  chatId      String\n  chat        Chat   @relation(\"ChatMessage\", fields: [chatId], references: [id], onDelete: Cascade)\n  attachments File[] @relation(\"MessageFiles\")\n}\n\nmodel Invite {\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  chatId     String\n  chat       Chat   @relation(\"ChatInvite\", fields: [chatId], references: [id], onDelete: Cascade)\n  senderId   String\n  sender     User   @relation(\"InviteSender\", fields: [senderId], references: [id], onDelete: Cascade)\n  receiverId String\n  receiver   User   @relation(\"InviteReceiver\", fields: [receiverId], references: [id], onDelete: Cascade)\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Chat\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"avatarUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"ChatType\"},{\"name\":\"File\",\"kind\":\"object\",\"type\":\"File\",\"relationName\":\"ChatToFile\"},{\"name\":\"Invite\",\"kind\":\"object\",\"type\":\"Invite\",\"relationName\":\"ChatToInvite\"},{\"name\":\"Message\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"ChatToMessage\"},{\"name\":\"User\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ChatMembers\"}],\"dbName\":null},\"File\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"folder\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"messageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Chat\",\"kind\":\"object\",\"type\":\"Chat\",\"relationName\":\"ChatToFile\"},{\"name\":\"User_File_authorIdToUser\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"File_authorIdToUser\"},{\"name\":\"Message\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"FileToMessage\"},{\"name\":\"User_User_avatarUrlToFile\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"User_avatarUrlToFile\"}],\"dbName\":null},\"Invite\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"chatId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Chat\",\"kind\":\"object\",\"type\":\"Chat\",\"relationName\":\"ChatToInvite\"},{\"name\":\"User_Invite_receiverIdToUser\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"Invite_receiverIdToUser\"},{\"name\":\"User_Invite_senderIdToUser\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"Invite_senderIdToUser\"}],\"dbName\":null},\"Message\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"chatId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"File\",\"kind\":\"object\",\"type\":\"File\",\"relationName\":\"FileToMessage\"},{\"name\":\"User\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MessageToUser\"},{\"name\":\"Chat\",\"kind\":\"object\",\"type\":\"Chat\",\"relationName\":\"ChatToMessage\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"otp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"twoFactorAuth\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"lastEmailChange\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"avatarUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"File_File_authorIdToUser\",\"kind\":\"object\",\"type\":\"File\",\"relationName\":\"File_authorIdToUser\"},{\"name\":\"Invite_Invite_receiverIdToUser\",\"kind\":\"object\",\"type\":\"Invite\",\"relationName\":\"Invite_receiverIdToUser\"},{\"name\":\"Invite_Invite_senderIdToUser\",\"kind\":\"object\",\"type\":\"Invite\",\"relationName\":\"Invite_senderIdToUser\"},{\"name\":\"Message\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"MessageToUser\"},{\"name\":\"File_User_avatarUrlToFile\",\"kind\":\"object\",\"type\":\"File\",\"relationName\":\"User_avatarUrlToFile\"},{\"name\":\"Chat\",\"kind\":\"object\",\"type\":\"Chat\",\"relationName\":\"ChatMembers\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"otp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"twoFactorAuth\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"lastEmailChange\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"avatarUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"object\",\"type\":\"File\",\"relationName\":\"UserAvatar\"},{\"name\":\"files\",\"kind\":\"object\",\"type\":\"File\",\"relationName\":\"UserFiles\"},{\"name\":\"messages\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"UserMessages\"},{\"name\":\"chats\",\"kind\":\"object\",\"type\":\"Chat\",\"relationName\":\"ChatMembers\"},{\"name\":\"invitesReceived\",\"kind\":\"object\",\"type\":\"Invite\",\"relationName\":\"InviteReceiver\"},{\"name\":\"invitesSent\",\"kind\":\"object\",\"type\":\"Invite\",\"relationName\":\"InviteSender\"}],\"dbName\":null},\"File\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"folder\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserFiles\"},{\"name\":\"messageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"MessageFiles\"},{\"name\":\"userAvatar\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserAvatar\"},{\"name\":\"chatAvatar\",\"kind\":\"object\",\"type\":\"Chat\",\"relationName\":\"ChatAvatar\"}],\"dbName\":null},\"Chat\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"ChatType\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"avatarUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"object\",\"type\":\"File\",\"relationName\":\"ChatAvatar\"},{\"name\":\"members\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ChatMembers\"},{\"name\":\"messages\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"ChatMessage\"},{\"name\":\"invites\",\"kind\":\"object\",\"type\":\"Invite\",\"relationName\":\"ChatInvite\"}],\"dbName\":null},\"Message\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserMessages\"},{\"name\":\"chatId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"chat\",\"kind\":\"object\",\"type\":\"Chat\",\"relationName\":\"ChatMessage\"},{\"name\":\"attachments\",\"kind\":\"object\",\"type\":\"File\",\"relationName\":\"MessageFiles\"}],\"dbName\":null},\"Invite\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"chatId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"chat\",\"kind\":\"object\",\"type\":\"Chat\",\"relationName\":\"ChatInvite\"},{\"name\":\"senderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sender\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"InviteSender\"},{\"name\":\"receiverId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiver\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"InviteReceiver\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -58,8 +58,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Chats
-   * const chats = await prisma.chat.findMany()
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
    * ```
    * 
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
@@ -80,8 +80,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Chats
- * const chats = await prisma.chat.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  * 
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
@@ -175,14 +175,14 @@ export interface PrismaClient<
   }>>
 
       /**
-   * `prisma.chat`: Exposes CRUD operations for the **Chat** model.
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Chats
-    * const chats = await prisma.chat.findMany()
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
     * ```
     */
-  get chat(): Prisma.ChatDelegate<ExtArgs, { omit: OmitOpts }>;
+  get user(): Prisma.UserDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
    * `prisma.file`: Exposes CRUD operations for the **File** model.
@@ -195,14 +195,14 @@ export interface PrismaClient<
   get file(): Prisma.FileDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
-   * `prisma.invite`: Exposes CRUD operations for the **Invite** model.
+   * `prisma.chat`: Exposes CRUD operations for the **Chat** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Invites
-    * const invites = await prisma.invite.findMany()
+    * // Fetch zero or more Chats
+    * const chats = await prisma.chat.findMany()
     * ```
     */
-  get invite(): Prisma.InviteDelegate<ExtArgs, { omit: OmitOpts }>;
+  get chat(): Prisma.ChatDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
    * `prisma.message`: Exposes CRUD operations for the **Message** model.
@@ -215,14 +215,14 @@ export interface PrismaClient<
   get message(): Prisma.MessageDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
-   * `prisma.user`: Exposes CRUD operations for the **User** model.
+   * `prisma.invite`: Exposes CRUD operations for the **Invite** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Users
-    * const users = await prisma.user.findMany()
+    * // Fetch zero or more Invites
+    * const invites = await prisma.invite.findMany()
     * ```
     */
-  get user(): Prisma.UserDelegate<ExtArgs, { omit: OmitOpts }>;
+  get invite(): Prisma.InviteDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

@@ -59,7 +59,9 @@
     "messageInvalid": "This message doesn't exist.",
     "messageNotFound": "Your message couldn't be modified.",
     "messageInsufficient": "Your message couldn't be sent.",
+    "messageLong": "This message is too long.",
     "nameInvalid": "You didn't enter a name.",
+    "nameLong": "This chat name is too long.",
     "unexpectedError": "Oops! Something went wrong. Try again later...",
     "sessionInvalid": "You are not logged in."
   },

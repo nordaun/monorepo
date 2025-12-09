@@ -3,6 +3,7 @@
 import { verifySession } from "@/auth/sessions";
 import { uploadAttachments } from "@/files/actions";
 import { Attachment, Metadata } from "@/files/definitions";
+import config from "@repo/config";
 import prisma from "@repo/database";
 import { pusherServer } from "@repo/socket";
 import { getTranslations } from "next-intl/server";
@@ -16,7 +17,7 @@ import { ChatReturn, ChatState, Message } from "./definitions";
  * @param options additional variables that make the translation more accurate
  * @returns A translated string or object
  */
-async function t(
+export async function t(
   error: string,
   options?: Record<string, string | number | Date> | null
 ) {
@@ -62,6 +63,11 @@ export async function sendMessage(
 
   if ((!text || text === "") && attachments.length === 0)
     return t("messageInsufficient");
+  if (
+    (text?.length ?? 0) > config.lengths.messageLength &&
+    attachments.length === 0
+  )
+    return t("messageLong");
 
   const existingChat = await prisma.chat.count({
     where: { id: chatId, members: { some: { id: session.userId } } },
@@ -116,6 +122,8 @@ export async function editMessage(
 
   if (!messageId || messageId === "") return t("messageNotFound");
   if (!text || text === "") return t("messageInsufficient");
+  if ((text?.length ?? 0) > config.lengths.messageLength)
+    return t("messageLong");
 
   const existingMessage = await prisma.message.count({
     where: { id: messageId, authorId: session.userId, chatId: chatId },
@@ -191,6 +199,7 @@ export async function renameChat(
 
   const name = formData.get("name")?.toString();
   if (!name || name === "") return t("nameInvalid");
+  if ((name?.length ?? 0) > 50) return t("nameLong");
 
   const existingChat = await prisma.chat.count({
     where: {

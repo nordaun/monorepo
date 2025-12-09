@@ -59,7 +59,9 @@
     "messageInvalid": "Ez az üzenet nem létezik.",
     "messageNotFound": "Az üzenetedet nem sikerült módosítani.",
     "messageInsufficient": "Az üzenetedet nem sikerült elküldeni.",
+    "messageLong": "Ez az üzenet túl hosszú.",
     "nameInvalid": "Nem adtál meg nevet.",
+    "nameLong": "Ez a chat név túl hosszú.",
     "unexpectedError": "Hmmm! Valami hiba történt. Próbáld meg később...",
     "sessionInvalid": "Nem vagy bejelentkezve."
   },

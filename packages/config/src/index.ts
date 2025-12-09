@@ -32,6 +32,7 @@ type Config = Readonly<{
   lengths: {
     otp: number;
     messageChunk: number;
+    messageLength: number;
     ratelimit: number;
   };
   urls: {
@@ -62,6 +63,7 @@ const config: Config = {
   lengths: {
     otp: 6,
     messageChunk: 20,
+    messageLength: 2000,
     ratelimit: 60,
   },
   urls: {

@@ -18,7 +18,7 @@ export function validateFile({
   maxSize: number;
   mimes: Mime[];
 }): [string | null, Record<string, string | number | Date> | null] {
-  const fileNameRegex = /^[\p{Ll}\p{Lu}\d_\-.\s]+$/u;
+  const fileNameRegex = /^[\w\-. ]+$/u;
   if (!fileNameRegex.test(file.id)) return ["nameInvalid", { name: file.id }];
   if (file.size > maxSize)
     return ["sizeInvalid", { name: file.id, size: getFileSize(maxSize) }];

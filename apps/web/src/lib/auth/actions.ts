@@ -200,8 +200,6 @@ export async function personalize(
   const session = await getSession();
   if (!session?.userId || !Personalizables[field]) return t("sessionInvalid");
 
-  console.log(formData.get(Personalizables[field].name));
-
   const validFields = Personalizables[field].schema.safeParse({
     [Personalizables[field].name]: formData.get(Personalizables[field].name),
   });

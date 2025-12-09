@@ -45,6 +45,24 @@
     "submitting": "Submitting...",
     "none": "You haven't added this yet."
   },
+  "Files": {
+    "lengthInvalid": "You didn't upload any files.",
+    "nameInvalid": "{name} has an invalid character in its name.",
+    "sizeInvalid": "{name} is larger than {size}.",
+    "typeInvalid": "{name} has an invalid file type.",
+    "unexpectedError": "Oops! Something went wrong. Try again later...",
+    "sessionInvalid": "You are not logged in."
+  },
+  "Chat": {
+    "chatInvalid": "This chat doesn't exist.",
+    "chatNotFound": "Couldn't find the chat you are looking for.",
+    "messageInvalid": "This message doesn't exist.",
+    "messageNotFound": "Your message couldn't be modified.",
+    "messageInsufficient": "Your message couldn't be sent.",
+    "nameInvalid": "You didn't enter a name.",
+    "unexpectedError": "Oops! Something went wrong. Try again later...",
+    "sessionInvalid": "You are not logged in."
+  },
   "Emails": {
     "resetPasswordSubject": "Password Reset",
     "resetPasswordHeader": "Dear {name},",

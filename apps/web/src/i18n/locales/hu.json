@@ -45,6 +45,24 @@
     "submitting": "Szerkesztés...",
     "none": "Még nem adtad hozzá."
   },
+  "Files": {
+    "lengthInvalid": "Nem töltöttél fel egyetlen fájlt sem.",
+    "nameInvalid": "A(z) {name} neve érvénytelen karaktert tartalmaz.",
+    "sizeInvalid": "A(z) {name} nagyobb, mint a megengedett {size}.",
+    "typeInvalid": "A(z) {name} fájl formátuma nem támogatott.",
+    "unexpectedError": "Hmmm! Valami hiba történt. Próbáld meg később...",
+    "sessionInvalid": "Nem vagy bejelentkezve."
+  },
+  "Chat": {
+    "chatInvalid": "Ez a chat nem létezik.",
+    "chatNotFound": "Nem találjuk azt a chatet, amit keresel.",
+    "messageInvalid": "Ez az üzenet nem létezik.",
+    "messageNotFound": "Az üzenetedet nem sikerült módosítani.",
+    "messageInsufficient": "Az üzenetedet nem sikerült elküldeni.",
+    "nameInvalid": "Nem adtál meg nevet.",
+    "unexpectedError": "Hmmm! Valami hiba történt. Próbáld meg később...",
+    "sessionInvalid": "Nem vagy bejelentkezve."
+  },
   "Emails": {
     "resetPasswordSubject": "Jelszó visszaállítása",
     "resetPasswordHeader": "Kedves {name},",

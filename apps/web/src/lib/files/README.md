@@ -15,8 +15,11 @@ Fast interactivity layer for creating and deleting files in both database and st
 Files Actions are file handling logics which take a form input and execute neccessary data mutations.
 They can be executed from the client via the useActionState() hook which sends a request to the server.
 The response should automatically translated on the server and sent back the client where it's rendered.
+If you see a star \* it means it that that action works without the useActionState() hook.
 
 - `Upload Avatar`: Uploads a file as a user avatar and returns the urls.
+- `Upload Chat Avatar`: Uploads a file as a chat avatar and returns the urls.
+- `Upload Attachments*`: Uploads files as chat attachments and returns the urls.
 
 ## Tools
 

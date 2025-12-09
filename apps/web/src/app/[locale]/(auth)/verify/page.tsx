@@ -6,9 +6,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { VerifyForm } from "./form";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("VerifyPage");
+  return { title: t("title"), description: t("description") };
+}
 
 export default async function VerifyPage({
   searchParams,

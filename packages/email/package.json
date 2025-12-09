@@ -14,13 +14,13 @@
   "devDependencies": {
     "@repo/eslint": "workspace:*",
     "@repo/typescript": "workspace:*",
-    "@types/node": "^22.15.3",
-    "eslint": "^9.34.0",
+    "@types/node": "^22.19.1",
+    "eslint": "^9.39.1",
     "typescript": "5.9.2"
   },
   "dependencies": {
-    "@types/nodemailer": "^7.0.3",
-    "nodemailer": "^7.0.3",
+    "@types/nodemailer": "^7.0.4",
+    "nodemailer": "^7.0.11",
     "@repo/config": "workspace:*"
   }
 }

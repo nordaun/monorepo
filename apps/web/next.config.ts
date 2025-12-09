@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   devIndicators: false,
   experimental: {
+    browserDebugInfoInTerminal: true,
     typedEnv: true,
     serverActions: {
       allowedOrigins: config.urls.origins,

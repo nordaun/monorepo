@@ -10,8 +10,14 @@ import {
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Link, redirect } from "@/i18n/navigation";
+import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { SignupForm } from "./form";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("SignupPage");
+  return { title: t("title"), description: t("description") };
+}
 
 export default async function SignupPage() {
   const user = await getUser();

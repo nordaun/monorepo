@@ -1,6 +1,7 @@
 "use server";
 
 import { verifySession } from "@/auth/sessions";
+import { clearCache } from "@repo/cache";
 import prisma from "@repo/database";
 import { pusherServer } from "@repo/socket";
 import { getTranslations } from "next-intl/server";
@@ -72,12 +73,14 @@ export async function uploadAvatar(
   if (!result) return t("unexpectedError");
 
   const avatarUrl = result.values().next().value?.publicUrl;
-  await prisma.user.update({
-    where: { id: session.userId },
-    data: { avatarUrl },
-    select: { avatarUrl: true },
-  });
-
-  await pusherServer.trigger(session.userId, "avatar-update", avatarUrl);
+  await Promise.all([
+    prisma.user.update({
+      where: { id: session.userId },
+      data: { avatarUrl },
+      select: { avatarUrl: true },
+    }),
+    pusherServer.trigger(session.userId, "avatar-update", avatarUrl),
+    clearCache(`user:${session.userId}`),
+  ]);
   return { result };
 }

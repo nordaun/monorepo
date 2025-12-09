@@ -13,8 +13,14 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Link, redirect } from "@/i18n/navigation";
 import { Clock } from "lucide-react";
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { LoginForm } from "./form";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("LoginPage");
+  return { title: t("title"), description: t("description") };
+}
 
 export default async function LoginPage() {
   const user = await getUser();

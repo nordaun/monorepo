@@ -1,9 +1,6 @@
 import config from "@repo/config";
 import { User } from "@repo/database/types";
-import {
-  isValidPhoneNumber,
-  parsePhoneNumberFromString,
-} from "libphonenumber-js";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import * as z from "zod/v4-mini";
 
@@ -25,8 +22,7 @@ const phoneModel = z.string().check(
     (phone) => {
       try {
         const parsed = parsePhoneNumberFromString(phone);
-        if (!parsed) return false;
-        return isValidPhoneNumber(parsed.number);
+        return parsed?.isValid() ?? false;
       } catch {
         return false;
       }

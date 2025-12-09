@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "@/i18n/navigation";
+import { clearCache } from "@repo/cache";
 import config from "@repo/config";
 import prisma from "@repo/database";
 import { sendEmail } from "@repo/email";
@@ -102,9 +103,11 @@ export async function signup(
     return t(treeifyError(validFields.error).properties!);
   const { name, email, username, password } = validFields.data;
 
-  const existingEmail = await prisma.user.count({ where: { email } });
+  const [existingEmail, existingUsername] = await Promise.all([
+    prisma.user.count({ where: { email } }),
+    prisma.user.count({ where: { username } }),
+  ]);
   if (existingEmail > 0) return t("emailTaken");
-  const existingUsername = await prisma.user.count({ where: { username } });
   if (existingUsername > 0) return t("usernameTaken");
 
   const newUser = await prisma.user.create({
@@ -179,8 +182,7 @@ export async function login(
  * *Doesn't require React's useActionState() hook.*
  */
 export async function logout() {
-  await deleteSession();
-  await deleteLicense();
+  await Promise.all([deleteSession(), deleteLicense()]);
 }
 
 /**
@@ -198,9 +200,12 @@ export async function personalize(
   const session = await getSession();
   if (!session?.userId || !Personalizables[field]) return t("sessionInvalid");
 
+  console.log(formData.get(Personalizables[field].name));
+
   const validFields = Personalizables[field].schema.safeParse({
     [Personalizables[field].name]: formData.get(Personalizables[field].name),
   });
+
   if (!validFields.success)
     return t(
       treeifyError(
@@ -232,7 +237,10 @@ export async function personalize(
     select: { id: true, name: true, username: true, avatarUrl: true },
   });
 
-  await pusherServer.trigger(profile.id, "profile-update", profile);
+  await Promise.all([
+    clearCache(`user:${profile.id}`),
+    pusherServer.trigger(profile.id, "profile-update", profile),
+  ]);
 }
 
 /**
@@ -404,6 +412,7 @@ export async function migrateEmail(
       where: { id: license.userId },
       data: { email, lastEmailChange: new Date(Date.now()) },
     }),
+    clearCache(`user:${license.userId}`),
     redirect("/account"),
   ]);
 }
@@ -446,10 +455,12 @@ export async function toggle2fa() {
   });
   if (!existingUser?.id) return;
 
-  await prisma.user.update({
-    where: { id: existingUser.id },
-    data: { twoFactorAuth: !existingUser.twoFactorAuth },
-  });
-
+  await Promise.all([
+    prisma.user.update({
+      where: { id: existingUser.id },
+      data: { twoFactorAuth: !existingUser.twoFactorAuth },
+    }),
+    clearCache(`user:${session.userId}`),
+  ]);
   revalidatePath("/account");
 }

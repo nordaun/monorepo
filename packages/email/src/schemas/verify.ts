@@ -62,7 +62,7 @@ export default function VerifyEmail({
             <tr>
               <td align="center" style="padding: 30px 40px 10px 40px">
                 <img
-                  src="${config.urls.cdn}/branding/banner.png"
+                  src="${config.urls.cdn}/branding/logos/png/banner.png"
                   alt="${config.name} Logo"
                   height="15"
                   style="display: block; margin: 0 auto"

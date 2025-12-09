@@ -7,8 +7,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { redirect } from "@/i18n/navigation";
+import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { TerminateAccountForm } from "./form";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("TerminateAccountPage");
+  return { title: t("title"), description: t("description") };
+}
 
 export default async function TerminateAccountPage() {
   const license = await getLicense();

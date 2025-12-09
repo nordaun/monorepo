@@ -17,10 +17,10 @@ import type * as Prisma from "./prismaNamespace"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.0.1",
-  "engineVersion": "f09f2815f091dbba658cdcd2264306d88bb5bda6",
+  "clientVersion": "7.1.0",
+  "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id              String   @id @default(cuid())\n  name            String\n  email           String   @unique\n  phone           String?  @unique\n  password        String\n  username        String   @unique\n  otp             String?\n  twoFactorAuth   Boolean  @default(false)\n  lastEmailChange DateTime @default(now())\n  createdAt       DateTime @default(now())\n  updatedAt       DateTime @updatedAt\n\n  // Relations\n  avatarUrl       String?   @unique\n  avatar          File?     @relation(\"UserAvatar\", fields: [avatarUrl], references: [url])\n  files           File[]    @relation(\"UserFiles\")\n  messages        Message[] @relation(\"UserMessages\")\n  chats           Chat[]    @relation(\"ChatMembers\")\n  invitesReceived Invite[]  @relation(\"InviteReceiver\")\n  invitesSent     Invite[]  @relation(\"InviteSender\")\n}\n\nmodel File {\n  id        String   @id @default(cuid())\n  name      String\n  url       String   @unique\n  type      String\n  size      Int\n  folder    String?\n  createdAt DateTime @default(now())\n\n  // Relations\n  authorId   String\n  author     User     @relation(\"UserFiles\", fields: [authorId], references: [id], onDelete: Cascade)\n  messageId  String?\n  message    Message? @relation(\"MessageFiles\", fields: [messageId], references: [id], onDelete: Cascade)\n  userAvatar User?    @relation(\"UserAvatar\")\n  chatAvatar Chat?    @relation(\"ChatAvatar\")\n}\n\nenum ChatType {\n  direct\n  group\n}\n\nmodel Chat {\n  id        String   @id @default(cuid())\n  name      String?\n  type      ChatType @default(direct)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  avatarUrl String?   @unique\n  avatar    File?     @relation(\"ChatAvatar\", fields: [avatarUrl], references: [url])\n  members   User[]    @relation(\"ChatMembers\")\n  messages  Message[] @relation(\"ChatMessage\")\n  invites   Invite[]  @relation(\"ChatInvite\")\n}\n\nmodel Message {\n  id        String   @id @default(cuid())\n  text      String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  authorId    String\n  author      User   @relation(\"UserMessages\", fields: [authorId], references: [id], onDelete: Cascade)\n  chatId      String\n  chat        Chat   @relation(\"ChatMessage\", fields: [chatId], references: [id], onDelete: Cascade)\n  attachments File[] @relation(\"MessageFiles\")\n}\n\nmodel Invite {\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  chatId     String\n  chat       Chat   @relation(\"ChatInvite\", fields: [chatId], references: [id], onDelete: Cascade)\n  senderId   String\n  sender     User   @relation(\"InviteSender\", fields: [senderId], references: [id], onDelete: Cascade)\n  receiverId String\n  receiver   User   @relation(\"InviteReceiver\", fields: [receiverId], references: [id], onDelete: Cascade)\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id              String   @id @default(cuid(2))\n  name            String\n  email           String   @unique\n  phone           String?  @unique\n  password        String\n  username        String   @unique\n  otp             String?\n  twoFactorAuth   Boolean  @default(false)\n  lastEmailChange DateTime @default(now())\n  createdAt       DateTime @default(now())\n  updatedAt       DateTime @updatedAt\n\n  // Relations\n  avatarUrl       String?   @unique\n  avatar          File?     @relation(\"UserAvatar\", fields: [avatarUrl], references: [url])\n  files           File[]    @relation(\"UserFiles\")\n  messages        Message[] @relation(\"UserMessages\")\n  chats           Chat[]    @relation(\"ChatMembers\")\n  invitesReceived Invite[]  @relation(\"InviteReceiver\")\n  invitesSent     Invite[]  @relation(\"InviteSender\")\n}\n\nmodel File {\n  id        String   @id @default(cuid(2))\n  name      String\n  url       String   @unique\n  type      String\n  size      Int\n  folder    String?\n  createdAt DateTime @default(now())\n\n  // Relations\n  authorId   String\n  author     User     @relation(\"UserFiles\", fields: [authorId], references: [id], onDelete: Cascade)\n  messageId  String?\n  message    Message? @relation(\"MessageFiles\", fields: [messageId], references: [id], onDelete: Cascade)\n  userAvatar User?    @relation(\"UserAvatar\")\n  chatAvatar Chat?    @relation(\"ChatAvatar\")\n}\n\nenum ChatType {\n  direct\n  group\n}\n\nmodel Chat {\n  id        String   @id @default(cuid(2))\n  name      String?\n  type      ChatType @default(direct)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  avatarUrl String?   @unique\n  avatar    File?     @relation(\"ChatAvatar\", fields: [avatarUrl], references: [url])\n  members   User[]    @relation(\"ChatMembers\")\n  messages  Message[] @relation(\"ChatMessage\")\n  invites   Invite[]  @relation(\"ChatInvite\")\n}\n\nmodel Message {\n  id        String   @id @default(cuid(2))\n  text      String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  authorId    String\n  author      User   @relation(\"UserMessages\", fields: [authorId], references: [id], onDelete: Cascade)\n  chatId      String\n  chat        Chat   @relation(\"ChatMessage\", fields: [chatId], references: [id], onDelete: Cascade)\n  attachments File[] @relation(\"MessageFiles\")\n}\n\nmodel Invite {\n  id        String   @id @default(cuid(2))\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  chatId     String\n  chat       Chat   @relation(\"ChatInvite\", fields: [chatId], references: [id], onDelete: Cascade)\n  senderId   String\n  sender     User   @relation(\"InviteSender\", fields: [senderId], references: [id], onDelete: Cascade)\n  receiverId String\n  receiver   User   @relation(\"InviteReceiver\", fields: [receiverId], references: [id], onDelete: Cascade)\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -62,7 +62,7 @@ export interface PrismaClientConstructor {
    * const users = await prisma.user.findMany()
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+   * Read more in our [docs](https://pris.ly/d/client).
    */
 
   new <
@@ -84,7 +84,7 @@ export interface PrismaClientConstructor {
  * const users = await prisma.user.findMany()
  * ```
  * 
- * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ * Read more in our [docs](https://pris.ly/d/client).
  */
 
 export interface PrismaClient<
@@ -113,7 +113,7 @@ export interface PrismaClient<
    * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -125,7 +125,7 @@ export interface PrismaClient<
    * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -136,7 +136,7 @@ export interface PrismaClient<
    * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -148,7 +148,7 @@ export interface PrismaClient<
    * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 

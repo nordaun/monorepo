@@ -10,7 +10,7 @@ const colors = [
   "pink",
   "white",
 ] as const;
-const locales = ["en"] as const;
+const locales = ["en", "hu"] as const;
 
 export type Color = (typeof colors)[number];
 export type Locale = (typeof locales)[number];

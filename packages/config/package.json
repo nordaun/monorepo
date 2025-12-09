@@ -13,8 +13,8 @@
   "devDependencies": {
     "@repo/eslint": "workspace:*",
     "@repo/typescript": "workspace:*",
-    "@types/node": "^22.15.3",
-    "eslint": "^9.34.0",
+    "@types/node": "^22.19.1",
+    "eslint": "^9.39.1",
     "typescript": "5.9.2"
   }
 }

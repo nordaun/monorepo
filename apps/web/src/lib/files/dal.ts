@@ -22,7 +22,7 @@ export async function createFiles(
   for (const file of files) {
     const id = createId();
     const extension = getFileExtension(file.type);
-    const path = `${folder && `${folder}/`}${id}.${extension}`;
+    const path = `${folder ? `${folder}/` : ""}${id}.${extension}`;
     const storage = bucket.file(path);
 
     const signedUrl = (await storage.getSignedUrl({
@@ -46,7 +46,7 @@ export async function createFiles(
 
     queue.push({
       ...attachment,
-      folder: folder as string,
+      folder: folder ?? null,
       authorId: session.userId,
     });
 
@@ -61,13 +61,13 @@ export async function deleteFile(id: string): Promise<Attachment | null> {
   const session = await verifySession();
   if (!session?.userId) return null;
 
-  const existingFile = await prisma.file.count({
-    where: { id, authorId: session.userId },
+  const existingFile = await prisma.file.findUnique({
+    where: { id },
   });
-  if (!existingFile) return null;
+  if (!existingFile || existingFile.authorId !== session.userId) return null;
 
   const deletedFile = await prisma.file.delete({
-    where: { id, authorId: session.userId },
+    where: { id },
   });
 
   const folder = deletedFile.folder;

@@ -79,8 +79,8 @@ export async function sendMessage(
   }
 
   const validFields = MessageSchema.safeParse({
-    text,
-    attachments: attachments.length,
+    text: text ?? "",
+    attachments: attachments.length ?? 0,
   });
   if (!validFields.success)
     return t(treeifyError(validFields.error).properties!);

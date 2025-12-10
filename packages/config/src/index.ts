@@ -63,7 +63,7 @@ const config: Config = {
   lengths: {
     otp: 6,
     messageChunk: 20,
-    messageLength: 2000,
+    messageLength: 20,
     ratelimit: 60,
   },
   urls: {

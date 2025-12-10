@@ -31,3 +31,4 @@ Tools are simple abstraction layers that are often used in other logics.
 - `Format Time`: Formats a time to a standardize format in the user's locale
 - `Get Initial`: Gets the monogram of the user's full name.
 - `Order Messages`: Sorts, orders and separates messages by their timestamp.
+- `Pick Error`: Selects an error from many errors, which can be shown to the user.

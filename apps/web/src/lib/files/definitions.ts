@@ -76,7 +76,17 @@ type Folder = (typeof Folders)[number] | (string & {}) | undefined;
 type Attachment = Pick<File, "id" | "name" | "size" | "type" | "url">;
 type Metadata = Pick<Attachment, "name" | "size" | "type">;
 type FileResult = Map<Attachment, UrlPair>;
-type FileState = { message?: string; result?: FileResult } | undefined;
+type FileState =
+  | {
+      errors?: {
+        name?: string[];
+        size?: string[];
+        type?: string[];
+      };
+      message?: string;
+      result?: FileResult;
+    }
+  | undefined;
 
 export {
   AllowedMimes,

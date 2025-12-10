@@ -21,9 +21,11 @@ type ChatParams = Omit<Chat, "id" | "createdAt" | "updatedAt"> & {
 type ChatContext = ChatParams & {
   providerId: string;
   draft: string;
+  error: string | null;
   messages: Message[];
   loadMessages: () => Promise<void>;
   setDraft: (draft: string) => void;
+  setError: (error: string | null) => void;
 };
 
 const existingContexts = new Map<string, Context<ChatContext>>();
@@ -35,9 +37,11 @@ const defaultContext: ChatContext = {
   avatarUrl: "",
   members: [],
   draft: "",
+  error: null,
   messages: [],
   loadMessages: async () => {},
   setDraft: () => {},
+  setError: () => {},
 };
 
 export function matchContext(chatId: string): Context<ChatContext> {
@@ -56,7 +60,8 @@ export default function ChatProvider({
   const messageChunkSize = config.lengths.messageChunk;
 
   const [messages, setMessages] = useState<Message[]>([]);
-  const [draft, setDraft] = useState("");
+  const [draft, setDraft] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
 
   const hasMoreRef = useRef(true);
   const fromRef = useRef(0);
@@ -141,9 +146,11 @@ export default function ChatProvider({
     avatarUrl,
     members,
     draft,
+    error,
     messages,
     loadMessages,
     setDraft,
+    setError,
   };
 
   const Context = matchContext(providerId);

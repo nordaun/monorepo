@@ -2,8 +2,8 @@
 
 import { AttachmentSchema, Metadata, Mime } from "@/files/definitions";
 import convertImage from "@/files/tools/convertImage";
-import { useFormatValidation } from "@/lib/files/tools/formatValidation";
-import getFileSize from "@/lib/files/tools/getFileSize";
+import { useFormatValidation } from "@/files/tools/formatValidation";
+import getFileSize from "@/files/tools/getFileSize";
 import { useTranslations } from "next-intl";
 import { Context, createContext, ReactNode, useEffect, useState } from "react";
 import { treeifyError } from "zod";

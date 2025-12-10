@@ -28,7 +28,7 @@ const countries = getCountries();
 function getCountryFromPhoneNumber(phoneNumber: string): CountryCode {
   try {
     const parsed = parsePhoneNumberFromString(phoneNumber);
-    return parsed?.country as CountryCode;
+    return (parsed?.country as CountryCode | undefined) ?? "US";
   } catch {
     return "US";
   }

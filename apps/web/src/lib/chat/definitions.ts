@@ -1,5 +1,5 @@
 import { Profile } from "@/auth/definitions";
-import { Attachment, FileState } from "@/files/definitions";
+import { Attachment, FileResult } from "@/files/definitions";
 import config from "@repo/config";
 import { z } from "zod/v4-mini";
 
@@ -34,13 +34,17 @@ const TextSchema = z.object({
 
 const MessageSchema = z
   .object({
-    message: textModel,
-    attachment: attachmentModel,
+    text: z.optional(textModel),
+    attachments: z.optional(attachmentModel),
   })
   .check(
     z.refine(
-      (data: { message: string; attachment: number | undefined }) =>
-        data.message || data.attachment !== undefined,
+      (data: { text?: string; attachments?: number }) => {
+        const hasText = data.text && data.text.trim().length > 0;
+        const hasAttachments =
+          data.attachments !== undefined && data.attachments > 0;
+        return hasText || hasAttachments;
+      },
       { error: "messageInsufficient" }
     )
   );
@@ -79,7 +83,17 @@ type Chat = {
   updatedAt: Date;
 };
 
-type ChatState = FileState;
+type ChatState =
+  | {
+      errors?: {
+        name?: string[];
+        text?: string[];
+        attachment?: string[];
+      };
+      message?: string;
+      result?: FileResult;
+    }
+  | undefined;
 
 const ChatReturn = {
   id: true,

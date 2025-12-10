@@ -86,7 +86,7 @@ export default function FileProvider({
   const addFiles = (fileList: FileList | null) => {
     setError(null);
 
-    if (!fileList || fileList.length === 0) return setError(t("lengthSmall"));
+    if (!fileList || fileList.length === 0) return setError(t("lengthInvalid"));
     const newFiles = Array.from(fileList);
 
     if (files.length + newFiles.length > maxLength)

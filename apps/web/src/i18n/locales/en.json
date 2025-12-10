@@ -46,7 +46,7 @@
     "none": "You haven't added this yet."
   },
   "Files": {
-    "lengthSmall": "You didn't upload any files.",
+    "lengthInvalid": "You didn't upload any files.",
     "lengthLarge": "You can't upload more than {length} files.",
     "nameShort": "{name} has a too short name.",
     "nameLarge": "{name} has a too long name.",
@@ -63,9 +63,12 @@
     "messageInvalid": "This message doesn't exist.",
     "messageNotFound": "Your message couldn't be modified.",
     "messageInsufficient": "Your message couldn't be sent.",
+    "messageShort": "This message is too short.",
     "messageLong": "This message is too long.",
-    "nameInvalid": "You didn't enter a name.",
+    "attachmentNotFound": "You didn't upload any attachments.",
+    "nameShort": "This chat name is too short.",
     "nameLong": "This chat name is too long.",
+    "nameInvalid": "Chat names can't have invalid characters.",
     "unexpectedError": "Oops! Something went wrong. Try again later...",
     "sessionInvalid": "You are not logged in."
   },

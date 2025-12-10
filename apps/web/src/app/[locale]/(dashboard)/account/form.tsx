@@ -1,5 +1,6 @@
 "use client";
 
+import getInitial from "@/chat/tools/getInitial";
 import {
   FileInput,
   FileInputContent,
@@ -29,11 +30,6 @@ import { ArrowUpFromLine } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useActionState, useEffect, useState } from "react";
 import { useFiles } from "./avatar";
-
-function getInitial(name: string): string {
-  const matches = name.match(/\p{Lu}/gu) || [];
-  return matches.slice(0, 2).join("");
-}
 
 export function AccountAvatarForm() {
   const t = useTranslations("AccountPage");

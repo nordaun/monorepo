@@ -29,7 +29,7 @@ export async function t(
     | string,
   options?: Record<string, string | number | Date> | undefined
 ) {
-  const translate = await getTranslations("Auth");
+  const translate = await getTranslations("Files");
   if (typeof properties === "string")
     return { message: translate(properties, options) };
   const errors: Record<string, string[]> = {};

@@ -1,14 +1,10 @@
 "use client";
 
+import getInitial from "@/chat/tools/getInitial";
 import { cn } from "@/components/utils";
 import { ComponentProps } from "react";
 import useSession from "../hooks/use-session";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-
-function getInitial(name: string): string {
-  const matches = name.match(/\p{Lu}/gu) || [];
-  return matches.slice(0, 2).join("");
-}
 
 export function Profile({
   className,

@@ -1,5 +1,49 @@
 import { Profile } from "@/auth/definitions";
 import { Attachment, FileState } from "@/files/definitions";
+import config from "@repo/config";
+import { z } from "zod/v4-mini";
+
+const nameModel = z
+  .string()
+  .check(
+    z.minLength(1, { error: "nameShort" }),
+    z.maxLength(100, { error: "nameLong" }),
+    z.regex(/^[\p{L}\p{N}\p{M}\s._\-()+@!,]+$/u, { error: "nameInvalid" }),
+    z.trim()
+  );
+
+const textModel = z
+  .string()
+  .check(
+    z.minLength(0, { error: "messageShort" }),
+    z.maxLength(config.lengths.messageLength, { error: "messageLong" }),
+    z.trim()
+  );
+
+const attachmentModel = z
+  .number()
+  .check(z.minimum(0, { error: "attachmentNotFound" }));
+
+const NameSchema = z.object({
+  name: nameModel,
+});
+
+const TextSchema = z.object({
+  text: textModel,
+});
+
+const MessageSchema = z
+  .object({
+    message: textModel,
+    attachment: attachmentModel,
+  })
+  .check(
+    z.refine(
+      (data: { message: string; attachment: number | undefined }) =>
+        data.message || data.attachment !== undefined,
+      { error: "messageInsufficient" }
+    )
+  );
 
 type ChatMessage = {
   type: "message";
@@ -53,6 +97,9 @@ const ChatReturn = {
 
 export {
   ChatReturn,
+  MessageSchema,
+  NameSchema,
+  TextSchema,
   type Chat,
   type ChatDate,
   type ChatItem,

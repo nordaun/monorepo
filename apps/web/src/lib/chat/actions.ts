@@ -3,27 +3,44 @@
 import { verifySession } from "@/auth/sessions";
 import { uploadAttachments } from "@/files/actions";
 import { Attachment, Metadata } from "@/files/definitions";
-import config from "@repo/config";
 import prisma from "@repo/database";
 import { pusherServer } from "@repo/socket";
 import { getTranslations } from "next-intl/server";
 import { revalidatePath } from "next/cache";
-import { ChatReturn, ChatState, Message } from "./definitions";
+import { treeifyError } from "zod";
+import {
+  ChatReturn,
+  ChatState,
+  Message,
+  MessageSchema,
+  NameSchema,
+  TextSchema,
+} from "./definitions";
 
 /**
  * ## Translate
  * Translates an error object's values or string to the user's preferred language.
  * @param properties the translateable string or object
- * @param options additional variables that make the translation more accurate
  * @returns A translated string or object
  */
 export async function t(
-  error: string,
-  options?: Record<string, string | number | Date> | null
+  properties:
+    | Record<string, { errors: readonly string[] } | undefined>
+    | string,
+  options?: Record<string, string | number | Date> | undefined
 ) {
   const translate = await getTranslations("Chat");
-  if (options) return { message: translate(error, options) };
-  return { message: translate(error) };
+  if (typeof properties === "string")
+    return { message: translate(properties, options) };
+  const errors: Record<string, string[]> = {};
+  for (const [key, value] of Object.entries(properties)) {
+    if (value?.errors.length) {
+      errors[key] = await Promise.all(
+        value.errors.map((message) => translate(message, options))
+      );
+    }
+  }
+  return { errors };
 }
 
 /**
@@ -61,13 +78,12 @@ export async function sendMessage(
     }
   }
 
-  if ((!text || text === "") && attachments.length === 0)
-    return t("messageInsufficient");
-  if (
-    (text?.length ?? 0) > config.lengths.messageLength &&
-    attachments.length === 0
-  )
-    return t("messageLong");
+  const validFields = MessageSchema.safeParse({
+    text,
+    attachments: attachments.length,
+  });
+  if (!validFields.success)
+    return t(treeifyError(validFields.error).properties!);
 
   const existingChat = await prisma.chat.count({
     where: { id: chatId, members: { some: { id: session.userId } } },
@@ -75,6 +91,7 @@ export async function sendMessage(
   if (existingChat === 0) return t("chatNotFound");
 
   const result = await uploadAttachments(attachments);
+  if (result?.message) return { message: result.message };
   if (!result || !result.result) return t("unexpectedError");
 
   const attachmentIds = Array.from(result.result.keys()).map(
@@ -121,9 +138,9 @@ export async function editMessage(
   const text = formData.get("text")?.toString();
 
   if (!messageId || messageId === "") return t("messageNotFound");
-  if (!text || text === "") return t("messageInsufficient");
-  if ((text?.length ?? 0) > config.lengths.messageLength)
-    return t("messageLong");
+  const validFields = TextSchema.safeParse({ text });
+  if (!validFields.success)
+    return t(treeifyError(validFields.error).properties!);
 
   const existingMessage = await prisma.message.count({
     where: { id: messageId, authorId: session.userId, chatId: chatId },
@@ -198,8 +215,9 @@ export async function renameChat(
   if (!session?.userId) return t("sessionInvalid");
 
   const name = formData.get("name")?.toString();
-  if (!name || name === "") return t("nameInvalid");
-  if ((name?.length ?? 0) > 50) return t("nameLong");
+  const validFields = NameSchema.safeParse({ name });
+  if (!validFields.success)
+    return t(treeifyError(validFields.error).properties!);
 
   const existingChat = await prisma.chat.count({
     where: {

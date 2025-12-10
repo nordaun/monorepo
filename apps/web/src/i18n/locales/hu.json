@@ -47,8 +47,12 @@
   },
   "Files": {
     "lengthInvalid": "Nem töltöttél fel egyetlen fájlt sem.",
+    "lengthLarge": "Nem tölthetsz fel több, mint {length} fájlt.",
+    "nameShort": "A(z) {name} neve túl rövid.",
+    "nameLarge": "A(z) {name} neve túl hosszú.",
     "nameInvalid": "A(z) {name} neve érvénytelen karaktert tartalmaz.",
-    "sizeInvalid": "A(z) {name} nagyobb, mint a megengedett {size}.",
+    "sizeSmall": "A(z) {name} fájlt nem tudtuk feltölteni.",
+    "sizeLarge": "A(z) {name} nagyobb, mint a megengedett {size}.",
     "typeInvalid": "A(z) {name} fájl formátuma nem támogatott.",
     "unexpectedError": "Hmmm! Valami hiba történt. Próbáld meg később...",
     "sessionInvalid": "Nem vagy bejelentkezve."
@@ -59,9 +63,12 @@
     "messageInvalid": "Ez az üzenet nem létezik.",
     "messageNotFound": "Az üzenetedet nem sikerült módosítani.",
     "messageInsufficient": "Az üzenetedet nem sikerült elküldeni.",
+    "messageShort": "Ez az üzenet túl rövid.",
     "messageLong": "Ez az üzenet túl hosszú.",
-    "nameInvalid": "Nem adtál meg nevet.",
+    "attachmentNotFound": "Nem töltöttél fel csatolmányokat.",
+    "nameShort": "Ez a chat név túl rövid.",
     "nameLong": "Ez a chat név túl hosszú.",
+    "nameInvalid": "Nem adtál meg nevet.",
     "unexpectedError": "Hmmm! Valami hiba történt. Próbáld meg később...",
     "sessionInvalid": "Nem vagy bejelentkezve."
   },

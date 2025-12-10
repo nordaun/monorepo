@@ -1,4 +1,42 @@
 import { File } from "@repo/database/types";
+import { z } from "zod/v4-mini";
+
+const nameModel = z
+  .string()
+  .check(
+    z.minLength(1, { error: "nameShort" }),
+    z.maxLength(100, { error: "nameLong" }),
+    z.regex(/^[\p{L}\p{N}\p{M}\s._\-()+@!,]+$/u, { error: "nameInvalid" }),
+    z.trim()
+  );
+
+const sizeModel = (maxSize: number) =>
+  z
+    .number()
+    .check(
+      z.minimum(0, { error: "sizeSmall" }),
+      z.maximum(maxSize, { error: "sizeLarge" })
+    );
+
+const typeModel = (allowed: Mime[]) =>
+  z.string().check(
+    z.refine((value: Mime) => allowed.includes(value), {
+      error: "typeInvalid",
+    })
+  );
+
+const AttachmentSchema = ({
+  maxSize,
+  allowedTypes,
+}: {
+  maxSize: number;
+  allowedTypes: Mime[];
+}) =>
+  z.object({
+    name: nameModel,
+    size: sizeModel(maxSize),
+    type: typeModel(allowedTypes),
+  });
 
 const Mimes = {
   application: [
@@ -42,6 +80,7 @@ type FileState = { message?: string; result?: FileResult } | undefined;
 
 export {
   AllowedMimes,
+  AttachmentSchema,
   Folders,
   type Attachment,
   type FileResult,

@@ -26,8 +26,8 @@ If you see a star \* it means it that that action works without the useActionSta
 Tools are simple abstraction layers that are often used in other logics.
 
 - `Convert Image`: Converts any image file to a websafe fromat (WEBP) and optionally resizes it.
+- `Format Validation`: Formats and translates error object and returns and error string.
 - `Get File Extensions`: Returns the file extension of a file.
 - `Get File Icon`: Returns an icon for a file based on its mime category.
 - `Get File Name`: Returns the name of a file based on a URL.
 - `Get File Size`: Returns a file's formatted size (like 128 B or 1.6 GB).
-- `Validate File`: Checks if a file is elligable to be uploaded to the storage.

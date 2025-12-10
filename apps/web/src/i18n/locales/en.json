@@ -46,9 +46,13 @@
     "none": "You haven't added this yet."
   },
   "Files": {
-    "lengthInvalid": "You didn't upload any files.",
+    "lengthSmall": "You didn't upload any files.",
+    "lengthLarge": "You can't upload more than {length} files.",
+    "nameShort": "{name} has a too short name.",
+    "nameLarge": "{name} has a too long name.",
     "nameInvalid": "{name} has an invalid character in its name.",
-    "sizeInvalid": "{name} is larger than {size}.",
+    "sizeSmall": "{name} can't be uploaded.",
+    "sizeLarge": "{name} is larger than {size}.",
     "typeInvalid": "{name} has an invalid file type.",
     "unexpectedError": "Oops! Something went wrong. Try again later...",
     "sessionInvalid": "You are not logged in."

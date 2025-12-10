@@ -1,9 +1,12 @@
 "use client";
 
-import { Metadata, Mime } from "@/files/definitions";
+import { AttachmentSchema, Metadata, Mime } from "@/files/definitions";
 import convertImage from "@/files/tools/convertImage";
-import getFileSize from "@/files/tools/getFileSize";
+import { useFormatValidation } from "@/lib/files/tools/formatValidation";
+import getFileSize from "@/lib/files/tools/getFileSize";
+import { useTranslations } from "next-intl";
 import { Context, createContext, ReactNode, useEffect, useState } from "react";
+import { treeifyError } from "zod";
 
 type FileContext = {
   providerId: string;
@@ -64,33 +67,30 @@ export default function FileProvider({
   resizeHeight,
   children,
 }: FileProviderProps & { children: ReactNode }) {
+  const t = useTranslations("Files");
+  const formatValidation = useFormatValidation();
+
   const [files, setFiles] = useState<File[]>([]);
   const [details, setDetails] = useState<Metadata[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(100);
 
-  const validateFile = (file: File): string | null => {
-    const fileNameRegex = /^[\p{Ll}\p{Lu}\d_\-.\s]+$/u;
-    if (!fileNameRegex.test(file.name))
-      return `${file.name} has an invalid name.`;
-    if (file.size > maxSize)
-      return `${file.name} is larger than ${getFileSize(maxSize)}.`;
-    if (!accept.includes(file.type as Mime))
-      return `${file.name} has invalid file type.`;
-
-    return null;
-  };
+  const validateFile = (file: File) =>
+    AttachmentSchema({ maxSize, allowedTypes: accept }).safeParse({
+      name: file.name,
+      size: file.size,
+      type: file.type,
+    });
 
   const addFiles = (fileList: FileList | null) => {
     setError(null);
 
-    if (!fileList || fileList.length === 0)
-      return setError(`No files selected.`);
+    if (!fileList || fileList.length === 0) return setError(t("lengthSmall"));
     const newFiles = Array.from(fileList);
 
     if (files.length + newFiles.length > maxLength)
-      return setError(`Can't upload more than ${maxLength} files.`);
+      return setError(t("lengthLarge", { length: maxLength }));
 
     const processFiles = async () => {
       const validFiles: File[] = [];
@@ -108,13 +108,26 @@ export default function FileProvider({
             file = convertedFile || file;
           }
 
-          const validationError = validateFile(file);
-          if (validationError) {
-            setLoading(false);
-            return setError(validationError);
-          }
+          const validFields = validateFile(file);
 
-          validFiles.push(file);
+          if (!validFields.success)
+            return setError(
+              formatValidation(treeifyError(validFields.error).properties!, {
+                name: file.name,
+                size: getFileSize(maxSize),
+              })
+            );
+
+          const normalizedFile =
+            validFields.data.name !== file.name ||
+            validFields.data.type !== file.type
+              ? new File([file], validFields.data.name, {
+                  type: validFields.data.type,
+                  lastModified: file.lastModified,
+                })
+              : file;
+
+          validFiles.push(normalizedFile);
           setProgress(
             (prev) => prev + Number((100 / newFiles.length).toFixed(0))
           );
@@ -122,9 +135,8 @@ export default function FileProvider({
 
         setError(null);
         setFiles((prev) => [...prev, ...validFiles]);
-      } catch (error) {
-        console.error("Error during file processing:", error);
-        setError("Failed to process files. Please try again.");
+      } catch {
+        setError(t("unexpectedError"));
       } finally {
         setLoading(false);
         setProgress(100);

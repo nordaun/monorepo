@@ -6,24 +6,41 @@ import prisma from "@repo/database";
 import { pusherServer } from "@repo/socket";
 import { getTranslations } from "next-intl/server";
 import { revalidatePath } from "next/cache";
+import { treeifyError } from "zod";
 import { createFiles, deleteFile } from "./dal";
-import { AllowedMimes, Attachment, FileState, Metadata } from "./definitions";
-import { validateFile } from "./tools/validateFile";
+import {
+  AllowedMimes,
+  Attachment,
+  AttachmentSchema,
+  FileState,
+  Metadata,
+} from "./definitions";
+import getFileSize from "./tools/getFileSize";
 
 /**
  * ## Translate
  * Translates an error object's values or string to the user's preferred language.
  * @param properties the translateable string or object
- * @param options additional variables that make the translation more accurate
  * @returns A translated string or object
  */
-async function t(
-  error: string,
-  options?: Record<string, string | number | Date> | null
+export async function t(
+  properties:
+    | Record<string, { errors: readonly string[] } | undefined>
+    | string,
+  options?: Record<string, string | number | Date> | undefined
 ) {
-  const translate = await getTranslations("Files");
-  if (options) return { message: translate(error, options) };
-  return { message: translate(error) };
+  const translate = await getTranslations("Auth");
+  if (typeof properties === "string")
+    return { message: translate(properties, options) };
+  const errors: Record<string, string[]> = {};
+  for (const [key, value] of Object.entries(properties)) {
+    if (value?.errors.length) {
+      errors[key] = await Promise.all(
+        value.errors.map((message) => translate(message, options))
+      );
+    }
+  }
+  return { errors };
 }
 
 /**
@@ -56,12 +73,19 @@ export async function uploadAvatar(
     return t("unexpectedError");
   }
 
-  const [error, options] = validateFile({
-    file: attachment,
+  const validFields = AttachmentSchema({
     maxSize: 1024 * 1024,
-    mimes: AllowedMimes.filter((mime) => mime.startsWith("image/")),
+    allowedTypes: AllowedMimes.filter((mime) => mime.startsWith("image/")),
+  }).safeParse({
+    name: attachment.name,
+    size: attachment.size,
+    type: attachment.type,
   });
-  if (error) return t(error, options);
+
+  if (!validFields.success)
+    return t(treeifyError(validFields.error).properties!, {
+      name: attachment.name,
+    });
 
   const existingAvatar = await prisma.user.findFirst({
     where: { id: session.userId, avatarUrl: { not: null } },
@@ -118,12 +142,20 @@ export async function uploadChatAvatar(
     return t("unexpectedError");
   }
 
-  const [error, options] = validateFile({
-    file: attachment,
+  const validFields = AttachmentSchema({
     maxSize: 1024 * 1024,
-    mimes: ["image/webp"],
+    allowedTypes: AllowedMimes.filter((mime) => mime.startsWith("image/")),
+  }).safeParse({
+    name: attachment.name,
+    size: attachment.size,
+    type: attachment.type,
   });
-  if (error) return t(error, options);
+
+  if (!validFields.success)
+    return t(treeifyError(validFields.error).properties!, {
+      name: attachment.name,
+      size: getFileSize(1024 * 1024),
+    });
 
   const existingAvatar = await prisma.chat.findFirst({
     where: {
@@ -164,12 +196,19 @@ export async function uploadAttachments(
   if (!attachments) return t("lengthInvalid");
 
   for (const attachment of attachments) {
-    const [error, options] = validateFile({
-      file: attachment,
-      maxSize: 1024 * 1024 * 10,
-      mimes: AllowedMimes,
+    const validFields = AttachmentSchema({
+      maxSize: 1024 * 1024,
+      allowedTypes: AllowedMimes,
+    }).safeParse({
+      name: attachment.name,
+      size: attachment.size,
+      type: attachment.type,
     });
-    if (error) return t(error, options);
+
+    if (!validFields.success)
+      return t(treeifyError(validFields.error).properties!, {
+        name: attachment.name,
+      });
   }
 
   const result = await createFiles(attachments, "attachments");

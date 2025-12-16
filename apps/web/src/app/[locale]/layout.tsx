@@ -31,15 +31,16 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-  if (!routing.locales.includes(locale as Locale)) {
+  const typedLocale = locale as Locale;
+  if (!routing.locales.includes(typedLocale)) {
     notFound();
   }
 
   return (
-    <html lang={locale}>
+    <html lang={typedLocale}>
       <body
         className={cn(
           "antialiased text-foreground bg-background min-h-dvh overflow-hidden",

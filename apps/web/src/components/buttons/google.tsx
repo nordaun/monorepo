@@ -2,7 +2,6 @@
 
 import { cn } from "@/components/utils";
 import config from "@repo/config";
-import { redirect } from "next/navigation";
 import { ComponentProps } from "react";
 import GoogleLogo from "../icons/google";
 import { Button } from "../ui/button";
@@ -14,7 +13,7 @@ function triggerGoogleLogin() {
   if (!googleClientId || !googleRedirectUrl)
     throw new Error("Google OAuth credentials are not configured");
   const thirdPartyUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(googleClientId)}&redirect_uri=${encodeURIComponent(googleRedirectUrl)}&response_type=code&scope=email profile`;
-  redirect(thirdPartyUrl);
+  window.location.replace(thirdPartyUrl);
 }
 
 export default function GoogleButton({

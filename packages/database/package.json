@@ -19,10 +19,10 @@
   "devDependencies": {
     "@repo/eslint": "workspace:*",
     "@repo/typescript": "workspace:*",
-    "@types/node": "^22.19.1",
+    "@types/node": "^25.0.1",
     "eslint": "^9.39.1",
     "prisma": "^7.1.0",
-    "typescript": "5.9.2",
+    "typescript": "5.9.3",
     "dotenv": "^17.2.3"
   },
   "dependencies": {

@@ -3,6 +3,7 @@
 import { verifySession } from "@/auth/sessions";
 import { uploadAttachments } from "@/files/actions";
 import { Attachment, Metadata } from "@/files/definitions";
+import { clearCache } from "@repo/cache";
 import prisma from "@repo/database";
 import { pusherServer } from "@repo/socket";
 import { getTranslations } from "next-intl/server";
@@ -110,12 +111,13 @@ export async function sendMessage(
     select: ChatReturn,
   });
 
-  await prisma.chat.update({
-    where: { id: chatId },
-    data: { updatedAt: new Date() },
-  });
-
-  pusherServer.trigger(chatId, "created-message", message);
+  await Promise.all([
+    prisma.chat.update({
+      where: { id: chatId },
+      data: { updatedAt: new Date() },
+    }),
+    pusherServer.trigger(chatId, "created-message", message),
+  ]);
   return result;
 }
 
@@ -153,12 +155,14 @@ export async function editMessage(
     select: ChatReturn,
   });
 
-  await prisma.chat.update({
-    where: { id: chatId },
-    data: { updatedAt: new Date() },
-  });
+  await Promise.all([
+    prisma.chat.update({
+      where: { id: chatId },
+      data: { updatedAt: new Date() },
+    }),
+    pusherServer.trigger(chatId, "updated-message", message),
+  ]);
 
-  pusherServer.trigger(chatId, "updated-message", message);
   return { result: new Map() };
 }
 
@@ -190,12 +194,13 @@ export async function deleteMessage(
     select: ChatReturn,
   });
 
-  await prisma.chat.update({
-    where: { id: chatId },
-    data: { updatedAt: new Date() },
-  });
-
-  pusherServer.trigger(chatId, "deleted-message", message);
+  await Promise.all([
+    prisma.chat.update({
+      where: { id: chatId },
+      data: { updatedAt: new Date() },
+    }),
+    pusherServer.trigger(chatId, "deleted-message", message),
+  ]);
   return { result: new Map() };
 }
 
@@ -228,10 +233,14 @@ export async function renameChat(
 
   if (existingChat === 0) return t("sessionInvalid");
 
-  await prisma.chat.update({
-    where: { id: chatId },
-    data: { name },
-  });
+  await Promise.all([
+    clearCache(`chat:${chatId}`),
+    prisma.chat.update({
+      where: { id: chatId },
+      data: { name },
+    }),
+    revalidatePath(`/messages/${chatId}`),
+  ]);
 
   return { result: new Map() };
 }
@@ -265,26 +274,29 @@ export async function leaveChat(chatId: string): Promise<ChatState> {
   if (!existingChat) return t("chatNotFound");
 
   if (existingChat.members.length <= 2) {
-    await prisma.chat.delete({
-      where: { id: chatId },
-    });
-    await pusherServer.trigger(chatId, "deleted-chat", { id: chatId });
+    await Promise.all([
+      prisma.chat.delete({
+        where: { id: chatId },
+      }),
+      pusherServer.trigger(chatId, "deleted-chat", { id: chatId }),
+    ]);
   } else {
-    await prisma.chat.update({
-      where: { id: chatId },
-      data: {
-        members: {
-          disconnect: { id: session.userId },
+    await Promise.all([
+      prisma.chat.update({
+        where: { id: chatId },
+        data: {
+          members: {
+            disconnect: { id: session.userId },
+          },
+          updatedAt: new Date(),
         },
-        updatedAt: new Date(),
-      },
-    });
-    await pusherServer.trigger(chatId, "left-chat", {
-      chatId,
-      userId: session.userId,
-    });
+      }),
+      pusherServer.trigger(chatId, "left-chat", {
+        chatId,
+        userId: session.userId,
+      }),
+    ]);
   }
 
-  revalidatePath("/messages");
   return { result: new Map() };
 }

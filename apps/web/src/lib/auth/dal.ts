@@ -2,7 +2,7 @@ import "server-only";
 
 import { cache } from "@repo/cache";
 import prisma from "@repo/database";
-import { LicensePayload, SessionPayload, User } from "./definitions";
+import { LicensePayload, Profile, SessionPayload, User } from "./definitions";
 import { verifyLicense } from "./licenses";
 import { verifySession } from "./sessions";
 
@@ -14,14 +14,47 @@ export const getUser = async (): Promise<Omit<
   if (!session?.userId) return null;
 
   try {
-    const user: Omit<User, "password" | "otp"> | null = await cache(
+    const user = await cache(
       `user:${session.userId}`,
       await prisma.user.findFirst({
         where: { id: session.userId },
-        omit: { password: true, otp: true },
+        select: {
+          id: true,
+          email: true,
+          phone: true,
+          twoFactorAuth: true,
+          lastEmailChange: true,
+          createdAt: true,
+          updatedAt: true,
+        },
       })
     );
-    return user;
+
+    if (!user) return null;
+    const profile = await getProfile(session.userId);
+    if (!profile) return null;
+
+    return { ...user, ...profile };
+  } catch {
+    return null;
+  }
+};
+
+export const getProfile = async (id?: string): Promise<Profile | null> => {
+  const session = await verifySession();
+  if (!session?.userId && !id) return null;
+
+  const lookup = id ? id : session?.userId;
+
+  try {
+    const profile: Profile | null = await cache(
+      `profile:${lookup}`,
+      await prisma.user.findFirst({
+        where: { id: lookup },
+        select: { id: true, name: true, username: true, avatarUrl: true },
+      })
+    );
+    return profile;
   } catch {
     return null;
   }

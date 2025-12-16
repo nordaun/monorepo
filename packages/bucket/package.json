@@ -1,23 +1,23 @@
 {
-    "name": "@repo/bucket",
-    "version": "0.0.0",
-    "private": true,
-    "type": "module",
-    "exports": {
-        ".": "./src/index.ts"
-    },
-    "scripts": {
-        "lint": "eslint . --max-warnings 0",
-        "check-types": "tsc --noEmit"
-    },
-    "devDependencies": {
-        "@repo/eslint": "workspace:*",
-        "@repo/typescript": "workspace:*",
-        "@types/node": "^22.19.1",
-        "eslint": "^9.39.1",
-        "typescript": "5.9.2"
-    },
-    "dependencies": {
-        "@google-cloud/storage": "^7.18.0"
-    }
+  "name": "@repo/bucket",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@repo/eslint": "workspace:*",
+    "@repo/typescript": "workspace:*",
+    "@types/node": "^25.0.1",
+    "eslint": "^9.39.1",
+    "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^7.18.0"
+  }
 }

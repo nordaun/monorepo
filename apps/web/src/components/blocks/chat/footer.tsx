@@ -134,7 +134,7 @@ function ChatSend() {
     setDraft("");
     clearFiles();
     setSubmitting(false);
-  }, [setDraft, clearFiles]);
+  }, [setDraft, setError, clearFiles]);
 
   useEffect(() => {
     if (pending) setSubmitting(true);
@@ -153,7 +153,7 @@ function ChatSend() {
     }
 
     clearUp();
-  }, [pending, state, submitting, files, clearUp]);
+  }, [pending, state, submitting, files, setError, clearUp]);
 
   const sendable =
     (draft.trim().length > 0 || files.length > 0) &&

@@ -1,5 +1,4 @@
-import { getUser } from "@/auth/dal";
-import { Profile } from "@/auth/definitions";
+import { getProfile } from "@/auth/dal";
 import DashboardSidebar from "@/components/blocks/sidebar";
 import UserDropdown from "@/components/blocks/sidebar/dropdown";
 import Location from "@/components/blocks/sidebar/location";
@@ -20,15 +19,8 @@ export default async function DashboardLayout({
 }: {
   children: ReactNode;
 }) {
-  const user = await getUser();
-  if (!user) return await redirect("/login");
-
-  const profile: Profile = {
-    id: user.id,
-    name: user.name,
-    username: user.username,
-    avatarUrl: user.avatarUrl,
-  };
+  const profile = await getProfile();
+  if (!profile) return await redirect("/login");
 
   return (
     <SessionProvider initialProfile={profile}>

@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { chatId: string } }
+  { params }: { params: Promise<{ chatId: string }> }
 ) {
   const { chatId } = await params;
   if (!chatId) return NextResponse.json(t("chatInvalid"), { status: 400 });

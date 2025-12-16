@@ -1,5 +1,6 @@
 "use client";
 
+import { Profile } from "@/auth/definitions";
 import getInitial from "@/chat/tools/getInitial";
 import useSession from "@/components/hooks/use-session";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,6 +11,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Link } from "@/i18n/navigation";
+import useFormatDate from "@/lib/chat/tools/formatDate";
+import useFormatTime from "@/lib/chat/tools/formatTime";
 import {
   ArrowLeft,
   ArrowRightFromLine,
@@ -21,10 +24,7 @@ import { LeaveDialog } from "./dialogs";
 import SettingsDropdown from "./settings";
 
 export default function ChatHeader() {
-  const { profile } = useSession();
   const { name, members, avatarUrl } = useChat();
-  const fewMembers = members.filter((m) => m.id !== profile.id).slice(0, 3);
-  const displayNames = fewMembers.map((m) => m.name);
 
   return (
     <div className="flex flex-row gap-2 lg:gap-4 items-center justify-between w-full pb-2 px-2">
@@ -42,26 +42,12 @@ export default function ChatHeader() {
           </TooltipTrigger>
           <TooltipContent>Back</TooltipContent>
         </Tooltip>
-        <div className="*:data-[slot=avatar]:ring-background flex -space-x-4 *:data-[slot=avatar]:ring-2">
-          {avatarUrl ? (
-            <Avatar className="size-9 lg:size-10.5">
-              <AvatarImage src={avatarUrl} />
-              <AvatarFallback className="bg-primary text-primary-foreground">
-                {getInitial(name || "")}
-              </AvatarFallback>
-            </Avatar>
-          ) : (
-            fewMembers.map((member) => (
-              <Avatar key={member.id} className="size-9 lg:size-10.5">
-                <AvatarImage src={member.avatarUrl || undefined} />
-                <AvatarFallback className="bg-primary text-primary-foreground">
-                  {getInitial(member.name)}
-                </AvatarFallback>
-              </Avatar>
-            ))
-          )}
-        </div>
-        <div>{name ? name : displayNames.join(", ")}</div>
+        <ChatInfo
+          name={name}
+          members={members}
+          avatarUrl={avatarUrl}
+          updatedAt={null}
+        />
       </div>
       <div className="flex flex-row justify-center items-center gap-3">
         <Tooltip>
@@ -103,5 +89,55 @@ export default function ChatHeader() {
         </Tooltip>
       </div>
     </div>
+  );
+}
+
+export function ChatInfo({
+  name,
+  members,
+  avatarUrl,
+  updatedAt,
+}: {
+  name: string | null;
+  members: Profile[];
+  avatarUrl: string | null;
+  updatedAt: Date | null;
+}) {
+  const time = updatedAt ? useFormatTime(updatedAt) : null;
+  const { profile } = useSession();
+  const formattedDate = updatedAt ? useFormatDate(updatedAt) : null;
+  const fewMembers = members.filter((m) => m.id !== profile.id).slice(0, 3);
+  const displayNames = fewMembers.map((m) => m.name);
+
+  return (
+    <>
+      <div className="*:data-[slot=avatar]:ring-background flex -space-x-7 *:data-[slot=avatar]:ring-2">
+        {avatarUrl ? (
+          <Avatar className="size-9 lg:size-10.5">
+            <AvatarImage src={avatarUrl} />
+            <AvatarFallback className="bg-primary text-primary-foreground">
+              {getInitial(name || "")}
+            </AvatarFallback>
+          </Avatar>
+        ) : (
+          fewMembers.map((member) => (
+            <Avatar key={member.id} className="size-9 lg:size-10.5">
+              <AvatarImage src={member.avatarUrl || undefined} />
+              <AvatarFallback className="bg-primary text-primary-foreground">
+                {getInitial(member.name)}
+              </AvatarFallback>
+            </Avatar>
+          ))
+        )}
+      </div>
+      <div className="flex flex-col">
+        <p>{name ? name : displayNames.join(", ")}</p>
+        {updatedAt && (
+          <p className="text-muted-foreground text-xs">
+            {formattedDate} • {time}
+          </p>
+        )}
+      </div>
+    </>
   );
 }

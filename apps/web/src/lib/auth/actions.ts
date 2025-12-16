@@ -237,6 +237,7 @@ export async function personalize(
 
   await Promise.all([
     clearCache(`user:${profile.id}`),
+    clearCache(`profile:${profile.id}`),
     pusherServer.trigger(profile.id, "profile-update", profile),
   ]);
 }

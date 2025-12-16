@@ -63,8 +63,8 @@ const config: Config = {
   lengths: {
     otp: 6,
     messageChunk: 20,
-    messageLength: 20,
-    ratelimit: 60,
+    messageLength: 2000,
+    ratelimit: 6000,
   },
   urls: {
     main: "http://localhost:3000",

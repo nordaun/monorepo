@@ -13,16 +13,16 @@
   "devDependencies": {
     "@repo/eslint": "workspace:*",
     "@repo/typescript": "workspace:*",
-    "@types/node": "^22.19.1",
+    "@types/node": "^25.0.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.1",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   },
   "dependencies": {
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   }
 }

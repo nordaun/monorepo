@@ -105,7 +105,7 @@ export async function uploadAvatar(
       select: { avatarUrl: true },
     }),
     pusherServer.trigger(session.userId, "avatar-update", avatarUrl),
-    clearCache(`user:${session.userId}`),
+    clearCache(`profile:${session.userId}`),
   ]);
   return { result };
 }
@@ -172,12 +172,15 @@ export async function uploadChatAvatar(
   if (!result) return t("unexpectedError");
 
   const avatarUrl = result.values().next().value?.publicUrl;
-  await prisma.chat.update({
-    where: { id: chatId },
-    data: { avatarUrl },
-  });
+  Promise.all([
+    prisma.chat.update({
+      where: { id: chatId },
+      data: { avatarUrl },
+    }),
+    clearCache(`chat:${chatId}`),
+    revalidatePath(`/messages/${chatId}`),
+  ]);
 
-  revalidatePath(`/messages/${chatId}`);
   return { result };
 }
 

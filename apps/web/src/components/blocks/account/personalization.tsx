@@ -29,13 +29,7 @@ import { cn } from "@/components/utils";
 import config from "@repo/config";
 import { Pencil } from "lucide-react";
 import { useTranslations } from "next-intl";
-import {
-  ChangeEvent,
-  ComponentProps,
-  useActionState,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, ComponentProps, useActionState, useState } from "react";
 
 type UserField = {
   field: Personalizable;
@@ -127,7 +121,6 @@ function ListItemEdit({
 }: ComponentProps<"div"> & UserField) {
   const t = useTranslations("Auth");
   const [open, setOpen] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const [state, action, pending] = useActionState(
     personalize.bind(null, field),
     undefined
@@ -137,20 +130,13 @@ function ListItemEdit({
     [field]: value || "",
   });
 
-  useEffect(() => {
-    if (pending) setSubmitting(true);
-    if (!submitting || pending) return;
-    if (!state) setOpen(false);
-    setSubmitting(false);
-  }, [pending, state, submitting]);
-
-  useEffect(() => {
-    if (open) {
-      setFormData({ [field]: value || "" });
-    }
-  }, [open, field, value]);
-
   if (!Personalizables[field] || !editable) return null;
+
+  const handleOpen = () => {
+    setOpen(!open);
+    if (!state) setOpen(false);
+    if (open) setFormData({ [field]: value || "" });
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -161,8 +147,8 @@ function ListItemEdit({
   };
 
   return (
-    <Dialog open={open} onOpenChange={() => setOpen(!open)}>
-      <DialogTrigger asChild>
+    <Dialog open={open} onOpenChange={handleOpen}>
+      <DialogTrigger>
         <div>
           <Button
             variant={"outline"}
@@ -223,7 +209,7 @@ function ListItemEdit({
           </div>
           <DialogFooter className="w-full">
             <div className="flex flex-row gap-2 w-full">
-              <DialogClose asChild>
+              <DialogClose>
                 <Button
                   aria-disabled={pending}
                   type="button"

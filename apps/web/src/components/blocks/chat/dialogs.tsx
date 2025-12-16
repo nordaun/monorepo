@@ -41,6 +41,7 @@ import {
   ReactNode,
   useActionState,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { useChat } from ".";
@@ -108,7 +109,7 @@ export function NameDialog({ children }: { children: ReactNode }) {
 export function AvatarDialog({ children }: { children: ReactNode }) {
   const { providerId: chatId } = useChat();
   const [open, setOpen] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const submitting = useRef(false);
   const [state, action, pending] = useActionState(
     uploadChatAvatar.bind(null, chatId),
     undefined
@@ -118,10 +119,10 @@ export function AvatarDialog({ children }: { children: ReactNode }) {
   useEffect(() => {
     const file = files[0];
 
-    if (pending) setSubmitting(true);
-    if (!submitting || pending) return;
+    if (pending) submitting.current = true;
+    if (!submitting.current || pending) return;
     if (!state?.result || !file) {
-      setSubmitting(false);
+      submitting.current = false;
       return;
     }
 
@@ -135,17 +136,17 @@ export function AvatarDialog({ children }: { children: ReactNode }) {
       .then(() => {
         clearFiles();
         if (!state?.message) setOpen(false);
-        setSubmitting(false);
+        submitting.current = false;
       })
       .catch((err) => {
         console.error("Upload failed", err);
-        setSubmitting(false);
+        submitting.current = false;
       });
-  }, [pending, state, submitting, files, clearFiles]);
+  }, [pending, state, files, clearFiles]);
 
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader className="text-center">
           <DialogTitle>Chat Avatar</DialogTitle>
@@ -187,7 +188,7 @@ export function LeaveDialog({ children }: { children: ReactNode }) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Leave</AlertDialogTitle>

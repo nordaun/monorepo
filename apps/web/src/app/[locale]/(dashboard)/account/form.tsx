@@ -28,7 +28,7 @@ import { uploadAvatar } from "@/files/actions";
 import ky from "ky";
 import { ArrowUpFromLine } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useFiles } from "./avatar";
 
 export function AccountAvatarForm() {
@@ -37,16 +37,16 @@ export function AccountAvatarForm() {
   const { providerId, files, clearFiles } = useFiles();
 
   const [open, setOpen] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const submitting = useRef(false);
   const [state, action, pending] = useActionState(uploadAvatar, undefined);
 
   useEffect(() => {
     const file = files[0];
 
-    if (pending) setSubmitting(true);
-    if (!submitting || pending) return;
+    if (pending) submitting.current = true;
+    if (!submitting.current || pending) return;
     if (!state?.result || !file) {
-      setSubmitting(false);
+      submitting.current = false;
       return;
     }
 
@@ -60,17 +60,17 @@ export function AccountAvatarForm() {
       .then(() => {
         clearFiles();
         if (!state?.message) setOpen(false);
-        setSubmitting(false);
+        submitting.current = false;
       })
       .catch((err) => {
         console.error("Upload failed", err);
-        setSubmitting(false);
+        submitting.current = false;
       });
-  }, [pending, state, submitting, files, clearFiles]);
+  }, [pending, state, files, clearFiles]);
 
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
-      <DialogTrigger asChild>
+      <DialogTrigger>
         <div
           className="relative inline-block cursor-pointer group rounded-full overflow-hidden"
           onClick={() => setOpen(true)}

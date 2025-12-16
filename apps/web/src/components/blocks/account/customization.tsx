@@ -112,15 +112,16 @@ function ListItem({
       <Label>{t(customizable.name)}</Label>
       <Select
         value={customizable.current ?? ""}
-        onValueChange={(value) => customizable.setter(value)}
+        onValueChange={(value) => customizable.setter(value ?? "")}
         name={`${customizable.name}Select`}
       >
         <SelectTrigger className="w-full" name={customizable.name}>
-          <SelectValue
-            placeholder={
-              pending ? t("submitting") : t(`${customizable.name}Select`)
+          <SelectValue>
+            {(value) =>
+              value ??
+              (pending ? t("submitting") : t(`${customizable.name}Select`))
             }
-          />
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           {customizable.options.map((option) => (

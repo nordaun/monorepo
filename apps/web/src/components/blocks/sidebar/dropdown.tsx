@@ -29,7 +29,7 @@ export default function ProfileDropdown({ children }: { children: ReactNode }) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+      <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
       <DropdownMenuContent
         className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg p-2 bg-sidebar"
         side={isMobile ? "bottom" : "right"}

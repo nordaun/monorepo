@@ -23,7 +23,6 @@ export function Business() {
         {elements.map((item) => (
           <SidebarMenuItem key={item.title}>
             <SidebarMenuButton
-              asChild
               tooltip={t(item.title)}
               className={
                 location.includes(item.href)

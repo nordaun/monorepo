@@ -7,7 +7,7 @@ import parsePhoneNumberFromString, {
 } from "libphonenumber-js";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { ComponentProps, useEffect, useMemo, useRef, useState } from "react";
+import { ComponentProps, useMemo, useRef } from "react";
 import { cn } from "../utils";
 import {
   InputGroup,
@@ -25,15 +25,6 @@ import {
 
 const countries = getCountries();
 
-function getCountryFromPhoneNumber(phoneNumber: string): CountryCode {
-  try {
-    const parsed = parsePhoneNumberFromString(phoneNumber);
-    return (parsed?.country as CountryCode | undefined) ?? "US";
-  } catch {
-    return "US";
-  }
-}
-
 function InputPhone({
   className,
   value = "",
@@ -49,33 +40,19 @@ function InputPhone({
     [t]
   );
 
-  const [country, setCountry] = useState<CountryCode>(() => {
-    return getCountryFromPhoneNumber(value);
-  });
+  const parsed = useMemo(
+    () => (value ? parsePhoneNumberFromString(value) : undefined),
+    [value]
+  );
 
-  const [national, setNational] = useState<NationalNumber>(() => {
-    return (
-      parsePhoneNumberFromString(value)?.nationalNumber ||
-      ("" as NationalNumber)
-    );
-  });
-
-  const [full, setFull] = useState(value || "");
-
-  useEffect(() => {
-    if (!value) return;
-    const selected = getCountryFromPhoneNumber(value);
-    if (selected && selected !== country) setCountry(selected);
-    const parsed = parsePhoneNumberFromString(value);
-    if (!parsed) return;
-    setNational(parsed.nationalNumber);
-    setFull(value);
-  }, [value, country]);
+  const country = (parsed?.country as CountryCode | undefined) ?? "US";
+  const national =
+    (parsed?.nationalNumber as NationalNumber | undefined) ??
+    ("" as NationalNumber);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const triggerOnChange = (newNumber: string) => {
-    setFull(newNumber);
     if (!onChange || !inputRef.current) return;
     const syntheticEvent = {
       target: {
@@ -87,17 +64,14 @@ function InputPhone({
     onChange(syntheticEvent);
   };
 
-  const handleCountryChange = (country: CountryCode) => {
-    setCountry(country);
-    if (national) {
-      const newFullNumber = `+${getCountryCallingCode(country)}${national}`;
-      triggerOnChange(newFullNumber);
-    }
+  const handleCountryChange = (newCountry: CountryCode | null) => {
+    if (!newCountry || !national) return;
+    const newFullNumber = `+${getCountryCallingCode(newCountry)}${national}`;
+    triggerOnChange(newFullNumber);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newNational = e.target.value.replace(/\D/g, "") as NationalNumber;
-    setNational(newNational);
 
     if (newNational) {
       const newFullNumber = `+${getCountryCallingCode(country)}${newNational}`;
@@ -162,7 +136,7 @@ function InputPhone({
           {...restProps}
         />
       </InputGroup>
-      {name && <input type="hidden" name={name} value={full} />}
+      {name && <input type="hidden" name={name} value={value} />}
     </>
   );
 }

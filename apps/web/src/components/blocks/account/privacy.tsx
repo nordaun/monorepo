@@ -133,12 +133,7 @@ function ListItem({
 function ListAccordion({ itemName }: { itemName: string }) {
   const t = useTranslations("AccountPage");
   return (
-    <Accordion
-      type="single"
-      collapsible
-      className="w-full xl:flex-4 flex-2"
-      defaultValue="default"
-    >
+    <Accordion className="w-full xl:flex-4 flex-2" defaultValue={[itemName]}>
       <AccordionItem value={itemName}>
         <AccordionTrigger className="text-md">
           {t(`${itemName}Title`)}

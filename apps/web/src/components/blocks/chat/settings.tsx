@@ -28,7 +28,7 @@ export default function SettingsDropdown({
   return (
     <div className="flex">
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+        <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem onClick={() => nameRef.current?.click()}>
             Change chat name

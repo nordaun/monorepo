@@ -1,10 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import getFileIcon from "@/files/tools/getFileIcon";
-import { X } from "lucide-react";
+import { File, FileText, Music, Video, X } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useFiles } from ".";
 
 export default function ChatPreviews() {
@@ -37,13 +36,11 @@ export default function ChatPreviews() {
 }
 
 export function ChatImagePreview({ file }: { file: File }) {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const imageUrl = URL.createObjectURL(file);
 
   useEffect(() => {
-    const url = URL.createObjectURL(file);
-    setImageUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+    return () => URL.revokeObjectURL(imageUrl);
+  }, [file, imageUrl]);
 
   if (!imageUrl) return null;
 
@@ -60,11 +57,21 @@ export function ChatImagePreview({ file }: { file: File }) {
 }
 
 export function ChatFilePreview({ file }: { file: File }) {
-  const IconComponent = getFileIcon(file.type);
+  const isVideo = file.type.startsWith("video/");
+  const isAudio = file.type.startsWith("audio/");
+  const isApplication = file.type.startsWith("application/");
 
   return (
     <div className="flex flex-col items-center gap-1 p-2">
-      <IconComponent className="size-8 text-muted-foreground" />
+      {isVideo ? (
+        <Video className="size-8 text-muted-foreground" />
+      ) : isAudio ? (
+        <Music className="size-8 text-muted-foreground" />
+      ) : isApplication ? (
+        <FileText className="size-8 text-muted-foreground" />
+      ) : (
+        <File className="size-8 text-muted-foreground" />
+      )}
     </div>
   );
 }

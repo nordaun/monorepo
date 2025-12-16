@@ -30,7 +30,7 @@ export default function ChatHeader() {
     <div className="flex flex-row gap-2 lg:gap-4 items-center justify-between w-full pb-2 px-2">
       <div className="flex flex-row items-center justify-start lg:gap-4 gap-2">
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger>
             <Link href="/messages">
               <Button
                 className="aspect-square p-0 rounded-full h-full size-8 lg:bg-muted"
@@ -52,7 +52,7 @@ export default function ChatHeader() {
       <div className="flex flex-row justify-center items-center gap-3">
         <Tooltip>
           <SettingsDropdown>
-            <TooltipTrigger asChild>
+            <TooltipTrigger>
               <Button
                 variant={"secondary"}
                 className="aspect-square rounded-full h-full size-8"
@@ -64,7 +64,7 @@ export default function ChatHeader() {
           <TooltipContent>Settings</TooltipContent>
         </Tooltip>
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger>
             <Button
               variant={"secondary"}
               className="aspect-square rounded-full h-full size-8"
@@ -76,7 +76,7 @@ export default function ChatHeader() {
         </Tooltip>
         <Tooltip>
           <LeaveDialog>
-            <TooltipTrigger asChild>
+            <TooltipTrigger>
               <Button
                 className="aspect-square rounded-full h-full size-8"
                 variant={"destructive"}
@@ -103,9 +103,9 @@ export function ChatInfo({
   avatarUrl: string | null;
   updatedAt: Date | null;
 }) {
-  const time = updatedAt ? useFormatTime(updatedAt) : null;
   const { profile } = useSession();
-  const formattedDate = updatedAt ? useFormatDate(updatedAt) : null;
+  const time = useFormatTime(updatedAt || new Date());
+  const date = useFormatDate(updatedAt || new Date());
   const fewMembers = members.filter((m) => m.id !== profile.id).slice(0, 3);
   const displayNames = fewMembers.map((m) => m.name);
 
@@ -134,7 +134,7 @@ export function ChatInfo({
         <p>{name ? name : displayNames.join(", ")}</p>
         {updatedAt && (
           <p className="text-muted-foreground text-xs">
-            {formattedDate} • {time}
+            {date} • {time}
           </p>
         )}
       </div>

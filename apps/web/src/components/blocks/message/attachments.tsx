@@ -4,8 +4,8 @@ import { Profile } from "@/auth/definitions";
 import useSession from "@/components/hooks/use-session";
 import { cn } from "@/components/utils";
 import { Attachment } from "@/files/definitions";
-import getFileIcon from "@/files/tools/getFileIcon";
 import getFileName from "@/files/tools/getFileName";
+import { File, FileText, Music, Video } from "lucide-react";
 import Image from "next/image";
 
 export default function ChatAttachments({
@@ -62,13 +62,23 @@ export function ChatImageAttachment({
 }
 
 export function ChatFileAttachment({ attachment }: { attachment: Attachment }) {
-  const IconComponent = getFileIcon(attachment.type);
   const fileName = getFileName(attachment.url);
+  const isVideo = attachment.type.startsWith("video/");
+  const isAudio = attachment.type.startsWith("audio/");
+  const isApplication = attachment.type.startsWith("application/");
 
   return (
     <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-muted/50 rounded-lg border hover:bg-muted/70 transition-colors cursor-pointer max-w-xs sm:max-w-sm w-full">
       <div className="shrink-0">
-        <IconComponent className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" />
+        {isVideo ? (
+          <Video className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" />
+        ) : isAudio ? (
+          <Music className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" />
+        ) : isApplication ? (
+          <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" />
+        ) : (
+          <File className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" />
+        )}
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-xs sm:text-sm font-medium text-foreground truncate">

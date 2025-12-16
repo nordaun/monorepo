@@ -34,6 +34,7 @@ import {
   useActionState,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { useChat, useFiles } from ".";
@@ -93,14 +94,11 @@ function ChatTextarea() {
 function ChatUpload({ className }: ComponentProps<"button">) {
   const { files } = useFiles();
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (files.length > 0) setOpen(false);
-  }, [files]);
+  const openable = files.length === 0 && open;
 
   return (
-    <Dialog open={open} onOpenChange={() => setOpen(!open)}>
-      <DialogTrigger asChild>
+    <Dialog open={openable} onOpenChange={() => setOpen(!open)}>
+      <DialogTrigger>
         <Button
           className={cn("aspect-square p-0 rounded-full w-fit h-10", className)}
           variant="secondary"
@@ -123,7 +121,7 @@ function ChatSend() {
   const { providerId, draft, setDraft, setError } = useChat();
   const { details, files, clearFiles } = useFiles();
 
-  const [submitting, setSubmitting] = useState(false);
+  const submitting = useRef(false);
   const [state, action, pending] = useActionState(
     sendMessage.bind(null, providerId),
     undefined
@@ -133,12 +131,12 @@ function ChatSend() {
     setError(null);
     setDraft("");
     clearFiles();
-    setSubmitting(false);
+    submitting.current = false;
   }, [setDraft, setError, clearFiles]);
 
   useEffect(() => {
-    if (pending) setSubmitting(true);
-    if (!submitting || pending) return;
+    if (pending) submitting.current = true;
+    if (!submitting.current || pending) return;
     if (state?.errors) return setError(pickError(state.errors));
     if (files.length === 0 || !state?.result) return clearUp();
 
